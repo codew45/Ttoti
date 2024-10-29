@@ -18,17 +18,17 @@ public class Animal {
 
     @NotNull
     @Column(name = "animal_name")
-    private String animal_name;
+    private String animalName;
 
     @NotNull
     @Column(name = "animal_image_url")
-    private String animal_image_url;
+    private String animalImageUrl;
 
     @NotNull
     @Column(name = "animal_description")
-    private String animal_description;
+    private String animalDescription;
 
     @NotNull
     @Column(name = "animal_is_available")
-    private Boolean animal_is_available;
+    private Boolean animalIsAvailable;
 }
