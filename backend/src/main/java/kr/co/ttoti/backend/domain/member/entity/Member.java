@@ -20,6 +20,7 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Integer memberId;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "member_social_category")
     private OAuth2Provider memberSocialCategory;
