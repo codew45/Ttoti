@@ -31,6 +31,12 @@ public enum ErrorCode {
     KAKAO_PARAMETER_ERROR(400, "유효하지 않은 카카오 로그인 요청입니다."),
     KAKAO_SERVER_ERROR(500, "카카오 서버 오류입니다."),
 
+
+    // member
+    MEMBER_NOT_FOUND(404, "존재하지 않는 회원입니다"),
+
+    // room
+    ROOM_NOT_FOUND(404, "존재하지 않는 방입니다");
     ;
 
     private final int httpStatus;
