@@ -1,42 +1,34 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-import {VitePWA} from 'vite-plugin-pwa'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+import { VitePWA } from 'vite-plugin-pwa';
+import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(),
-    VitePWA({ 
-      registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
-      manifest: {
-        name: 'Vite PWA Project',
-        short_name: 'Vite PWA Project',
-        theme_color: '#ffffff',
-        icons: [
-            {
-                src: 'pwa-64x64.png',
-                sizes: '64x64',
-                type: 'image/png'
-            },
-            {
-                src: 'pwa-192x192.png',
-                sizes: '192x192',
-                type: 'image/png'
-            },
-            {
-                src: 'pwa-512x512.png',
-                sizes: '512x512',
-                type: 'image/png',
-                purpose: 'any'
-            },
-            {
-                src: 'maskable-icon-512x512.png',
-                sizes: '512x512',
-                type: 'image/png',
-                purpose: 'maskable'
-            }
-        ],
-      }, 
-    })
-  ],
-})
+	plugins: [
+		react(),
+		svgr(),
+		VitePWA({
+			registerType: 'autoUpdate',
+			manifest: {
+				name: 'ttoti Projcet',
+				short_name: 'ttoti',
+				// 파일 세팅 초기화
+				// includeAssets: [],
+				// 현재 아이콘이 없기 때문에 임시 주석 처리
+				// icons: [        ],
+			},
+		}),
+	],
+	resolve: {
+		alias: [
+			{ find: '@', replacement: '/src' },
+			{ find: '@assets', replacement: '/src/assets' },
+			{ find: '@components', replacement: '/src/components' },
+			{ find: '@pages', replacement: '/src/pages' },
+			{ find: '@routers', replacement: '/src/routers' },
+			{ find: '@styles', replacement: '/src/styles' },
+			{ find: '@stores', replacement: '/src/stores' },
+		],
+	},
+});

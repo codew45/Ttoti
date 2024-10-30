@@ -2,14 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" sizes="180x180" />
-    <link rel="mask-icon" href="/mask-icon.svg" color="#FFFFFF">
     <meta name="theme-color" content="#ffffff">
-    <title>Vite + React + TS</title>
+    <title>또띠</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      window.addEventListener('resize', function() {
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+  
+        // 최소 크기 360px x 800px 이하로 줄어들지 않도록 고정
+        if (viewportWidth < 360 || viewportHeight < 800) {
+          window.resizeTo(Math.max(360, viewportWidth), Math.max(800, viewportHeight));
+        }
+      });
+    </script>
+
   </body>
 </html>
