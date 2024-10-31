@@ -5,6 +5,42 @@ spring:
   config:
     import: optional:file:.env[.properties]
 
+--- # 로컬 설정
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:mariadb://${LOCAL_DB_URL}
+    username: ${LOCAL_DB_USERNAME}
+    password: ${LOCAL_DB_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      dialect: org.hibernate.dialect.MariaDBDialect
+    defer-datasource-initialization: true
+
+    properties:
+      hibernate:
+        format_sql: false
+        show_sql: true
+
+  sql:
+    init:
+      data-locations: classpath*:db/data.sql
+      mode: always
+      platform: mariadb
+
+
+--- # 개발 서버 설정
+spring:
+  config:
+    activate:
+      on-profile: dev
+
   datasource:
     url: jdbc:mariadb://${DB_URL}
     username: ${DB_USERNAME}
