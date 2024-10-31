@@ -33,7 +33,7 @@ public class QuizChoice extends BaseEntity {
 
 	@NotNull
 	@Column(name = "quiz_choice_content")
-	private Integer quizChoiceContent;
+	private String quizChoiceContent;
 
 	@NotNull
 	@Column(name = "quiz_choice_number")

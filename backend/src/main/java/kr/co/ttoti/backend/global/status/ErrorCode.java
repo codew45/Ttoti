@@ -44,7 +44,13 @@ public enum ErrorCode {
 	ROOM_HOST_MEMBER_NOT_FOUND(404, "방장이 존재하지 않습닌다"),
 
 	// animal
-    ANIMAL_NOT_AVAILABLE(400, "사용 가능한 동물이 아닙니다.")
+    ANIMAL_NOT_AVAILABLE(400, "사용 가능한 동물이 아닙니다."),
+
+    //quiz
+    QUIZ_LIST_NOT_FOUND(404, "오늘의 퀴즈와 퀴즈 이력이 없습니다."),
+
+    //ttoti
+    TTOTI_NOT_FOUND(404, "또띠관계가 존재하지 않습니다."),
     ;
 
     private final int httpStatus;

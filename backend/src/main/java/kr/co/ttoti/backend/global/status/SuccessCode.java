@@ -15,7 +15,11 @@ public enum SuccessCode {
 
     ROOM_CREATE_SUCCESS(200, "방 생성 성공"),
     ANIMAL_SELECT_SUCCESS(200, "동물 선택 성공"),
-    ROOM_START_SUCCESS(200, "방 시작 성공")
+    ROOM_START_SUCCESS(200, "방 시작 성공"),
+
+    QUIZ_LIST_GET_SUCCESS(200, "퀴즈 목록 조회 성공"),
+    QUIZ_LIST_GET_SUCCESS_NO_CONTENT(200, "퀴즈 목록 조회에 성공했으나 데이터가 존재하지 않습니다"),
+
     ;
 
     private final int httpStatus;
