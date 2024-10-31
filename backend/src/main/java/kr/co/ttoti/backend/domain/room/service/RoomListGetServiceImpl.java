@@ -3,6 +3,7 @@ package kr.co.ttoti.backend.domain.room.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.ttoti.backend.domain.member.entity.Member;
 import kr.co.ttoti.backend.domain.member.repository.MemberRepository;
@@ -16,6 +17,7 @@ import kr.co.ttoti.backend.global.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class RoomListGetServiceImpl implements RoomListGetService {
 
@@ -29,10 +31,14 @@ public class RoomListGetServiceImpl implements RoomListGetService {
 			.orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
 		return roomMemberRepository.findByMemberAndRoomMemberIsDeletedFalse(member).stream()
-			.filter(roomMember -> !roomMember.getRoom().getRoomIsFinished())
-			.map(roomMember -> new RoomSummaryDto(roomMember,
-				memberRepository.findById(roomMember.getRoom().getRoomHostMemberId()).orElseThrow(),
-				roomMemberRepository.countByRoomAndRoomMemberIsDeletedFalse(roomMember.getRoom())))
+			.filter(roomMember -> !roomMember.getRoom().getRoomIsDeleted() &&
+				!roomMember.getRoom().getRoomIsFinished())
+			.map(roomMember -> {
+				Room room = roomMember.getRoom();
+				return new RoomSummaryDto(roomMember,
+					memberRepository.findById(room.getRoomHostMemberId()).orElseThrow(() -> new CustomException(ErrorCode.ROOM_HOST_MEMBER_NOT_FOUND)),
+					roomMemberRepository.countByRoomAndRoomMemberIsDeletedFalse(room));
+			})
 			.toList();
 	}
 

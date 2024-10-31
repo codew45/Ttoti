@@ -36,7 +36,7 @@ public class RoomSummaryDto {
 	public RoomSummaryDto(RoomMember roomMember, Member hostMember, Integer roomCurrentParticipants){
 		Room room = roomMember.getRoom();
 		this.roomId = room.getRoomId();
-		this.isRoomInProgress = !room.getRoomIsDeleted() && !room.getRoomIsFinished();
+		this.isRoomInProgress = room.getRoomIsStarted();
 		this.finishedAt = room.getRoomIsStarted() ? room.getRoomStartDate().plus(room.getRoomPeriod(), ChronoUnit.DAYS).atTime(room.getRoomStartTime())  : null;
 		this.isMemberReady = roomMember.getRoomMemberIsReady();
 		this.memberProfileImageUrl = this.isMemberReady ? roomMember.getAnimal().getAnimalImageUrl() : roomMember.getMember().getMemberProfileImageUrl();

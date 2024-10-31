@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import kr.co.ttoti.backend.domain.room.dto.RoomCreateRequest;
 import kr.co.ttoti.backend.domain.room.service.RoomCreateService;
+import kr.co.ttoti.backend.domain.room.service.RoomMemberCreateService;
 import kr.co.ttoti.backend.global.dto.ResponseDto;
 import kr.co.ttoti.backend.global.status.SuccessCode;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,14 @@ import lombok.RequiredArgsConstructor;
 public class RoomCreateController {
 
 	private final RoomCreateService roomCreateService;
+	private final RoomMemberCreateService roomMemberCreateService;
 
 	@PostMapping()
 	public ResponseDto<Void> createRoom(@RequestHeader Integer memberId,
 		@Valid @RequestBody RoomCreateRequest roomCreateRequest) {
 
-		roomCreateService.createRoom(memberId, roomCreateRequest);
+		Integer roomId = roomCreateService.createRoom(memberId, roomCreateRequest);
+		roomMemberCreateService.createRoomMember(memberId, roomId);
 
 		return ResponseDto.success(SuccessCode.ROOM_CREATE_SUCCESS);
 	}

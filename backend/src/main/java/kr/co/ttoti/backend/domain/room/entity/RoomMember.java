@@ -9,7 +9,6 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-@ToString
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -37,20 +36,27 @@ public class RoomMember extends BaseEntity {
 
     @NotNull
     @Column(name = "room_member_is_ready")
-    private Boolean roomMemberIsReady = false;
+    private Boolean roomMemberIsReady = Boolean.FALSE;
 
     @Column(name = "room_member_deleted_at")
     private LocalDate roomMemberDeletedAt;
 
     @NotNull
     @Column(name = "room_member_is_deleted")
-    private Boolean roomMemberIsDeleted = false;
+    private Boolean roomMemberIsDeleted = Boolean.FALSE;
 
-    public void updateAnimal(Animal animal){
-        this.animal = animal;
+    public RoomMember(Room room, Member member) {
+        this.room = room;
+        this.member = member;
+        this.roomMemberIsReady = Boolean.FALSE;
+        this.roomMemberIsDeleted = Boolean.FALSE;
     }
 
-    public void updateRoomMemberIsReady(Boolean roomMemberIsReady){
-        this.roomMemberIsReady = roomMemberIsReady;
-    }
+	public void updateAnimal(Animal animal){
+		this.animal = animal;
+	}
+
+	public void updateRoomMemberIsReady(Boolean roomMemberIsReady){
+		this.roomMemberIsReady = roomMemberIsReady;
+	}
 }
