@@ -51,7 +51,7 @@ public class Room extends BaseEntity {
 
 	@NotNull
 	@Column(name = "room_is_started")
-	private Boolean roomIsStarted = false;
+	private Boolean roomIsStarted = Boolean.FALSE;
 
 	@Column(name = "room_start_date")
 	private LocalDate roomStartDate;
@@ -71,7 +71,7 @@ public class Room extends BaseEntity {
 
 	@NotNull
 	@Column(name = "room_is_deleted")
-	private Boolean roomIsDeleted = false;
+	private Boolean roomIsDeleted = Boolean.FALSE;
 
 	@Column(name = "room_deleted_at")
 	private LocalDateTime roomDeletedAt;
@@ -83,10 +83,10 @@ public class Room extends BaseEntity {
 		this.roomParticipants = roomCreateRequest.getParticipants();
 		this.roomPeriod = roomCreateRequest.getPeriod();
 		this.roomCode = UUID.randomUUID().toString();
-		this.roomIsStarted = false;
-		this.roomIsFinished = false;
+		this.roomIsStarted = Boolean.FALSE;
+		this.roomIsFinished = Boolean.FALSE;
 		this.roomFinishTime = roomCreateRequest.getFinishTime();
-		this.roomIsDeleted = false;
+		this.roomIsDeleted = Boolean.FALSE;
 	}
 
 	public void startRoom(){

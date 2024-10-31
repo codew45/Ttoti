@@ -1,10 +1,7 @@
 package kr.co.ttoti.backend.domain.room.service;
 
-import org.springframework.stereotype.Service;
-
 import kr.co.ttoti.backend.domain.room.dto.RoomCreateRequest;
 
-@Service
 public interface RoomCreateService {
 
 	/**
@@ -12,5 +9,5 @@ public interface RoomCreateService {
 	 * @param memberId
 	 * @param roomCreateRequest
 	 */
-	void createRoom(Integer memberId, RoomCreateRequest roomCreateRequest);
+	Integer createRoom(Integer memberId, RoomCreateRequest roomCreateRequest);
 }
