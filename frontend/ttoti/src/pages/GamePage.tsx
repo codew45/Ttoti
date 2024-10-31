@@ -40,11 +40,25 @@ const RoomTitleWrapper = styled.div`
 
 const GameWrapper = styled.div`
 	position: absolute;
-	top: 200px;
+	width: 100%;
+	height: 600px;
+	bottom: -55px;
 `;
 
 
 const GamePage = () => {
+  return (
+    <GamePageContainer>
+      <CloudImage src={BigCloud} alt="big cloud" />
+      <CloudImage src={SmallCloud} alt="small cloud" />
+			<RoomTitleWrapper>
+    	  <RoomTitle />
+			</RoomTitleWrapper>
+			<GameWrapper>
+      	<Game />
+			</GameWrapper>
+    </GamePageContainer>
+  );
   return (
     <GamePageContainer>
       <CloudImage src={BigCloud} alt="big cloud" />
