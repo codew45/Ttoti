@@ -11,5 +11,10 @@ public interface RoomMemberCreateService {
 	 */
 	void createRoomMember(Integer memberId, Integer roomId);
 
-	RoomMember createRoomMember(Integer memberId, Integer roomId, String roomCode);
+	/**
+	 * 방 회원은, 방 초대 코드를 통해 방에 등록할 수 있다
+	 * @param memberId
+	 * @param roomCode
+	 */
+	void createRoomMemberByRoomCode(Integer memberId, String roomCode);
 }
