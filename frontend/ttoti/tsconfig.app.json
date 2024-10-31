@@ -23,12 +23,16 @@
     // 절대 경로 작성
     "baseUrl": "./",
     "paths": {
-      "@styles/*": ["src/styles/*"],
-      "@routers/*": ["src/routers/*"],
-      "@components/*": ["src/components/*"],
       "@assets/*": ["src/assets/*"],
+      "@components/*": ["src/components/*"],
+      "@hooks/*": ["src/hooks/*"],
       "@pages/*": ["src/pages/*"],
-      "@stores/*": ["src/stores/*"]
+      "@routes/*": ["src/routes/*"],
+      "@services/*": ["src/services/*"],
+      "@stores/*": ["src/stores/*"],
+      "@styles/*": ["src/styles/*"],
+      "@types/*": ["src/types/*"],
+      "@utils/*": ["src/utils/*"]
     },
   },
   "include": ["src"]
