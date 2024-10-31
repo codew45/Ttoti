@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import kr.co.ttoti.backend.domain.member.entity.Member;
@@ -21,4 +20,9 @@ public interface RoomMemberRepository extends JpaRepository<RoomMember, Integer>
 	Integer countByRoomAndRoomMemberIsDeletedFalse(Room room);
 
 	Optional<RoomMember> findByMemberAndRoom(Member member, Room room);
+
+	RoomMember findByRoomAndMemberAndRoomMemberIsDeleted(Room room, Member member, Boolean roomMemberIsDeleted);
+
+	List<RoomMember> findByRoomAndRoomMemberIsDeletedAndRoomMemberIsReady(Room room, Boolean roomMemberIsDeleted,
+		Boolean roomMemberIsReady);
 }

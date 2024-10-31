@@ -57,12 +57,15 @@ public class Ttoti extends BaseEntity {
 	@Column(name = "ttoti_temperature")
 	private Float ttotiTemperature = 0.0F;
 
-	@NotNull
 	@Column(name = "titto_id")
 	private Integer tittoId;
 
 	@NotNull
 	@Column(name = "ttoti_chat_is_finished")
 	private Boolean ttotiChatIsFinished = false;
+
+	public void updateTittoId(Integer ttotiId){
+		this.tittoId = ttotiId;
+	}
 
 }
