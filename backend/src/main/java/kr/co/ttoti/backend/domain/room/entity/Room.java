@@ -88,4 +88,10 @@ public class Room extends BaseEntity {
 		this.roomFinishTime = roomCreateRequest.getFinishTime();
 		this.roomIsDeleted = false;
 	}
+
+	public void startRoom(){
+		this.roomIsStarted = true;
+		this.roomStartDate = LocalDate.now();
+		this.roomStartTime = LocalTime.now();
+	}
 }
