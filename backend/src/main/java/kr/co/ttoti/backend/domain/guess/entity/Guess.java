@@ -50,7 +50,7 @@ public class Guess extends BaseEntity {
 
 	@NotNull
 	@Column(name = "guess_is_answered")
-	private Boolean guessIsAnswered = false;
+	private Boolean guessIsAnswered;
 
 	@NotNull
 	@Column(name = "guess_answer_at")

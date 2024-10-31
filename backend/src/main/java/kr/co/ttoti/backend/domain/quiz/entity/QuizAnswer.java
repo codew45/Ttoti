@@ -47,7 +47,7 @@ public class QuizAnswer extends BaseEntity {
 
 	@NotNull
 	@Column(name = "is_manitto_answered")
-	private Boolean iaManittoAnswered = false;
+	private Boolean iaManittoAnswered;
 
 	@Column(name = "manitto_answer")
 	private Integer manittoAnswer;
@@ -57,7 +57,7 @@ public class QuizAnswer extends BaseEntity {
 
 	@NotNull
 	@Column(name = "is_maniti_answered")
-	private Boolean iaManitiAnswered = false;
+	private Boolean iaManitiAnswered;
 
 	@Column(name = "maniti_answer")
 	private Integer manitiAnswer;
@@ -71,6 +71,6 @@ public class QuizAnswer extends BaseEntity {
 
 	@NotNull
 	@Column(name = "quiz_answer_is_correct")
-	private Boolean quizAnswerIsCorrect = false;
+	private Boolean quizAnswerIsCorrect;
 
 }

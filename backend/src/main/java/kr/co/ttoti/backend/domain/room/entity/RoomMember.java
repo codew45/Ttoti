@@ -36,14 +36,14 @@ public class RoomMember extends BaseEntity {
 
     @NotNull
     @Column(name = "room_member_is_ready")
-    private Boolean roomMemberIsReady = Boolean.FALSE;
+    private Boolean roomMemberIsReady;
 
     @Column(name = "room_member_deleted_at")
     private LocalDate roomMemberDeletedAt;
 
     @NotNull
     @Column(name = "room_member_is_deleted")
-    private Boolean roomMemberIsDeleted = Boolean.FALSE;
+    private Boolean roomMemberIsDeleted;
 
     public RoomMember(Room room, Member member) {
         this.room = room;
