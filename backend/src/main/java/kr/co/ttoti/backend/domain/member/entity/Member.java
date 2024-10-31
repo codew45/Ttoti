@@ -43,7 +43,7 @@ public class Member extends BaseEntity {
 
     @NotNull
     @Column(name = "member_is_deleted")
-    private Boolean memberIsDeleted = false;
+    private Boolean memberIsDeleted;
 
     @Column(name = "member_deleted_at")
     private LocalDateTime memberDeletedAt;

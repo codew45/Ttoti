@@ -51,7 +51,7 @@ public class Room extends BaseEntity {
 
 	@NotNull
 	@Column(name = "room_is_started")
-	private Boolean roomIsStarted = Boolean.FALSE;
+	private Boolean roomIsStarted;
 
 	@Column(name = "room_start_date")
 	private LocalDate roomStartDate;
@@ -67,11 +67,11 @@ public class Room extends BaseEntity {
 
 	@NotNull
 	@Column(name = "room_is_finished")
-	private Boolean roomIsFinished = false;
+	private Boolean roomIsFinished;
 
 	@NotNull
 	@Column(name = "room_is_deleted")
-	private Boolean roomIsDeleted = Boolean.FALSE;
+	private Boolean roomIsDeleted;
 
 	@Column(name = "room_deleted_at")
 	private LocalDateTime roomDeletedAt;
