@@ -25,9 +25,8 @@ public class RoomListGetServiceImpl implements RoomListGetService {
 
 	@Override
 	public List<RoomSummaryDto> getRoomList(Integer memberId) {
-		Member member = memberRepository.findByMemberId(memberId);
-
-		if(member == null) throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
+		Member member = memberRepository.findByMemberId(memberId)
+			.orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
 		return roomMemberRepository.findByMemberAndRoomMemberIsDeletedFalse(member).stream()
 			.filter(roomMember -> !roomMember.getRoom().getRoomIsFinished())
@@ -39,9 +38,8 @@ public class RoomListGetServiceImpl implements RoomListGetService {
 
 	@Override
 	public List<RoomMemberDto> getRoomMemberList(Integer roomId) {
-		Room room = roomRepository.findByRoomIdAndRoomIsDeletedFalse(roomId);
-
-		if(room == null) throw new CustomException(ErrorCode.ROOM_NOT_FOUND);
+		Room room = roomRepository.findByRoomIdAndRoomIsDeletedFalse(roomId)
+			.orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
 
 		return roomMemberRepository.findByRoomAndRoomMemberIsDeletedFalse(room)
 			.stream()
@@ -51,9 +49,8 @@ public class RoomListGetServiceImpl implements RoomListGetService {
 
 	@Override
 	public Integer getCurrentRoomParticipants(Integer roomId) {
-		Room room = roomRepository.findByRoomIdAndRoomIsDeletedFalse(roomId);
-
-		if(room == null) throw new CustomException(ErrorCode.ROOM_NOT_FOUND);
+		Room room = roomRepository.findByRoomIdAndRoomIsDeletedFalse(roomId)
+			.orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
 
 		return roomMemberRepository.countByRoomAndRoomMemberIsDeletedFalse(room);
 	}

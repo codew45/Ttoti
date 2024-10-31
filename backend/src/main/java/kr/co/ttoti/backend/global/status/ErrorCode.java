@@ -36,7 +36,9 @@ public enum ErrorCode {
     MEMBER_NOT_FOUND(404, "존재하지 않는 회원입니다"),
 
     // room
-    ROOM_NOT_FOUND(404, "존재하지 않는 방입니다");
+    ROOM_NOT_FOUND(404, "존재하지 않는 방입니다"),
+    ROOM_STARTED(401, "이미 게임이 시작된 방입니다"),
+    ROOM_UNAUTORIZED(401, "방에 접근할 권한이 없습니다"),
     ;
 
     private final int httpStatus;
