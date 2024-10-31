@@ -1,6 +1,7 @@
 package kr.co.ttoti.backend.domain.room.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +20,5 @@ public interface RoomMemberRepository extends JpaRepository<RoomMember, Integer>
 
 	Integer countByRoomAndRoomMemberIsDeletedFalse(Room room);
 
-
+	Optional<RoomMember> findByMemberAndRoom(Member member, Room room);
 }

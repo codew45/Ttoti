@@ -83,6 +83,9 @@ public class Room extends BaseEntity {
 		this.roomParticipants = roomCreateRequest.getParticipants();
 		this.roomPeriod = roomCreateRequest.getPeriod();
 		this.roomCode = UUID.randomUUID().toString();
+		this.roomIsStarted = false;
+		this.roomIsFinished = false;
 		this.roomFinishTime = roomCreateRequest.getFinishTime();
+		this.roomIsDeleted = false;
 	}
 }
