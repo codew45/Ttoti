@@ -7,6 +7,7 @@ export const theme = {
 		info: '#7984fc',
 		danger: '#ff6430',
 		point: '#ffcd05',
+		login: '#F9ED32',
 		modal: '#F6F7FB',
 		quiz: '#A27754',
 		manitoChat: '#FFA969',
