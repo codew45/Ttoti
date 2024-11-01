@@ -19,7 +19,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -47,7 +49,7 @@ public class QuizAnswer extends BaseEntity {
 
 	@NotNull
 	@Column(name = "is_manitto_answered")
-	private Boolean iaManittoAnswered;
+	private Boolean isManittoAnswered;
 
 	@Column(name = "manitto_answer")
 	private Integer manittoAnswer;
@@ -57,7 +59,7 @@ public class QuizAnswer extends BaseEntity {
 
 	@NotNull
 	@Column(name = "is_maniti_answered")
-	private Boolean iaManitiAnswered;
+	private Boolean isManitiAnswered;
 
 	@Column(name = "maniti_answer")
 	private Integer manitiAnswer;

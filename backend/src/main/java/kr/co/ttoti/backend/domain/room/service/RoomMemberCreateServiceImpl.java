@@ -28,15 +28,28 @@ public class RoomMemberCreateServiceImpl implements RoomMemberCreateService {
 		Member member = memberRepository.findByMemberId(memberId)
 			.orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
-		Room room = roomRepository.findById(roomId).orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+		Room room = roomRepository.findByRoomId(roomId)
+			.orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
 
-		if (roomMemberRepository.findByMemberAndRoom(member, room).isEmpty()){
+		if (roomMemberRepository.findByMemberAndRoom(member, room).isEmpty()) {
 			roomMemberRepository.save(new RoomMember(room, member));
 		}
 	}
 
 	@Override
-	public RoomMember createRoomMember(Integer memberId, Integer roomId, String roomCode) {
-		return null;
+	public void createRoomMemberByRoomCode(Integer memberId, String roomCode) {
+		Member member = memberRepository.findByMemberId(memberId)
+			.orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+
+		Room room = roomRepository.findByRoomCode(roomCode)
+			.orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+
+		if(room.getRoomIsStarted()) {
+			throw new CustomException(ErrorCode.ROOM_IN_PROGRESS);
+		}
+
+		if (roomMemberRepository.findByMemberAndRoom(member, room).isEmpty()) {
+			roomMemberRepository.save(new RoomMember(room, member));
+		}
 	}
 }

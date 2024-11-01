@@ -31,20 +31,25 @@ public enum ErrorCode {
     KAKAO_PARAMETER_ERROR(400, "유효하지 않은 카카오 로그인 요청입니다."),
     KAKAO_SERVER_ERROR(500, "카카오 서버 오류입니다."),
 
-
     // member
     MEMBER_NOT_FOUND(404, "존재하지 않는 회원입니다"),
 
     // room
     ROOM_NOT_FOUND(404, "존재하지 않는 방입니다"),
-    ROOM_STARTED(401, "이미 게임이 시작된 방입니다"),
+    ROOM_IN_PROGRESS(401, "이미 게임이 시작된 방입니다"),
 	ROOM_UNAUTHORIZED(401, "방에 접근할 권한이 없습니다"),
 
 	// room member
-	ROOM_HOST_MEMBER_NOT_FOUND(404, "방장이 존재하지 않습닌다"),
+	ROOM_HOST_MEMBER_NOT_FOUND(404, "방장이 존재하지 않습니다"),
 
 	// animal
-    ANIMAL_NOT_AVAILABLE(400, "사용 가능한 동물이 아닙니다.")
+    ANIMAL_NOT_AVAILABLE(400, "사용 가능한 동물이 아닙니다."),
+
+    //quiz
+    QUIZ_LIST_NOT_FOUND(404, "오늘의 퀴즈와 퀴즈 이력이 없습니다."),
+
+    //ttoti
+    TTOTI_NOT_FOUND(404, "또띠관계가 존재하지 않습니다."),
     ;
 
     private final int httpStatus;

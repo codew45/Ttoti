@@ -1,5 +1,7 @@
 package kr.co.ttoti.backend.domain.room.service;
 
+import kr.co.ttoti.backend.domain.room.dto.RoomPendingDto;
+
 public interface RoomGetService {
 
 	/**
@@ -9,4 +11,12 @@ public interface RoomGetService {
 	 * @return
 	 */
 	Boolean getRoomStatus(Integer memberId, Integer roomId);
+
+	/**
+	 * 게임 시작 전, 방의 정보를 반환한다
+	 * @param memberId
+	 * @param roomId
+	 * @return
+	 */
+	RoomPendingDto getRoomIfPending(Integer memberId, Integer roomId);
 }
