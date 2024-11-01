@@ -1,13 +1,12 @@
 html,
 body
 {
-  width: 100%;
-  min-width: 360px;
-  height : 100%;
-  min-height: 800px;
+  width: 100vw;
+  height : 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;  box-sizing: border-box; /* 패딩과 보더를 포함한 전체 크기 계산 */
+  align-items: center;
+  box-sizing: border-box; /* 패딩과 보더를 포함한 전체 크기 계산 */
   /* 입력 커서 숨기기 */
   caret-color: transparent; 
   /* 텍스트 드래그 방지 */
@@ -17,12 +16,13 @@ body
   ::-webkit-scrollbar {
     display: none;
   }
+  overflow: hidden;
 }
 
 #root {
-  width: 360px; /* 최대 너비를 360px로 고정 */
-  height: 800px; /* 최대 높이 800px로 고정 */
-  margin: 0 auto; /* 가운데 정렬 */
+  width: 100vw; /* 최대 너비를 viewport width로 고정 */
+  height: 100vh; /* 최대 높이 viewport height로 고정 */
+  margin: auto auto; /* 가운데 정렬 */
   box-sizing: border-box; /* 패딩과 보더를 포함한 전체 크기 계산 */
 }
 

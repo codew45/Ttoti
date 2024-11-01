@@ -25,12 +25,23 @@ import MooMoo from '@pages/test/MooMoo';
 
 const Background = styled.div`
 	position: absolute;
-	// 임시 contain 설정
-	background-size: contain;
-	background-position: center;
+	/* background-color: #90D4B9; */
+	background: linear-gradient(#1B95EC, #90D4B9);
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
 
-	width: 360px;
-	height: 800px;
+	width: 100vw;
+	height: 100vh;
+	z-index: -1;
+`;
+
+const BackgroundImage = styled.img`
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	object-fit: cover;
 	z-index: -1;
 `;
 
@@ -53,7 +64,8 @@ const AppRouter = () => {
 
 	return (
 		<>
-			<Background style={{ backgroundImage: `url(${backgroundImage})` }} />
+			<Background />
+			{backgroundImage && <BackgroundImage src={backgroundImage} alt="backgroundImage" />}
 			<Routes>
 				{/* 메인 라우트 */}
 				<Route path="/" element={<MainPage />} />
