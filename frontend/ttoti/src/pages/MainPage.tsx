@@ -1,7 +1,16 @@
-// MainPage.tsx
+import MainContainer from '@components/main/MainContainer';
+import styled from 'styled-components';
+
+const MainPageWrapper = styled.div`
+	position: relative;
+`;
 
 const MainPage = () => {
-	return <h1>메인 페이지입니다.</h1>;
+	return (
+		<MainPageWrapper>
+			<MainContainer />
+		</MainPageWrapper>
+	);
 };
 
 export default MainPage;
