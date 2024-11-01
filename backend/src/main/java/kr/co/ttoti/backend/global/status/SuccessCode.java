@@ -15,7 +15,8 @@ public enum SuccessCode {
 
     ROOM_CREATE_SUCCESS(200, "방 생성 성공"),
     ANIMAL_SELECT_SUCCESS(200, "동물 선택 성공"),
-    ROOM_START_SUCCESS(200, "방 시작 성공")
+    ROOM_START_SUCCESS(200, "방 시작 성공"),
+    ROOM_PENDING_DETAIL_SUCCESS(200, "시작 전 방 상세 조회 성공")
     ;
 
     private final int httpStatus;
