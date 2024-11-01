@@ -21,7 +21,7 @@ public interface RoomMemberRepository extends JpaRepository<RoomMember, Integer>
 
 	Optional<RoomMember> findByMemberAndRoom(Member member, Room room);
 
-	RoomMember findByRoomAndMemberAndRoomMemberIsDeleted(Room room, Member member, Boolean roomMemberIsDeleted);
+	Optional<RoomMember> findByRoomAndMemberAndRoomMemberIsDeleted(Room room, Member member, Boolean roomMemberIsDeleted);
 
 	List<RoomMember> findByRoomAndRoomMemberIsDeletedAndRoomMemberIsReady(Room room, Boolean roomMemberIsDeleted,
 		Boolean roomMemberIsReady);
