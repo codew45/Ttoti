@@ -1,16 +1,19 @@
 // TabContent.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { useTheme } from 'styled-components';
+import QuizContent from './QuizContent';
+import ManitoContent from './ManitoContent';
+import ManitiContent from './ManitiContent';
 
-const ContentContainer = styled.div<{ backgroundColor: string }>`
+const ContentContainer = styled.div<{ $backgroundColor: string }>`
   width: 100%;
-  height: 505px; /* 필요에 따라 높이 조정 */
-  background-color: ${({ backgroundColor }) => backgroundColor};
+  height: 505px;
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
   border-top: 1px solid black;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white; /* 텍스트 색상 */
+  color: white;
 `;
 
 interface TabContentProps {
@@ -19,6 +22,8 @@ interface TabContentProps {
 
 const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
   const theme = useTheme();
+  const [page, setPage] = useState(0); // 상태를 TabContent에서 관리
+
   let backgroundColor;
 
   switch (activeTab) {
@@ -32,14 +37,19 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
       backgroundColor = theme.colors.manitiChat;
       break;
     default:
-      backgroundColor = '#FFFFFF'; // 기본 배경색
+      backgroundColor = '#FFFFFF';
   }
 
+  // 페이지 변경 함수
+  const togglePage = (direction: 'next' | 'prev') => {
+    setPage((prevPage) => (direction === 'next' ? Math.min(prevPage + 1, 1) : Math.max(prevPage - 1, 0))); // 0: 마니또, 1: 마니띠
+  };
+
   return (
-    <ContentContainer backgroundColor={backgroundColor}>
-      {activeTab === 'quiz' && <div>퀴즈 내용</div>}
-      {activeTab === 'manito' && <div>마니또 내용</div>}
-      {activeTab === 'maniti' && <div>마니띠 내용</div>}
+    <ContentContainer $backgroundColor={backgroundColor}>
+      {activeTab === 'quiz' && <QuizContent page={page} togglePage={togglePage} />} {/* props로 상태 전달 */}
+      {activeTab === 'manito' && <ManitoContent />}
+      {activeTab === 'maniti' && <ManitiContent />}
     </ContentContainer>
   );
 };
