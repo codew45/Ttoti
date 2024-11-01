@@ -21,7 +21,7 @@ public class RoomDetailGetController {
 	private final RoomDetailGetService roomDetailGetService;
 
 	@GetMapping("rooms/pending/detail/{room-id}")
-	ResponseEntity<ResponseDto<?>> getRoomPendingDetail(@RequestHeader Integer memberId,
+	ResponseEntity<ResponseDto<RoomPendingDetailGetDto>> getRoomPendingDetail(@RequestHeader Integer memberId,
 		@PathVariable(name="room-id") Integer roomId) {
 
 		RoomPendingDetailGetDto result = roomDetailGetService.getRoomPendingDetail(memberId, roomId);
