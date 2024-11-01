@@ -22,6 +22,7 @@ import kr.co.ttoti.backend.domain.room.repository.RoomRepository;
 import kr.co.ttoti.backend.domain.ttoti.entity.AnimalPersonality;
 import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
 import kr.co.ttoti.backend.domain.ttoti.repository.TtotiRepository;
+import kr.co.ttoti.backend.global.exception.CustomException;
 import kr.co.ttoti.backend.global.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
 
@@ -64,7 +65,9 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 
 	private Animal updateRoomMemberAnimal(Room room, Member member,
 		RoomMemberAnimalSelectRequest roomMemberAnimalSelectRequest) {
-		RoomMember roomMember = roomMemberRepository.findByRoomAndMemberAndRoomMemberIsDeleted(room, member, false);
+		RoomMember roomMember = roomMemberRepository.findByRoomAndMemberAndRoomMemberIsDeleted(room, member, false).orElseThrow(
+			()-> new CustomException(ErrorCode.ROOM_UNAUTHORIZED)
+		);
 		Animal animal = animalRepository.findByAnimalIsAvailableAndAnimalId(true,
 				roomMemberAnimalSelectRequest.getAnimalId())
 			.orElseThrow(() -> new IllegalArgumentException(

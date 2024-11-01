@@ -13,8 +13,6 @@ import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 @Repository
 public interface RoomMemberRepository extends JpaRepository<RoomMember, Integer> {
 
-	List<RoomMember> findByRoomAndMemberIsDeletedFalse(Room room);
-
 	List<RoomMember> findByMemberAndRoomMemberIsDeletedFalse(Member member);
 
 	List<RoomMember> findByRoomAndRoomMemberIsDeletedFalse(Room room);
@@ -23,7 +21,7 @@ public interface RoomMemberRepository extends JpaRepository<RoomMember, Integer>
 
 	Optional<RoomMember> findByMemberAndRoom(Member member, Room room);
 
-	RoomMember findByRoomAndMemberAndRoomMemberIsDeleted(Room room, Member member, Boolean roomMemberIsDeleted);
+	Optional<RoomMember> findByRoomAndMemberAndRoomMemberIsDeleted(Room room, Member member, Boolean roomMemberIsDeleted);
 
 	List<RoomMember> findByRoomAndRoomMemberIsDeletedAndRoomMemberIsReady(Room room, Boolean roomMemberIsDeleted,
 		Boolean roomMemberIsReady);

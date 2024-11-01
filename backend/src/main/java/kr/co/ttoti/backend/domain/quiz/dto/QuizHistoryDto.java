@@ -1,7 +1,6 @@
 package kr.co.ttoti.backend.domain.quiz.dto;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 import lombok.Builder;
