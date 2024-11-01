@@ -1,5 +1,6 @@
 package kr.co.ttoti.backend.domain.room.controller;
 
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.co.ttoti.backend.domain.room.dto.RoomInProgressDetailGetDto;
 import kr.co.ttoti.backend.domain.room.dto.RoomPendingDetailGetDto;
 import kr.co.ttoti.backend.domain.room.service.RoomDetailGetService;
 import kr.co.ttoti.backend.global.dto.ResponseDto;
@@ -26,5 +28,13 @@ public class RoomDetailGetController {
 
 		RoomPendingDetailGetDto result = roomDetailGetService.getRoomPendingDetail(memberId, roomId);
 		return ResponseEntity.ok(ResponseDto.success(SuccessCode.ROOM_PENDING_DETAIL_SUCCESS, result));
+	}
+
+	@GetMapping("rooms/inprogress/detail/{room-id}")
+	ResponseEntity<ResponseDto<RoomInProgressDetailGetDto>> getRoomInProgressDetail(@RequestHeader Integer memberId,
+		@PathVariable(name="room-id") Integer roomId){
+
+		RoomInProgressDetailGetDto result = roomDetailGetService.getRoomInProgressDetail(memberId, roomId);
+		return ResponseEntity.ok(ResponseDto.success(SuccessCode.ROOM_IN_PROGRESS_DETAIL_SUCCESS, result));
 	}
 }
