@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import InfoModal from '@components/common/modals/InfoModal';
+import InviteModal from '@components/common/modals/InviteModal';
 import ListBox from '@components/common/box/ListBox';
 
 const TestWrapper = styled.div`
@@ -19,7 +19,7 @@ const Jignonne = () => {
 			<h1>Modal</h1>
 			<ListBox size="large" ListText={ListText1} />
 			<ListBox size="small" ListText={ListText2} />
-			<InfoModal />
+			<InviteModal />
 		</TestWrapper>
 	);
 };
