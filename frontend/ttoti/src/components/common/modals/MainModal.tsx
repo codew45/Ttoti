@@ -1,31 +1,35 @@
 import styled from 'styled-components';
-import { Modal, ModalTitle, ButtonContainer } from './ModalCard';
+import {
+	Modal,
+	ModalTitle,
+	ButtonContainer,
+} from '@components/common/modals/ModalCard';
 import Check from '@assets/icons/check.svg?react';
 
-const ModalContent = () => {
-	const ContentWrapper = styled.div`
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		padding: 0px;
-		gap: 10px;
-	`;
-	const ContentRow = styled.div`
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		padding: 0px;
-		gap: 7px;
-		font-size: 12px;
-		font-weight: 300;
-	`;
+const ContentWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 0px;
+	gap: 10px;
+`;
+const ContentRow = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 0px;
+	gap: 7px;
+	font-size: 12px;
+	font-weight: 300;
+`;
 
-	const TextRow = styled.div`
-		font-family: 'LINESeed';
-		font-size: 12px;
-		font-weight: normal;
-		margin: 0;
-	`;
+const TextRow = styled.div`
+	font-family: 'LINESeed';
+	font-size: 12px;
+	font-weight: normal;
+	margin: 0;
+`;
+const ModalContent = () => {
 	return (
 		<ContentWrapper>
 			<ContentRow>

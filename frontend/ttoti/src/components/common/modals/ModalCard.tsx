@@ -17,26 +17,27 @@ export const Modal = styled.div`
 	background-color: ${({ theme }) => theme.colors['modal']};
 `;
 
+const ModalTitleContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 0px;
+	gap: 5px;
+	font-family: 'LINESeed';
+`;
+
+const Subtitle = styled.div`
+	font-size: 14px;
+	margin: 0;
+`;
+const Title = styled.div`
+	font-size: 16px;
+	margin: 0;
+	font-weight: bold;
+`;
+
 // 모달 제목 컨테이너
 export const ModalTitle = ({ subtitleText, titleText }: ModalTitleProps) => {
-	const ModalTitleContainer = styled.div`
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		padding: 0px;
-		gap: 5px;
-		font-family: 'LINESeed';
-	`;
-
-	const Subtitle = styled.div`
-		font-size: 14px;
-		margin: 0;
-	`;
-	const Title = styled.div`
-		font-size: 16px;
-		margin: 0;
-		font-weight: bold;
-	`;
 	return (
 		<ModalTitleContainer>
 			<Subtitle>{subtitleText}</Subtitle>
@@ -46,7 +47,21 @@ export const ModalTitle = ({ subtitleText, titleText }: ModalTitleProps) => {
 };
 
 // 모달 버튼 컨테이너
-
+const ButtonWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0px;
+	gap: 12px;
+	width: 290px;
+`;
+const ExplainText = styled.div`
+	font-family: 'LINESeed';
+	font-size: 12px;
+	font-weight: normal;
+	text-align: center;
+	margin: 0;
+`;
 export const ButtonContainer = ({
 	explainText,
 	buttonColor1,
@@ -54,21 +69,6 @@ export const ButtonContainer = ({
 	buttonColor2,
 	buttonText2,
 }: ModalButtonProps) => {
-	const ButtonWrapper = styled.div`
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 0px;
-		gap: 12px;
-		width: 290px;
-	`;
-	const ExplainText = styled.div`
-		font-family: 'LINESeed';
-		font-size: 12px;
-		font-weight: normal;
-		text-align: center;
-		margin: 0;
-	`;
 	return (
 		<ButtonWrapper>
 			<ExplainText>{explainText}</ExplainText>

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { MainModal } from '@components/common/modals/MainModal';
+import InfoModal from '@components/common/modals/InfoModal';
+import ListBox from '@components/common/box/ListBox';
 
 const TestWrapper = styled.div`
 	display: flex;
@@ -11,10 +12,14 @@ const TestWrapper = styled.div`
 `;
 
 const Jignonne = () => {
+	const ListText1 = '스몰 버튼';
+	const ListText2 = '스몰';
 	return (
 		<TestWrapper>
 			<h1>Modal</h1>
-			<MainModal />
+			<ListBox size="large" ListText={ListText1} />
+			<ListBox size="small" ListText={ListText2} />
+			<InfoModal />
 		</TestWrapper>
 	);
 };
