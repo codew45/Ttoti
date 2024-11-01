@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { ModalTitleProps, ModalButtonProps } from 'src/types/ModalText';
 import DefaultButtons from '@components/common/buttons/DefaultButtons';
+import Kakao from '@assets/icons/kakao.svg?react';
 
 // 모달 카드
 export const Modal = styled.div`
@@ -72,7 +73,10 @@ export const ButtonContainer = ({
 	return (
 		<ButtonWrapper>
 			<ExplainText>{explainText}</ExplainText>
-			<DefaultButtons color={buttonColor1}>{buttonText1}</DefaultButtons>
+			<DefaultButtons color={buttonColor1}>
+				{buttonColor1 === 'login' && <Kakao />}
+				{buttonText1}
+			</DefaultButtons>
 			<DefaultButtons color={buttonColor2}>{buttonText2}</DefaultButtons>
 		</ButtonWrapper>
 	);

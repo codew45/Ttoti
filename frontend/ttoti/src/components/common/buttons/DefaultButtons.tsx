@@ -9,6 +9,7 @@ const DefaultButtons = styled.button<ColorProps>`
 	padding: 0px 14px;
 	width: 210px;
 	height: 45px;
+	gap: 10px;
 	box-sizing: border-box;
 	border: 0px solid transparent;
 	border-radius: 6px;
