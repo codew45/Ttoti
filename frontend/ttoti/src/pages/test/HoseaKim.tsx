@@ -21,7 +21,7 @@ const ModalContainer = styled.div`
   height: 395px;
   background-color: white;
   border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   position: absolute;             // 절대 위치 지정
   left: 50%;                     // 가로 중앙 정렬
   top: 120px;                    // 상단에서 152px 떨어짐
