@@ -45,7 +45,7 @@ public class RoomMemberCreateServiceImpl implements RoomMemberCreateService {
 			.orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
 
 		if(room.getRoomIsStarted()) {
-			throw new CustomException(ErrorCode.ROOM_STARTED);
+			throw new CustomException(ErrorCode.ROOM_IN_PROGRESS);
 		}
 
 		if (roomMemberRepository.findByMemberAndRoom(member, room).isEmpty()) {

@@ -14,15 +14,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RoomMemberDto {
 
-	Integer roomMemberId;
+	String name;
 
-	Room room;
+	String profileImageUrl;
 
-	Member member;
+	Boolean isReady;
 
-	Animal animal;
-
-	Boolean roomMemberIsReady;
-
-	Boolean roomMemberIsDeleted;
 }
