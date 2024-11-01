@@ -19,7 +19,7 @@ const TabWrapper = styled.div`
   align-items: center;
 `;
 
-const Tab = styled.button<{ color: string; isActive: boolean }>`
+const Tab = styled.button<{ color: string; $isActive: boolean }>`
   width: 108px;
   background-color: ${({ color }) => color};
   font-family: 'SB어그로';
@@ -27,7 +27,7 @@ const Tab = styled.button<{ color: string; isActive: boolean }>`
   font-size: 16px;
   color: white;
   border: 1px solid black;
-  border-bottom: ${({ isActive }) => (isActive ? 'none' : '1px solid black')};
+  border-bottom: ${({ $isActive }) => ($isActive ? 'none' : '1px solid black')};
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   padding: 10px 20px;
@@ -36,15 +36,16 @@ const Tab = styled.button<{ color: string; isActive: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
+  z-index: 2;
 `;
 
-const TabImage = styled.img`
+const TabImage = styled.img<{ $isShifted: boolean }>`
   width: 60px;
   height: 60px;
   position: absolute;
-  top: -60px; /* Tab 위로 배치 */
-  z-index: 2;
+  top: ${({ $isShifted }) => ($isShifted ? '-20px' : '-60px')}; /* 선택되지 않은 경우 20px 아래로 이동 */
+  transition: top 0.3s;
+  z-index: 1;
 `;
 
 interface TabsProps {
@@ -55,38 +56,35 @@ interface TabsProps {
 const Tabs: React.FC<TabsProps> = ({ activeTab, onChangeTab }) => {
   const theme = useTheme();
 
+  // 탭 데이터 정의
+  const tabData = [
+    { key: 'quiz', label: '퀴즈', color: theme.colors.quiz, image: PorcupineGif },
+    { key: 'manito', label: '마니또', color: theme.colors.manitoChat, image: RabbitGif },
+    { key: 'maniti', label: '마니띠', color: theme.colors.manitiChat, image: OwlGif },
+  ];
+
+  // 각 탭의 선택에 따른 이미지 이동 설정
+  const getIsShifted = (tabKey: string, currentKey: string) => {
+    if (tabKey === 'quiz') return currentKey === 'manito' || currentKey === 'maniti';
+    if (tabKey === 'manito') return currentKey === 'quiz' || currentKey === 'maniti';
+    if (tabKey === 'maniti') return currentKey === 'quiz' || currentKey === 'manito';
+    return false;
+  };
+
   return (
     <TabContainer>
-      <TabWrapper>
-        <TabImage src={PorcupineGif} alt="Porcupine" />
-        <Tab
-          onClick={() => onChangeTab('quiz')}
-          color={theme.colors.quiz}
-          isActive={activeTab === 'quiz'}
-        >
-          퀴즈
-        </Tab>
-      </TabWrapper>
-      <TabWrapper>
-        <TabImage src={RabbitGif} alt="Rabbit" />
-        <Tab
-          onClick={() => onChangeTab('manito')}
-          color={theme.colors.manitoChat}
-          isActive={activeTab === 'manito'}
-        >
-          마니또
-        </Tab>
-      </TabWrapper>
-      <TabWrapper>
-        <TabImage src={OwlGif} alt="Owl" />
-        <Tab
-          onClick={() => onChangeTab('maniti')}
-          color={theme.colors.manitiChat}
-          isActive={activeTab === 'maniti'}
-        >
-          마니띠
-        </Tab>
-      </TabWrapper>
+      {tabData.map((tab) => (
+        <TabWrapper key={tab.key}>
+          <TabImage src={tab.image} alt={tab.label} $isShifted={getIsShifted(activeTab, tab.key)} />
+          <Tab
+            onClick={() => onChangeTab(tab.key)}
+            color={tab.color}
+            $isActive={activeTab === tab.key}
+          >
+            {tab.label}
+          </Tab>
+        </TabWrapper>
+      ))}
     </TabContainer>
   );
 };
