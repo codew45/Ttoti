@@ -49,7 +49,7 @@ public class RoomGetServiceImpl implements RoomGetService {
 		return RoomMemberListPendingDto.builder()
 			.currentParticipants(currentParticipants)
 			.totalParticipants(totalParticipants)
-			.roomMembers(roomMemberDtos)
+			.roomMemberList(roomMemberDtos)
 			.build();
 	}
 
