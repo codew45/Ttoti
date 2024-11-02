@@ -11,4 +11,6 @@ import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
 public interface QuizAnswerRepository extends JpaRepository<QuizAnswer, Integer> {
 
 	List<QuizAnswer> findByTtotiIdOrderByQuizDateAsc(Integer ttotiId);
+
+	List<QuizAnswer> findByRoomId(Integer roomId);
 }
