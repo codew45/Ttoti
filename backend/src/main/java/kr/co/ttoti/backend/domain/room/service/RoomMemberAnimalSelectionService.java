@@ -5,7 +5,7 @@ import java.util.List;
 import kr.co.ttoti.backend.domain.animal.entity.Animal;
 import kr.co.ttoti.backend.domain.member.entity.Member;
 import kr.co.ttoti.backend.domain.room.dto.RoomMemberAnimalSelectRequest;
-import kr.co.ttoti.backend.domain.room.dto.TtotiMatchDto;
+import kr.co.ttoti.backend.domain.room.dto.RoomStartResponse;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 
@@ -43,7 +43,7 @@ public interface RoomMemberAnimalSelectionService {
 	 * @param roomMember
 	 * @return
 	 */
-	TtotiMatchDto startRoom(Room room, List<RoomMember> readyRoomMemberList, RoomMember roomMember);
+	RoomStartResponse startRoom(Room room, List<RoomMember> readyRoomMemberList, RoomMember roomMember);
 
 	/**
 	 * 랜덤으로 마니또를 매칭한다.
@@ -53,6 +53,5 @@ public interface RoomMemberAnimalSelectionService {
 	 * @return
 	 */
 	Integer createTtoti(Room room, List<RoomMember> roomMemberList, RoomMember roomMember);
-
 
 }
