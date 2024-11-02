@@ -1,8 +1,8 @@
 package kr.co.ttoti.backend.domain.quiz.service;
 
-import kr.co.ttoti.backend.domain.quiz.dto.QuizListGetDto;
+import kr.co.ttoti.backend.domain.quiz.dto.QuizListGetResponse;
 
 public interface QuizListGetService {
 
-	QuizListGetDto getQuizList(Integer memberId, Integer ttotiId);
+	QuizListGetResponse getQuizList(Integer memberId, Integer ttotiId);
 }
