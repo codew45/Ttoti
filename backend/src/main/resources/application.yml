@@ -34,6 +34,12 @@ spring:
       mode: always
       platform: mariadb
 
+  data:
+    redis:
+      host: ${LOCAL_REDIS_HOST}
+      port: ${LOCAL_REDIS_PORT}
+
+
 
 --- # 개발 서버 설정
 spring:
@@ -55,3 +61,8 @@ spring:
     properties:
       hibernate:
         format_sql: false
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}

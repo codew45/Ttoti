@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import kr.co.ttoti.backend.domain.animal.AnimalRepository;
+import kr.co.ttoti.backend.domain.animal.repository.AnimalRepository;
 import kr.co.ttoti.backend.domain.animal.dto.AnimalDto;
 import lombok.RequiredArgsConstructor;
 
