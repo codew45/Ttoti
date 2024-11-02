@@ -7,8 +7,12 @@ import lombok.Getter;
 @Builder
 public class TtotiMatchDto {
 
-	private String ttotiAnimalName;
-	private String ttotiAnimalImageUrl;
+	private String myManittoAnimalName;
+	private String myManittoAnimalImageUrl;
+
+	private String myAnimalName;
+	private String myAnimalImageUrl;
+
 	private String manitiMemberName;
 	private String manitiProfileImageUrl;
 }
