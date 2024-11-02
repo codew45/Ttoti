@@ -25,6 +25,7 @@ public class QuizServiceUtils {
 				QuizChoice::getQuizChoiceContent));
 
 		return QuizHistoryDto.builder()
+			.ttotiId(quizAnswer.getTtotiId())
 			.quizDate(quizAnswer.getQuizDate())
 			.quizChoiceMap(quizChoiceMap)
 			.quizChoiceContent(quizAnswer.getQuiz().getQuizContent())
