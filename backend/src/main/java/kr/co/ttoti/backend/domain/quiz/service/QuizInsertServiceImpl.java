@@ -34,7 +34,6 @@ public class QuizInsertServiceImpl implements QuizInsertService {
 		List<Integer> answeredQuizIdList = quizAnswerRepository.findByRoomId(roomId).stream()
 			.map(quizAnswer -> quizAnswer.getQuiz().getQuizId())
 			.toList();
-
 		if (answeredQuizIdList.isEmpty()) {
 			List<Quiz> allQuizList = quizRepository.findByQuizIsAvailable(true);
 			return allQuizList.get(new java.util.Random().nextInt(allQuizList.size()));
@@ -57,7 +56,7 @@ public class QuizInsertServiceImpl implements QuizInsertService {
 		List<Ttoti> ttotiList = ttotiRepository.findByRoom(room);
 
 		for (Ttoti ttoti : ttotiList) {
-			QuizAnswer quizAnswer = quizAnswerRepository.save(QuizAnswer.builder()
+			quizAnswerRepository.save(QuizAnswer.builder()
 				.ttotiId(ttoti.getTtotiId())
 				.roomId(roomId)
 				.quiz(quiz)
@@ -66,7 +65,6 @@ public class QuizInsertServiceImpl implements QuizInsertService {
 				.quizDate(LocalDate.now())
 				.quizAnswerIsCorrect(false)
 				.build());
-			quizServiceUtils.mapToQuizHistoryDto(quizAnswer);
 		}
 	}
 }
