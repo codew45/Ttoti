@@ -20,7 +20,8 @@ public class RoomGetController {
 	private final RoomGetService roomGetService;
 
 	@GetMapping("/status/{room-id}")
-	public ResponseDto<Boolean> getRoomStatus(@RequestHeader Integer memberId, @PathVariable("room-id") Integer roomId) {
+	public ResponseDto<Boolean> getRoomStatus(@RequestHeader Integer memberId,
+		@PathVariable("room-id") Integer roomId) {
 		return ResponseDto.success(SuccessCode.OK, roomGetService.getRoomStatus(memberId, roomId));
 	}
 
@@ -29,6 +30,11 @@ public class RoomGetController {
 		@PathVariable("room-id") Integer roomId) {
 		RoomPendingDto roomPendingDto = roomGetService.getRoomIfPending(memberId, roomId);
 		return ResponseDto.success(SuccessCode.OK, roomPendingDto);
+	}
+
+	@GetMapping("/link/get/{room-id}")
+	public ResponseDto<String> getRoomLink(@RequestHeader Integer memberId, @PathVariable("room-id") Integer roomId) {
+		return ResponseDto.success(SuccessCode.OK, roomGetService.getRoomLink(memberId, roomId));
 	}
 
 }

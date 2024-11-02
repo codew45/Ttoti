@@ -13,7 +13,9 @@ public class RoomPendingDto {
 
 	RoomMemberListPendingDto roomMemberInfo;
 
+	String profileImageUrl;
+
 	Boolean isReady;
 
-	String profileImageUrl;
+	String animalProfileImageUrl;
 }

@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.co.ttoti.backend.domain.animal.AnimalRepository;
+import kr.co.ttoti.backend.domain.animal.repository.AnimalRepository;
 import kr.co.ttoti.backend.domain.animal.dto.AnimalSelectDto;
 import kr.co.ttoti.backend.domain.animal.entity.Animal;
 import kr.co.ttoti.backend.domain.member.entity.Member;
@@ -65,9 +65,8 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 
 	private Animal updateRoomMemberAnimal(Room room, Member member,
 		RoomMemberAnimalSelectRequest roomMemberAnimalSelectRequest) {
-		RoomMember roomMember = roomMemberRepository.findByRoomAndMemberAndRoomMemberIsDeleted(room, member, false).orElseThrow(
-			()-> new CustomException(ErrorCode.ROOM_UNAUTHORIZED)
-		);
+		RoomMember roomMember = roomMemberRepository.findByRoomAndMemberAndRoomMemberIsDeleted(room, member, false)
+			.orElseThrow(() -> new CustomException(ErrorCode.ROOM_UNAUTHORIZED));
 		Animal animal = animalRepository.findByAnimalIsAvailableAndAnimalId(true,
 				roomMemberAnimalSelectRequest.getAnimalId())
 			.orElseThrow(() -> new IllegalArgumentException(

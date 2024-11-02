@@ -1,5 +1,6 @@
 package kr.co.ttoti.backend.domain.room.service;
 
+import kr.co.ttoti.backend.domain.room.dto.RoomMemberListPendingDto;
 import kr.co.ttoti.backend.domain.room.dto.RoomPendingDto;
 
 public interface RoomGetService {
@@ -19,4 +20,20 @@ public interface RoomGetService {
 	 * @return
 	 */
 	RoomPendingDto getRoomIfPending(Integer memberId, Integer roomId);
+
+	/**
+	 * 새로고침 시, 방 회원 준비 상태를 반환한다
+	 * @param memberId
+	 * @param roomId
+	 * @return
+	 */
+	RoomMemberListPendingDto getRoomMemberListIfPending(Integer memberId, Integer roomId);
+
+	/**
+	 * 방 회원이 초대 링크를 요청하면, 해당 방의 유효한 초대 링크를 반환한다
+	 * @param memberId
+	 * @param roomId
+	 * @return
+	 */
+	String getRoomLink(Integer memberId, Integer roomId);
 }

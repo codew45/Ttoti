@@ -9,4 +9,6 @@ import kr.co.ttoti.backend.domain.member.entity.Member;
 public interface MemberRepository extends JpaRepository<Member, Integer> {
 
 	Optional<Member> findByMemberId(Integer memberId);
+
+	Optional<Member> findByMemberIdAndMemberIsDeletedFalse(Integer memberId);
 }
