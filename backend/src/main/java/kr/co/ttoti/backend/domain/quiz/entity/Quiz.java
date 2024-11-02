@@ -38,4 +38,8 @@ public class Quiz extends BaseEntity {
 	@Column(name = "quiz_content")
 	private String quizContent;
 
+	@NotNull
+	@Column(name = "quiz_is_available")
+	private Boolean quizIsAvailable;
+
 }
