@@ -2,6 +2,8 @@ package kr.co.ttoti.backend.domain.common;
 
 import org.springframework.stereotype.Component;
 
+import kr.co.ttoti.backend.domain.animal.AnimalRepository;
+import kr.co.ttoti.backend.domain.animal.entity.Animal;
 import kr.co.ttoti.backend.domain.member.entity.Member;
 import kr.co.ttoti.backend.domain.member.repository.MemberRepository;
 import kr.co.ttoti.backend.domain.room.entity.Room;
@@ -22,6 +24,7 @@ public class Validator {
 	private final MemberRepository memberRepository;
 	private final RoomRepository roomRepository;
 	private final RoomMemberRepository roomMemberRepository;
+	private final AnimalRepository animalRepository;
 
 	public Member validateMember(Integer memberId) {
 		return memberRepository.findById(memberId)
@@ -45,6 +48,12 @@ public class Validator {
 		return ttotiRepository.findById(ttotiId)
 			.orElseThrow(
 				() -> new CustomException(ErrorCode.TTOTI_NOT_FOUND));
+	}
+
+	public Animal validateAnimal(Integer animalId) {
+		return animalRepository.findByAnimalIsAvailableAndAnimalId(true, animalId)
+			.orElseThrow(() -> new CustomException(ErrorCode.ANIMAL_NOT_AVAILABLE));
+
 	}
 
 }
