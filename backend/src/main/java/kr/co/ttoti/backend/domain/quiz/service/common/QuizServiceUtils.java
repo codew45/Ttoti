@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import kr.co.ttoti.backend.domain.quiz.dto.QuizHistoryDto;
+import kr.co.ttoti.backend.domain.quiz.entity.Quiz;
 import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
 import kr.co.ttoti.backend.domain.quiz.entity.QuizChoice;
 import kr.co.ttoti.backend.domain.quiz.repository.QuizChoiceRepository;
@@ -24,12 +25,14 @@ public class QuizServiceUtils {
 				QuizChoice::getQuizChoiceNumber,
 				QuizChoice::getQuizChoiceContent));
 
+		Quiz quiz = quizAnswer.getQuiz();
+
 		return QuizHistoryDto.builder()
 			.ttotiId(quizAnswer.getTtotiId())
 			.quizDate(quizAnswer.getQuizDate())
 			.quizChoiceMap(quizChoiceMap)
-			.quizChoiceContent(quizAnswer.getQuiz().getQuizContent())
-			.quizType(quizAnswer.getQuiz().getQuizType().toString())
+			.quizChoiceContent(quiz.getQuizContent())
+			.quizType(quiz.getQuizType().toString())
 			.isManittoAnswered(quizAnswer.getIsManittoAnswered())
 			.manittoAnswer(quizAnswer.getManittoAnswer())
 			.isManitiAnswered(quizAnswer.getIsManitiAnswered())
