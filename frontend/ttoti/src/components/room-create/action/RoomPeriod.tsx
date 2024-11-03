@@ -122,7 +122,7 @@ const PeriodSlider = ({
 const RoomPeriod = () => {
 	const [period, setPeriod] = useState(7);
 
-	const handleChange: SliderProps['onChange'] = (event, newValue) => {
+	const handleChange: SliderProps['onChange'] = (_, newValue) => {
 		// Mui 제공 SliderProps의 newValue 타입이 number || Array 이기 때문에 단언 선언
 		setPeriod(newValue as number);
 	};
