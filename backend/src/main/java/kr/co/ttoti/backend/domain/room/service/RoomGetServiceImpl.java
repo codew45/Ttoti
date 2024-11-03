@@ -17,81 +17,117 @@ import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
 import kr.co.ttoti.backend.domain.room.repository.RoomRepository;
 import kr.co.ttoti.backend.global.exception.CustomException;
 import kr.co.ttoti.backend.global.status.ErrorCode;
+import kr.co.ttoti.backend.global.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
 public class RoomGetServiceImpl implements RoomGetService {
 
-	private final MemberRepository memberRepository;
-	private final RoomRepository roomRepository;
-	private final RoomMemberRepository roomMemberRepository;
+    private final MemberRepository memberRepository;
+    private final RoomRepository roomRepository;
+    private final RoomMemberRepository roomMemberRepository;
+    private final RedisUtil redisUtil;
 
-	// 방 시작 전, 현재 방 인원, 총 방 인원, 방 회원 목록들을 반환하는 내부 함수
-	private RoomMemberListPendingDto getRoomMembers(Room room) {
-		List<RoomMember> roomMembers = roomMemberRepository.findByRoomAndRoomMemberIsDeletedFalse(room);
+    private RoomMemberListPendingDto getRoomMembers(Room room) {
+        List<RoomMember> roomMembers = roomMemberRepository.findByRoomAndRoomMemberIsDeletedFalse(room);
 
-		int currentParticipants = 0;
-		int totalParticipants = room.getRoomParticipants();
-		List<RoomMemberDto> roomMemberDtos = new ArrayList<>();
-		for (RoomMember roomMember : roomMembers) {
-			if (roomMember.getRoomMemberIsReady())
-				currentParticipants += 1;
+        int currentParticipants = roomMembers.size();
+        int totalParticipants = room.getRoomParticipants();
+        List<RoomMemberDto> roomMemberDtos = roomMembers.stream().map(roomMember -> {
+            Member member = roomMember.getMember();
+            return RoomMemberDto.builder()
+                    .name(member.getMemberName())
+                    .profileImageUrl(member.getMemberProfileImageUrl())
+                    .isReady(roomMember.getRoomMemberIsReady())
+                    .build();
+        }).toList();
 
-			Member member = roomMember.getMember();
-			roomMemberDtos.add(RoomMemberDto.builder()
-				.name(member.getMemberName())
-				.profileImageUrl(member.getMemberProfileImageUrl())
-				.isReady(roomMember.getRoomMemberIsReady())
-				.build());
-		}
+        return RoomMemberListPendingDto.builder()
+                .currentParticipants(currentParticipants)
+                .totalParticipants(totalParticipants)
+                .roomMemberList(roomMemberDtos)
+                .build();
+    }
 
-		return RoomMemberListPendingDto.builder()
-			.currentParticipants(currentParticipants)
-			.totalParticipants(totalParticipants)
-			.roomMemberList(roomMemberDtos)
-			.build();
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public Boolean getRoomStatus(Integer memberId, Integer roomId) {
+        Member member = memberRepository.findByMemberIdAndMemberIsDeletedFalse(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
-	@Transactional(readOnly = true)
-	@Override
-	public Boolean getRoomStatus(Integer memberId, Integer roomId) {
-		Member member = memberRepository.findByMemberId(memberId)
-			.orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+        Room room = roomRepository.findByRoomId(roomId)
+                .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
 
-		Room room = roomRepository.findByRoomId(roomId)
-			.orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+        RoomMember roomMember = roomMemberRepository.findByMemberAndRoom(member, room)
+                .orElseThrow(() -> new CustomException(ErrorCode.ROOM_UNAUTHORIZED));
 
-		RoomMember roomMember = roomMemberRepository.findByMemberAndRoom(member, room)
-			.orElseThrow(() -> new CustomException(ErrorCode.ROOM_UNAUTHORIZED));
+        return room.getRoomIsStarted();
+    }
 
-		return room.getRoomIsStarted();
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public RoomPendingDto getRoomIfPending(Integer memberId, Integer roomId) {
+        Member member = memberRepository.findByMemberIdAndMemberIsDeletedFalse(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
-	@Transactional(readOnly = true)
-	@Override
-	public RoomPendingDto getRoomIfPending(Integer memberId, Integer roomId) {
-		Member member = memberRepository.findByMemberId(memberId)
-			.orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+        Room room = roomRepository.findByRoomIdAndRoomIsStartedFalse(roomId)
+                .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
 
-		Room room = roomRepository.findByRoomId(roomId)
-			.orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+        RoomMember roomMember = roomMemberRepository.findByMemberAndRoom(member, room)
+                .orElseThrow(() -> new CustomException(ErrorCode.ROOM_UNAUTHORIZED));
 
-		RoomMember roomMember = roomMemberRepository.findByMemberAndRoom(member, room)
-			.orElseThrow(() -> new CustomException(ErrorCode.ROOM_UNAUTHORIZED));
+        if (room.getRoomIsStarted())
+            throw new CustomException(ErrorCode.ROOM_IN_PROGRESS);
 
-		if (room.getRoomIsStarted())
-			throw new CustomException(ErrorCode.ROOM_IN_PROGRESS);
+        Member hostMember = memberRepository.findByMemberIdAndMemberIsDeletedFalse(room.getRoomHostMemberId())
+                .orElseThrow(() -> new CustomException(ErrorCode.ROOM_HOST_MEMBER_NOT_FOUND));
 
-		Member hostMember = memberRepository.findByMemberId(room.getRoomHostMemberId())
-			.orElseThrow(() -> new CustomException(ErrorCode.ROOM_HOST_MEMBER_NOT_FOUND));
+        return RoomPendingDto.builder()
+                .hostName(hostMember.getMemberName())
+                .roomName(room.getRoomName())
+                .roomMemberInfo(getRoomMembers(room))
+                .profileImageUrl(roomMember.getRoomMemberIsReady() ? roomMember.getAnimal().getAnimalImageUrl() :
+                        member.getMemberProfileImageUrl())
+                .isReady(roomMember.getRoomMemberIsReady())
+                .animalProfileImageUrl(roomMember.getRoomMemberIsReady() ? roomMember.getAnimal().getAnimalImageUrl() : null)
+                .build();
+    }
 
-		return RoomPendingDto.builder()
-			.hostName(hostMember.getMemberName())
-			.roomName(room.getRoomName())
-			.roomMemberInfo(getRoomMembers(room))
-			.isReady(roomMember.getRoomMemberIsReady())
-			.profileImageUrl(roomMember.getRoomMemberIsReady() ? roomMember.getAnimal().getAnimalImageUrl() : member.getMemberProfileImageUrl())
-			.build();
-	}
+    @Override
+    public RoomMemberListPendingDto getRoomMemberListIfPending(Integer memberId, Integer roomId) {
+        Member member = memberRepository.findByMemberIdAndMemberIsDeletedFalse(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+
+        Room room = roomRepository.findByRoomIdAndRoomIsStartedFalse(roomId)
+                .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+
+        RoomMember roomMember = roomMemberRepository.findByMemberAndRoom(member, room)
+                .orElseThrow(() -> new CustomException(ErrorCode.ROOM_UNAUTHORIZED));
+
+        return getRoomMembers(room);
+    }
+
+    @Override
+    public String getRoomLink(Integer memberId, Integer roomId) {
+        Member member = memberRepository.findByMemberIdAndMemberIsDeletedFalse(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+
+        Room room = roomRepository.findByRoomIdAndRoomIsStartedFalse(roomId)
+                .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+
+        RoomMember roomMember = roomMemberRepository.findByRoomAndMemberAndRoomMemberIsDeleted(room, member, false)
+                .orElseThrow(() -> new CustomException(ErrorCode.ROOM_UNAUTHORIZED));
+
+        String roomLink = null;
+        if ((roomLink = redisUtil.getRoomLink(room)) == null) {
+            redisUtil.setRoomLink(room);
+            roomLink = redisUtil.getRoomLink(room);
+        }
+
+        if (roomLink == null) throw new CustomException(ErrorCode.ROOM_LINK_NOT_CREATED);
+
+        return roomLink;
+    }
+
 }

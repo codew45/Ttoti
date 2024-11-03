@@ -1,4 +1,4 @@
-package kr.co.ttoti.backend.domain.animal;
+package kr.co.ttoti.backend.domain.animal.repository;
 
 import java.util.List;
 import java.util.Optional;

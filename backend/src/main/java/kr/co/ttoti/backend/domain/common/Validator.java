@@ -2,8 +2,8 @@ package kr.co.ttoti.backend.domain.common;
 
 import org.springframework.stereotype.Component;
 
-import kr.co.ttoti.backend.domain.animal.AnimalRepository;
 import kr.co.ttoti.backend.domain.animal.entity.Animal;
+import kr.co.ttoti.backend.domain.animal.repository.AnimalRepository;
 import kr.co.ttoti.backend.domain.member.entity.Member;
 import kr.co.ttoti.backend.domain.member.repository.MemberRepository;
 import kr.co.ttoti.backend.domain.room.entity.Room;

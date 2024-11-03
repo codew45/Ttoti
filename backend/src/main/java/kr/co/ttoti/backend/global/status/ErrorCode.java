@@ -36,9 +36,10 @@ public enum ErrorCode {
 
     // room
     ROOM_NOT_FOUND(404, "존재하지 않는 방입니다"),
+    ROOM_IS_PENDING(401, "게임이 시작되지 않은 방입니다"),
     ROOM_IN_PROGRESS(401, "이미 게임이 시작된 방입니다"),
 	ROOM_UNAUTHORIZED(401, "방에 접근할 권한이 없습니다"),
-    ROOM_IS_PENDING(401, "아직 시작되지 않은 방입니다"),
+    ROOM_LINK_NOT_CREATED(500, "초대링크를 생성할 수 없습니다"),
 
 	// room member
 	ROOM_HOST_MEMBER_NOT_FOUND(404, "방장이 존재하지 않습니다"),
