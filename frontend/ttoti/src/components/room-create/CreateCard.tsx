@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import RoomName from '@components/room-create/action/RoomName';
-import RoomParitipants from '@components/room-create/action/RoomParitipants';
+import RoomParticipants from '@components/room-create/action/RoomParticipants';
 import RoomPeriod from '@components/room-create/action/RoomPeriod';
 import RoomTime from '@components/room-create/action/RoomTime';
 
@@ -85,7 +85,7 @@ const HeadText = styled.div`
 // 방 만들기 컴포넌트
 const createComponents = [
 	<RoomName />,
-	<RoomParitipants />,
+	<RoomParticipants />,
 	<RoomPeriod />,
 	<RoomTime />,
 ];

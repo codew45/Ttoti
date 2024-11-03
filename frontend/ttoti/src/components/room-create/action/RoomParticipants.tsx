@@ -59,7 +59,7 @@ const MinusButton = ({
 	return <MinusIcon onClick={onClick} />;
 };
 
-const RoomParitipants = () => {
+const RoomParticipants = () => {
 	const [count, setCount] = useState(5);
 	const [alertMessage, setAlertMessage] = useState('');
 
@@ -96,4 +96,4 @@ const RoomParitipants = () => {
 	);
 };
 
-export default RoomParitipants;
+export default RoomParticipants;
