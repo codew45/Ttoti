@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Builder
-public class QuizListGetResponse {
+public class QuizHistoryListGetDto {
 
 	List<QuizHistoryDto> manittoQuizList;
 	List<QuizHistoryDto> manitiQuizList;

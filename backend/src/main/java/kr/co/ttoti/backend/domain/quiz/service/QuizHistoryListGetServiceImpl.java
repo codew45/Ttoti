@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.ttoti.backend.domain.common.Validator;
 import kr.co.ttoti.backend.domain.quiz.dto.QuizHistoryDto;
-import kr.co.ttoti.backend.domain.quiz.dto.QuizListGetResponse;
+import kr.co.ttoti.backend.domain.quiz.dto.QuizHistoryListGetDto;
 import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
 import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
 import kr.co.ttoti.backend.domain.quiz.service.common.QuizServiceUtils;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class QuizListGetServiceImpl implements QuizListGetService {
+public class QuizHistoryListGetServiceImpl implements QuizHistoryListGetService {
 
 	private final QuizAnswerRepository quizAnswerRepository;
 	private final QuizServiceUtils quizServiceUtils;
@@ -36,7 +36,7 @@ public class QuizListGetServiceImpl implements QuizListGetService {
 	}
 
 	@Override
-	public QuizListGetResponse getQuizList(Integer memberId, Integer ttotiId) {
+	public QuizHistoryListGetDto getQuizHistoryList(Integer memberId, Integer ttotiId) {
 
 		validator.validateMember(memberId);
 		Ttoti ttoti = validator.validateTtoti(ttotiId);
@@ -60,7 +60,7 @@ public class QuizListGetServiceImpl implements QuizListGetService {
 		QuizHistoryDto todayManittoQuiz = extractTodayQuiz(manittoQuizHistoryDtoList);
 		QuizHistoryDto todayManitiQuiz = extractTodayQuiz(manitiQuizHistoryDtoList);
 
-		return QuizListGetResponse.builder()
+		return QuizHistoryListGetDto.builder()
 			.manittoQuizList(manittoQuizHistoryDtoList)
 			.manitiQuizList(manitiQuizHistoryDtoList)
 			.todayManittoQuiz(todayManittoQuiz)
