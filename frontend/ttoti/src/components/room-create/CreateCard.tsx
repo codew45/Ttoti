@@ -1,14 +1,13 @@
+import { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 
-import RoomName from '@components/room-create/action/RoomName';
-import RoomParticipants from '@components/room-create/action/RoomParticipants';
-import RoomPeriod from '@components/room-create/action/RoomPeriod';
-import RoomTime from '@components/room-create/action/RoomTime';
+import Content from '@components/room-create/Content';
+import { createComponents } from './CreateContent';
+import { FormData } from 'src/types/InputForm';
 
 import CloseIcon from '@assets/icons/close.svg?react';
 import ToggleIcon from '@assets/icons/toggle.svg?react';
 import ToggleActiveIcon from '@assets/icons/toggle_active.svg?react';
-import { useState } from 'react';
 
 const CreateCardBox = styled.div`
 	display: flex;
@@ -43,6 +42,12 @@ const RotatedActive = styled(ToggleActiveIcon)`
 	transform: rotate(180deg);
 `;
 
+const ErrorMessage = styled.div`
+	font-family: 'LINESeed';
+	font-size: 12px;
+	color: ${({ theme }) => theme.colors['danger']};
+`;
+
 const LeftButton = ({
 	onClick,
 	currentIndex,
@@ -59,43 +64,15 @@ const LeftButton = ({
 
 const RightButton = ({
 	onClick,
+	currentIndex,
 }: {
 	onClick: React.MouseEventHandler<SVGSVGElement>;
+	currentIndex: number;
 }) => {
-	return <ToggleActiveIcon onClick={onClick} />;
-};
-
-const ContentWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	gap: 33px;
-	padding: 0px;
-	width: 215px;
-	min-height: 180px;
-`;
-const HeadText = styled.div`
-	width: 215px;
-	font-family: 'GmarketSans';
-	font-weight: bold;
-	font-size: 24px;
-`;
-
-// 방 만들기 컴포넌트
-const createComponents = [
-	<RoomName />,
-	<RoomParticipants />,
-	<RoomPeriod />,
-	<RoomTime />,
-];
-
-const Content = ({ index }: { index: number }) => {
-	return (
-		<ContentWrapper>
-			<HeadText>방 만들기</HeadText>
-			{createComponents[index]}
-		</ContentWrapper>
+	return currentIndex === createComponents.length - 1 ? (
+		<ToggleIcon />
+	) : (
+		<ToggleActiveIcon onClick={onClick} />
 	);
 };
 
@@ -103,12 +80,47 @@ const CreateCard = () => {
 	// 카드 컴포넌트 인덱스 초기화
 	const [currentIndex, setCurrentIndex] = useState(0);
 
+	const [error, setError] = useState('');
+
+	// 입력 데이터 초기화
+
+	const [formData, setFormData] = useState<FormData>({
+		roomName: '',
+		RoomParticipants: 5,
+		RoomPeriod: 7,
+		RoomTime: '18:30:00',
+	});
+
+	const handleInputChange = useCallback(
+		(name: keyof FormData, value: string | number) => {
+			setFormData((prevData) => ({
+				...prevData,
+				[name]: value,
+			}));
+		},
+		[],
+	);
+
+	// 경고 알림창 업데이트
+
+	useEffect(() => {
+		if (formData.roomName) {
+			setError(' ');
+		}
+	}, [formData.roomName]);
+
 	// 페이지 이동 이동 함수 작성
 	const handlePrevious = () => {
 		setCurrentIndex((prevIndex) => (prevIndex === 0 ? 0 : prevIndex - 1));
 	};
 
 	const handleNext = () => {
+		if (currentIndex === 0 && formData.roomName === '') {
+			setError('방 이름을 입력해주세요.');
+			return;
+		}
+
+		setError('');
 		setCurrentIndex((prevIndex) =>
 			prevIndex === createComponents.length - 1
 				? createComponents.length - 1
@@ -123,9 +135,14 @@ const CreateCard = () => {
 			</CloseDiv>
 			<CreateContainer>
 				<LeftButton onClick={handlePrevious} currentIndex={currentIndex} />
-				<Content index={currentIndex} />
-				<RightButton onClick={handleNext} />
+				<Content
+					index={currentIndex}
+					formData={formData}
+					onInputChange={handleInputChange}
+				/>
+				<RightButton onClick={handleNext} currentIndex={currentIndex} />
 			</CreateContainer>
+			{error && <ErrorMessage>{error}</ErrorMessage>}
 		</CreateCardBox>
 	);
 };

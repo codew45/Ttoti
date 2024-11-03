@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
 	RoomInputContainer,
@@ -59,9 +59,22 @@ const MinusButton = ({
 	return <MinusIcon onClick={onClick} />;
 };
 
-const RoomParticipants = () => {
-	const [count, setCount] = useState(5);
+interface RoomParticipantsProps {
+	formData: { RoomParticipants: number };
+	onInputChange: (name: 'RoomParticipants', value: number) => void;
+}
+
+const RoomParticipants = ({
+	formData,
+	onInputChange,
+}: RoomParticipantsProps) => {
+	const [count, setCount] = useState(formData.RoomParticipants || 5);
 	const [alertMessage, setAlertMessage] = useState('');
+
+	// count가 변경될 때마다 업데이트
+	useEffect(() => {
+		onInputChange('RoomParticipants', count);
+	}, [count, onInputChange]);
 
 	const handleIncrease = () => {
 		if (count < 8) {
@@ -75,6 +88,7 @@ const RoomParticipants = () => {
 	const handleDecrease = () => {
 		if (count > 3) {
 			setCount(count - 1);
+			setAlertMessage('');
 		} else {
 			setAlertMessage('최소 또띠 인원은 3명입니다.');
 		}
