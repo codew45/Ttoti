@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class RoomStartResponse {
+public class RoomStartDto {
 
 	TtotiMatchDto ttotiMatchInfo;
 
