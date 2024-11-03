@@ -50,8 +50,8 @@ public class Ttoti extends BaseEntity {
 	private Integer manitiId;
 
 	@NotNull
-	@Column(name = "titto_animal_name")
-	private String tittoAnimalName;
+	@Column(name = "ttoti_animal_name")
+	private String ttotiAnimalName;
 
 	@NotNull
 	@Column(name = "ttoti_temperature")

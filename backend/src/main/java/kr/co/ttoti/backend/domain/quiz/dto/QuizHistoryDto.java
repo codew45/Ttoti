@@ -12,6 +12,8 @@ import lombok.ToString;
 @Builder
 public class QuizHistoryDto {
 
+	Integer ttotiId;
+
 	LocalDate quizDate;
 	String quizChoiceContent;
 

@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import kr.co.ttoti.backend.domain.quiz.dto.QuizDto;
 import kr.co.ttoti.backend.global.base.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -37,5 +38,18 @@ public class Quiz extends BaseEntity {
 	@NotNull
 	@Column(name = "quiz_content")
 	private String quizContent;
+
+	@NotNull
+	@Column(name = "quiz_is_available")
+	private Boolean quizIsAvailable;
+
+	public QuizDto toDto() {
+		return QuizDto.builder()
+			.quizId(this.quizId)
+			.quizType(this.quizType)
+			.quizContent(this.quizContent)
+			.quizIsAvailable(this.quizIsAvailable)
+			.build();
+	}
 
 }

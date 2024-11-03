@@ -1,6 +1,5 @@
 package kr.co.ttoti.backend.domain.quiz.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.co.ttoti.backend.domain.quiz.dto.QuizListGetDto;
-import kr.co.ttoti.backend.domain.quiz.service.QuizListGetService;
+import kr.co.ttoti.backend.domain.quiz.dto.QuizHistoryListGetDto;
+import kr.co.ttoti.backend.domain.quiz.service.QuizHistoryListGetService;
 import kr.co.ttoti.backend.global.dto.ResponseDto;
+import kr.co.ttoti.backend.global.exception.CustomException;
+import kr.co.ttoti.backend.global.status.ErrorCode;
 import kr.co.ttoti.backend.global.status.SuccessCode;
 import lombok.RequiredArgsConstructor;
 
@@ -19,16 +20,16 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/ttoti/ttotis")
 public class QuizListGetController {
 
-	private final QuizListGetService quizListGetService;
+	private final QuizHistoryListGetService quizHistoryListGetService;
 
 	@GetMapping("/{ttoti-id}/quiz")
-	ResponseEntity<ResponseDto<?>> getQuizList(@RequestHeader Integer memberId,
+	ResponseEntity<ResponseDto<QuizHistoryListGetDto>> getQuizList(@RequestHeader Integer memberId,
 		@PathVariable("ttoti-id") Integer ttotiId) {
 
-		QuizListGetDto result = quizListGetService.getQuizList(memberId, ttotiId);
+		QuizHistoryListGetDto result = quizHistoryListGetService.getQuizHistoryList(memberId, ttotiId);
 
-		if(result == null){
-			return ResponseEntity.ok(ResponseDto.success(SuccessCode.QUIZ_LIST_GET_SUCCESS_NO_CONTENT));
+		if (result == null) {
+			throw new CustomException(ErrorCode.QUIZ_LIST_NOT_FOUND);
 		}
 
 		return ResponseEntity.ok(ResponseDto.success(

@@ -93,5 +93,6 @@ public class Room extends BaseEntity {
 		this.roomIsStarted = true;
 		this.roomStartDate = LocalDate.now();
 		this.roomStartTime = LocalTime.now();
+		this.roomFinishDate = LocalDate.now().plusDays(this.roomPeriod);
 	}
 }
