@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
 	RoomInputContainer,
@@ -46,6 +46,14 @@ const Container = styled.div`
 	font-size: 20px;
 `;
 
+const AlertMessage = styled.div`
+	width: 215px;
+	color: ${({ theme }) => theme.colors['info']};
+	font-family: 'LINESeed';
+	font-size: 12px;
+	text-align: center;
+`;
+
 // 시간 조작 버튼 생성
 const ReversedIcon = styled(TimeAccountIcon)`
 	transform: rotate(180deg);
@@ -67,9 +75,26 @@ const MinusButton = ({
 	return <ReversedIcon onClick={onClick} />;
 };
 
-const RoomTime = () => {
-	const [hour, setHour] = useState(18);
-	const [minute, setMinute] = useState(30);
+interface RoomTimeProps {
+	formData: { RoomTime: string };
+	onInputChange: (name: 'RoomTime', value: string) => void;
+}
+const RoomTime = ({ formData, onInputChange }: RoomTimeProps) => {
+	const initialHour = formData.RoomTime
+		? parseInt(formData.RoomTime.split(':')[0])
+		: 18;
+	const initialMinute = formData.RoomTime
+		? parseInt(formData.RoomTime.split(':')[1])
+		: 30;
+
+	const [hour, setHour] = useState(initialHour);
+	const [minute, setMinute] = useState(initialMinute);
+
+	// 데이터 형식 'hh:mm:ss' 로 맞추기 위한 선언
+	const formattedTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`;
+	useEffect(() => {
+		onInputChange('RoomTime', formattedTime);
+	}, [hour, minute, onInputChange, formattedTime]);
 
 	const incrementHour = () => setHour((prev) => (prev + 1) % 24);
 	const decrementHour = () => setHour((prev) => (prev === 0 ? 23 : prev - 1));
@@ -97,6 +122,7 @@ const RoomTime = () => {
 					<MinusButton onClick={decrementMinute} />
 				</ColumnContainer>
 			</RowContainer>
+			<AlertMessage>30분 단위로 조정이 가능합니다.</AlertMessage>
 		</RoomInputContainer>
 	);
 };

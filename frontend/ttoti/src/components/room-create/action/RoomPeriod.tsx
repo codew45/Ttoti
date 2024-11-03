@@ -6,7 +6,7 @@ import {
 	RoomInputTitle,
 } from '@components/room-create/action/RoomInputCard';
 import { Slider, SliderProps } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const RowContainer = styled.div`
 	display: flex;
@@ -95,6 +95,11 @@ const CustomedSlider = styled(Slider)`
 	}
 `;
 
+interface RoomPeriodProps {
+	formData: { RoomPeriod: number };
+	onInputChange: (name: 'RoomPeriod', value: number) => void;
+}
+
 const PeriodSlider = ({
 	value,
 	onChange,
@@ -119,8 +124,13 @@ const PeriodSlider = ({
 	);
 };
 
-const RoomPeriod = () => {
-	const [period, setPeriod] = useState(7);
+const RoomPeriod = ({ formData, onInputChange }: RoomPeriodProps) => {
+	const [period, setPeriod] = useState(formData.RoomPeriod || 7);
+
+	// period가 변경될 때마다 업데이트
+	useEffect(() => {
+		onInputChange('RoomPeriod', period);
+	}, [period, onInputChange]);
 
 	const handleChange: SliderProps['onChange'] = (_, newValue) => {
 		// Mui 제공 SliderProps의 newValue 타입이 number || Array 이기 때문에 단언 선언
