@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.ttoti.backend.domain.animal.dto.AnimalDto;
 import kr.co.ttoti.backend.domain.animal.dto.AnimalSelectDto;
 import kr.co.ttoti.backend.domain.animal.entity.Animal;
 import kr.co.ttoti.backend.domain.common.Validator;
@@ -17,7 +18,7 @@ import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
 import kr.co.ttoti.backend.domain.quiz.service.QuizInsertService;
 import kr.co.ttoti.backend.domain.quiz.service.common.QuizServiceUtils;
 import kr.co.ttoti.backend.domain.room.dto.RoomMemberAnimalSelectRequest;
-import kr.co.ttoti.backend.domain.room.dto.RoomStartResponse;
+import kr.co.ttoti.backend.domain.room.dto.RoomStartDto;
 import kr.co.ttoti.backend.domain.room.dto.TtotiMatchDto;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.entity.RoomMember;
@@ -75,7 +76,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 	}
 
 	@Transactional
-	public Animal updateRoomMemberAnimal(Room room, Member member,
+	public AnimalDto updateRoomMemberAnimal(Room room, Member member,
 		RoomMemberAnimalSelectRequest roomMemberAnimalSelectRequest) {
 
 		RoomMember roomMember = validator.validateMemberRoomAuthorization(room, member);
@@ -86,10 +87,10 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 		roomMember.updateRoomMemberIsReady(true);
 		roomMemberRepository.saveAndFlush(roomMember);
 
-		return animal;
+		return animal.toDto();
 	}
 
-	public RoomStartResponse startRoom(Room room, List<RoomMember> readyRoomMemberList, RoomMember roomMember) {
+	public RoomStartDto startRoom(Room room, List<RoomMember> readyRoomMemberList, RoomMember roomMember) {
 
 		room.startRoom();
 		Integer myTtotiId = createTtoti(room, readyRoomMemberList, roomMember);
@@ -116,7 +117,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 		QuizHistoryDto todayManitiQuiz = quizServiceUtils.mapToQuizHistoryDto(
 			quizAnswerRepository.findByTtotiIdAndQuizDate(titto.getTtotiId(), LocalDate.now()));
 
-		return RoomStartResponse.builder()
+		return RoomStartDto.builder()
 			.ttotiMatchInfo(ttotiMatchDto)
 			.todayManittoQuiz(todayManittoQuiz)
 			.todayManitiQuiz(todayManitiQuiz)
@@ -131,15 +132,15 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 		Member member = validator.validateMember(memberId);
 		Room room = validator.validateRoom(roomId);
 		RoomMember roomMember = validator.validateMemberRoomAuthorization(room, member);
-		Animal animal = updateRoomMemberAnimal(room, member, roomMemberAnimalSelectRequest);
+		AnimalDto animalDto = updateRoomMemberAnimal(room, member, roomMemberAnimalSelectRequest);
 
 		List<RoomMember> readyRoomMemberList = roomMemberRepository.findByRoomAndRoomMemberIsDeletedAndRoomMemberIsReady(
 			room, false, true);
 
 		if (readyRoomMemberList.size() != room.getRoomParticipants()) {
 			return AnimalSelectDto.builder()
-				.animalName(animal.getAnimalName())
-				.animalImageUrl(animal.getAnimalImageUrl())
+				.animalName(animalDto.getAnimalName())
+				.animalImageUrl(animalDto.getAnimalImageUrl())
 				.build();
 		}
 		return startRoom(room, readyRoomMemberList, roomMember);

@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.ttoti.backend.domain.common.Validator;
+import kr.co.ttoti.backend.domain.quiz.dto.QuizDto;
 import kr.co.ttoti.backend.domain.quiz.entity.Quiz;
 import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
 import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
 import kr.co.ttoti.backend.domain.quiz.repository.QuizRepository;
-import kr.co.ttoti.backend.domain.quiz.service.common.QuizServiceUtils;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
 import kr.co.ttoti.backend.domain.ttoti.repository.TtotiRepository;
@@ -25,18 +25,17 @@ public class QuizInsertServiceImpl implements QuizInsertService {
 
 	private final QuizRepository quizRepository;
 	private final QuizAnswerRepository quizAnswerRepository;
-	private final QuizServiceUtils quizServiceUtils;
 	private final Validator validator;
 	private final TtotiRepository ttotiRepository;
 
-	public Quiz getRandomQuiz(Integer roomId) {
+	public QuizDto getRandomQuiz(Integer roomId) {
 
 		List<Integer> answeredQuizIdList = quizAnswerRepository.findByRoomId(roomId).stream()
 			.map(quizAnswer -> quizAnswer.getQuiz().getQuizId())
 			.toList();
+
 		if (answeredQuizIdList.isEmpty()) {
-			List<Quiz> allQuizList = quizRepository.findByQuizIsAvailable(true);
-			return allQuizList.get(new java.util.Random().nextInt(allQuizList.size()));
+			return getRandomQuizFromList(quizRepository.findByQuizIsAvailable(true));
 		}
 
 		List<Quiz> unAnsweredQuizList = quizRepository.findByQuizIdNotIn(answeredQuizIdList);
@@ -44,7 +43,13 @@ public class QuizInsertServiceImpl implements QuizInsertService {
 			throw new CustomException(ErrorCode.UNANSWERED_QUIZ_NOT_FOUND);
 		}
 
-		return unAnsweredQuizList.get(new java.util.Random().nextInt(unAnsweredQuizList.size()));
+		return getRandomQuizFromList(unAnsweredQuizList);
+	}
+
+	private QuizDto getRandomQuizFromList(List<Quiz> quizList) {
+		Quiz quiz = quizList.get(new java.util.Random().nextInt(quizList.size()));
+
+		return quiz.toDto();
 	}
 
 	@Transactional
@@ -52,14 +57,14 @@ public class QuizInsertServiceImpl implements QuizInsertService {
 
 		Room room = validator.validateRoom(roomId);
 
-		Quiz quiz = getRandomQuiz(roomId);
+		QuizDto quizDto = getRandomQuiz(roomId);
 		List<Ttoti> ttotiList = ttotiRepository.findByRoom(room);
 
 		for (Ttoti ttoti : ttotiList) {
 			quizAnswerRepository.save(QuizAnswer.builder()
 				.ttotiId(ttoti.getTtotiId())
 				.roomId(roomId)
-				.quiz(quiz)
+				.quiz(quizDto.toEntity())
 				.isManittoAnswered(false)
 				.isManitiAnswered(false)
 				.quizDate(LocalDate.now())

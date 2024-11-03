@@ -2,6 +2,7 @@ package kr.co.ttoti.backend.domain.animal.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import kr.co.ttoti.backend.domain.animal.dto.AnimalDto;
 import lombok.*;
 
 @Entity
@@ -31,4 +32,12 @@ public class Animal {
     @NotNull
     @Column(name = "animal_is_available")
     private Boolean animalIsAvailable;
+
+    public AnimalDto toDto(){
+        return AnimalDto.builder()
+            .animalName(this.animalName)
+            .animalImageUrl(this.getAnimalImageUrl())
+            .animalDescription(this.getAnimalDescription())
+            .build();
+    }
 }

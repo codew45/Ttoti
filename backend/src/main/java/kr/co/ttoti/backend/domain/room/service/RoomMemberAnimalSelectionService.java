@@ -2,10 +2,10 @@ package kr.co.ttoti.backend.domain.room.service;
 
 import java.util.List;
 
-import kr.co.ttoti.backend.domain.animal.entity.Animal;
+import kr.co.ttoti.backend.domain.animal.dto.AnimalDto;
 import kr.co.ttoti.backend.domain.member.entity.Member;
 import kr.co.ttoti.backend.domain.room.dto.RoomMemberAnimalSelectRequest;
-import kr.co.ttoti.backend.domain.room.dto.RoomStartResponse;
+import kr.co.ttoti.backend.domain.room.dto.RoomStartDto;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 
@@ -31,7 +31,7 @@ public interface RoomMemberAnimalSelectionService {
 	 * @param roomMemberAnimalSelectRequest
 	 * @return
 	 */
-	Animal updateRoomMemberAnimal(Room room, Member member,
+	AnimalDto updateRoomMemberAnimal(Room room, Member member,
 		RoomMemberAnimalSelectRequest roomMemberAnimalSelectRequest);
 
 	/**
@@ -43,7 +43,7 @@ public interface RoomMemberAnimalSelectionService {
 	 * @param roomMember
 	 * @return
 	 */
-	RoomStartResponse startRoom(Room room, List<RoomMember> readyRoomMemberList, RoomMember roomMember);
+	RoomStartDto startRoom(Room room, List<RoomMember> readyRoomMemberList, RoomMember roomMember);
 
 	/**
 	 * 랜덤으로 마니또를 매칭한다.
