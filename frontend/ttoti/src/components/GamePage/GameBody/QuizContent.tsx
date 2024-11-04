@@ -3,6 +3,14 @@ import React from 'react';
 import styled from 'styled-components';
 import ToggleIcon from '@assets/icons/toggle.svg?react';
 import CarouselContainer from './CarouselContainer'; // 새로 분리한 CarouselContainer import
+import QuizBody from './QuizBody';
+import { QuizData } from "src/types/QuizTypes"; // QuizData 타입 import
+
+interface QuizContentProps {
+  page: number;
+  togglePage: (direction: 'next' | 'prev') => void;
+  quizData: QuizData | null;
+}
 
 const BodyWrapper = styled.div`
   display: flex;
@@ -23,12 +31,6 @@ const SelectContainer = styled.div`
 const QuizContainer = styled.div`
   width: 280px;
   height: 320px;
-  background-color: gray;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  color: white;
 `;
 
 const IconButton = styled.button<{ $isLeft?: boolean }>`
@@ -38,25 +40,21 @@ const IconButton = styled.button<{ $isLeft?: boolean }>`
   transform: ${(props) => (props.$isLeft ? 'rotate(180deg)' : 'none')};
 `;
 
-interface QuizContentProps {
-  page: number;
-  togglePage: (direction: 'next' | 'prev') => void;
-}
 
-const QuizContent: React.FC<QuizContentProps> = ({ page, togglePage }) => {
+const QuizContent: React.FC<QuizContentProps> = ({ page, togglePage, quizData }) => {
   return (
     <BodyWrapper>
       <SelectContainer>
         <IconButton $isLeft onClick={() => togglePage('prev')}>
           <ToggleIcon />
         </IconButton>
-        <CarouselContainer page={page} /> {/* 분리한 CarouselContainer 사용 */}
+          <CarouselContainer page={page} /> {/* 분리한 CarouselContainer 사용 */}
         <IconButton onClick={() => togglePage('next')}>
           <ToggleIcon />
         </IconButton>
       </SelectContainer>
       <QuizContainer>
-        {page === 0 ? '마니또' : '마니띠'}
+        <QuizBody page={page} quizData={quizData} />
       </QuizContainer>
     </BodyWrapper>
   );

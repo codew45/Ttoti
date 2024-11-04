@@ -8,6 +8,7 @@ import { FormData } from 'src/types/InputForm';
 import CloseIcon from '@assets/icons/close.svg?react';
 import ToggleIcon from '@assets/icons/toggle.svg?react';
 import ToggleActiveIcon from '@assets/icons/toggle_active.svg?react';
+import { useNavigate } from 'react-router-dom';
 
 const CreateCardBox = styled.div`
 	display: flex;
@@ -27,6 +28,10 @@ const CloseDiv = styled.div`
 	margin-bottom: 10px;
 `;
 
+const Close = styled(CloseIcon)`
+	cursor: pointer;
+`;
+
 const CreateContainer = styled.div`
 	display: flex;
 	flex-direction: row;
@@ -35,11 +40,16 @@ const CreateContainer = styled.div`
 	width: 280px;
 `;
 
+const Active = styled(ToggleActiveIcon)`
+	cursor: pointer;
+`;
+
 const RotatedInactive = styled(ToggleIcon)`
 	transform: rotate(180deg);
 `;
 const RotatedActive = styled(ToggleActiveIcon)`
 	transform: rotate(180deg);
+	cursor: pointer;
 `;
 
 const ErrorMessage = styled.div`
@@ -72,7 +82,7 @@ const RightButton = ({
 	return currentIndex === createComponents.length - 1 ? (
 		<ToggleIcon />
 	) : (
-		<ToggleActiveIcon onClick={onClick} />
+		<Active onClick={onClick} />
 	);
 };
 
@@ -81,6 +91,12 @@ const CreateCard = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	const [error, setError] = useState('');
+
+	const navigate = useNavigate();
+
+	const handleCloseClick = () => {
+		navigate('/');
+	};
 
 	// 입력 데이터 초기화
 
@@ -131,7 +147,7 @@ const CreateCard = () => {
 	return (
 		<CreateCardBox>
 			<CloseDiv>
-				<CloseIcon />
+				<Close onClick={handleCloseClick} />
 			</CloseDiv>
 			<CreateContainer>
 				<LeftButton onClick={handlePrevious} currentIndex={currentIndex} />

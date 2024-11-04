@@ -9,9 +9,8 @@ const MainWrapper = styled.div`
 	justify-content: center;
 	align-items: center;
 	gap: 10px;
-
 	position: absolute;
-	top: 365px;
+	top: 340px;
 `;
 const MainColumn = styled.div`
 	display: flex;

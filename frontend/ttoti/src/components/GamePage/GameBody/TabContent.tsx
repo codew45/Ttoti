@@ -2,8 +2,13 @@
 import React, { useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import QuizContent from './QuizContent';
-import ManitoContent from './ManitoContent';
-import ManitiContent from './ManitiContent';
+import ChatContent from './ChatContent';
+import { QuizData } from "src/types/QuizTypes"; // QuizData 타입 import
+
+interface TabContentProps {
+  activeTab: string;
+  quizData: QuizData | null;
+}
 
 const ContentContainer = styled.div<{ $backgroundColor: string }>`
   width: 100%;
@@ -16,11 +21,8 @@ const ContentContainer = styled.div<{ $backgroundColor: string }>`
   color: white;
 `;
 
-interface TabContentProps {
-  activeTab: string;
-}
 
-const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
+const TabContent: React.FC<TabContentProps> = ({ activeTab, quizData }) => {
   const theme = useTheme();
   const [page, setPage] = useState(0); // 상태를 TabContent에서 관리
 
@@ -47,9 +49,9 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
 
   return (
     <ContentContainer $backgroundColor={backgroundColor}>
-      {activeTab === 'quiz' && <QuizContent page={page} togglePage={togglePage} />} {/* props로 상태 전달 */}
-      {activeTab === 'manito' && <ManitoContent />}
-      {activeTab === 'maniti' && <ManitiContent />}
+      {activeTab === 'quiz' && <QuizContent page={page} togglePage={togglePage} quizData={quizData} />} {/* props로 상태 전달 */}
+      {activeTab === 'manito' && <ChatContent target="manito" />}
+      {activeTab === 'maniti' && <ChatContent target="maniti" />}
     </ContentContainer>
   );
 };
