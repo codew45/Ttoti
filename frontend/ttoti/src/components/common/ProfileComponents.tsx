@@ -30,7 +30,7 @@ const ReadyIcon = styled.img`
   /* transform: translate(-50%, -50%); */
 `;
 
-interface ProfileContainerProps {
+export interface ProfileContainerProps {
   src: string;
   size: string;
   ready: boolean;
