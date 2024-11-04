@@ -6,6 +6,10 @@ import kr.co.ttoti.backend.domain.animal.entity.Animal;
 import kr.co.ttoti.backend.domain.animal.repository.AnimalRepository;
 import kr.co.ttoti.backend.domain.member.entity.Member;
 import kr.co.ttoti.backend.domain.member.repository.MemberRepository;
+import kr.co.ttoti.backend.domain.quiz.entity.Quiz;
+import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
+import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
+import kr.co.ttoti.backend.domain.quiz.repository.QuizRepository;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
@@ -25,6 +29,8 @@ public class Validator {
 	private final RoomRepository roomRepository;
 	private final RoomMemberRepository roomMemberRepository;
 	private final AnimalRepository animalRepository;
+	private final QuizRepository quizRepository;
+	private final QuizAnswerRepository quizAnswerRepository;
 
 	public Member validateMember(Integer memberId) {
 		return memberRepository.findById(memberId)
@@ -50,10 +56,33 @@ public class Validator {
 				() -> new CustomException(ErrorCode.TTOTI_NOT_FOUND));
 	}
 
+	public Ttoti validateManittoByTtotiIdAndMember(Integer ttotiId, Member member) {
+		return ttotiRepository.findByTtotiIdAndMember(ttotiId, member).orElseThrow(
+			() -> new CustomException(ErrorCode.TTOTI_INVALID_MANITTO)
+		);
+	}
+
+	public Ttoti validateManittoByTtotiIdAndManitiId(Integer ttotiId, Integer manitiId) {
+		return ttotiRepository.findByTtotiIdAndManitiId(ttotiId, manitiId).orElseThrow(
+			() -> new CustomException(ErrorCode.TTOTI_INVALID_MANITI)
+		);
+	}
+
 	public Animal validateAnimal(Integer animalId) {
 		return animalRepository.findByAnimalIsAvailableAndAnimalId(true, animalId)
 			.orElseThrow(() -> new CustomException(ErrorCode.ANIMAL_NOT_AVAILABLE));
 
+	}
+
+	public Quiz validateQuizAvailability(Integer quizId, Boolean quizIsAvailable) {
+		return quizRepository.findByQuizIdAndQuizIsAvailable(quizId, quizIsAvailable).orElseThrow(
+			() -> new CustomException(ErrorCode.QUIZ_NOT_FOUND));
+	}
+
+	public QuizAnswer validateQuizAnswerByTtotiIdAndQuiz(Integer ttotiId, Quiz quiz) {
+		return quizAnswerRepository.findByTtotiIdAndQuiz(ttotiId, quiz).orElseThrow(
+			() -> new CustomException(ErrorCode.QUIZ_NOT_FOUND)
+		);
 	}
 
 }
