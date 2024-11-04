@@ -1,6 +1,81 @@
 // QuizContent.stories.tsx
 import { Meta, StoryFn } from '@storybook/react';
 import QuizContent from '@components/GamePage/GameBody/QuizContent';
+import { QuizData } from 'src/types/QuizTypes'; // QuizData 타입 import
+
+// Mock data for quizData
+const mockQuizData: QuizData = {
+  manittoQuizList: [
+    {
+      ttotiId: 1,
+      quizDate: "2024-11-01",
+      quizChoiceContent: "약 먹을 때 먼저 먹는 것은?",
+      quizType: "TWO_CHOICE",
+      quizChoiceMap: {
+        "1": "약",
+        "2": "물",
+      },
+      isManittoAnswered: true,
+      manittoAnswer: 1,
+      isManitiAnswered: true,
+      manitiAnswer: 2,
+      quizAnswerIsCorrect: false,
+    },
+    // 추가 데이터...
+  ],
+  manitiQuizList: [
+    {
+      ttotiId: 8,
+      quizDate: "2024-11-01",
+      quizChoiceContent: "약 먹을 때 먼저 먹는 것은?",
+      quizType: "TWO_CHOICE",
+      quizChoiceMap: {
+        "1": "약",
+        "2": "물",
+      },
+      isManittoAnswered: true,
+      manittoAnswer: 1,
+      isManitiAnswered: true,
+      manitiAnswer: 1,
+      quizAnswerIsCorrect: true,
+    },
+    // 추가 데이터...
+  ],
+  todayManittoQuiz: {
+    ttotiId: 1,
+    quizDate: "2024-11-02",
+    quizChoiceContent: "영화를 같이 보러 가는 사람은?",
+    quizType: "FOUR_CHOICE",
+    quizChoiceMap: {
+      "1": "친구",
+      "2": "가족",
+      "3": "연인",
+      "4": "혼자",
+    },
+    isManittoAnswered: false,
+    manittoAnswer: null,
+    isManitiAnswered: false,
+    manitiAnswer: null,
+    quizAnswerIsCorrect: false,
+  },
+  todayManitiQuiz: {
+    ttotiId: 8,
+    quizDate: "2024-11-02",
+    quizChoiceContent: "영화를 같이 보러 가는 사람은?",
+    quizType: "FOUR_CHOICE",
+    quizChoiceMap: {
+      "1": "친구",
+      "2": "가족",
+      "3": "연인",
+      "4": "혼자",
+    },
+    isManittoAnswered: false,
+    manittoAnswer: null,
+    isManitiAnswered: false,
+    manitiAnswer: null,
+    quizAnswerIsCorrect: false,
+  },
+};
 
 const meta: Meta<typeof QuizContent> = {
   title: 'Quiz/QuizContent',
@@ -12,6 +87,7 @@ export default meta;
 interface QuizContentProps {
   page: number;
   togglePage: (direction: 'next' | 'prev') => void;
+  quizData: QuizData; // quizData 추가
 }
 
 // Template 생성
@@ -22,16 +98,16 @@ export const Default = Template.bind({});
 Default.args = {
   page: 0,
   togglePage: (direction: 'next' | 'prev') => {
-    // 페이지를 토글하는 간단한 로직
     console.log(`Toggle to ${direction}`);
   },
+  quizData: mockQuizData, // quizData props 추가
 };
 
 export const AnotherExample = Template.bind({});
 AnotherExample.args = {
   page: 1,
   togglePage: (direction: 'next' | 'prev') => {
-    // 페이지를 토글하는 간단한 로직
     console.log(`Toggle to ${direction}`);
   },
+  quizData: mockQuizData, // quizData props 추가
 };
