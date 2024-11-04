@@ -55,7 +55,7 @@ public class QuizAnswer extends BaseEntity {
 	private Integer manittoAnswer;
 
 	@Column(name = "manitto_answer_at")
-	private LocalDate manittoAnswerAt;
+	private LocalDateTime manittoAnswerAt;
 
 	@NotNull
 	@Column(name = "is_maniti_answered")
@@ -75,4 +75,19 @@ public class QuizAnswer extends BaseEntity {
 	@Column(name = "quiz_answer_is_correct")
 	private Boolean quizAnswerIsCorrect;
 
+	public void updateManittoQuizAnswer(Integer manittoAnswer) {
+		this.isManittoAnswered = true;
+		this.manittoAnswer = manittoAnswer;
+		this.manittoAnswerAt = LocalDateTime.now();
+	}
+
+	public void updateManitiQuizAnswer(Integer manitiAnswer) {
+		this.isManitiAnswered = true;
+		this.manitiAnswer = manitiAnswer;
+		this.manitiAnswerAt = LocalDateTime.now();
+	}
+
+	public void updateQuizAnswerIsCorrect() {
+		this.quizAnswerIsCorrect = true;
+	}
 }
