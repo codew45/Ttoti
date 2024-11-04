@@ -1,6 +1,7 @@
 // CharacterSelectPage.tsx
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import monkey from '@assets/characters/Monkey_portrait.png';
 import owl from '@assets/characters/Owl_portrait.png';
 import porcupine from '@assets/characters/Porcupine_portrait.png';
@@ -140,6 +141,7 @@ const SelectText = styled.p`
 
 const CharacterSelectPage: React.FC = () => {
   const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   const characters = [
     { image: monkey, name: '원숭이', description: '안녕, 나는 원숭이 캐릭터야 우꺄!' },
@@ -154,6 +156,10 @@ const CharacterSelectPage: React.FC = () => {
 
   const handleCardClick = (index: number) => {
     setSelectedCardIndex(index);
+  };
+
+  const handleRetryButtonClick = () => {
+    navigate('/game-waiting');
   };
 
   return (
@@ -181,7 +187,7 @@ const CharacterSelectPage: React.FC = () => {
           ))}
         </ListContainer>
         <FooterContainer>
-          <SelectButton>
+          <SelectButton onClick={handleRetryButtonClick}>
             <SelectText>선택완료</SelectText>
           </SelectButton>
         </FooterContainer>
