@@ -50,9 +50,14 @@ public enum ErrorCode {
     //quiz
     QUIZ_LIST_NOT_FOUND(404, "오늘의 퀴즈와 퀴즈 이력이 없습니다."),
     UNANSWERED_QUIZ_NOT_FOUND(404, "새롭게 낼 퀴즈가 존재하지 않습니다"),
+    QUIZ_NOT_FOUND(404, "퀴즈가 존재하지 않거나, 사용할 수 없는 퀴즈입니다"),
+    QUIZ_ANSWER_NOT_FOUND(404, "응답할 수 있는 퀴즈가 아닙니다"),
 
     //ttoti
     TTOTI_NOT_FOUND(404, "또띠관계가 존재하지 않습니다."),
+    TTOTI_INVALID_MANITTO(400, "해당 또띠관계의 마니또가 아닙니다."),
+    TTOTI_INVALID_MANITI(400,"해당 또띠관계의 마니띠가 아닙니다.")
+
     ;
 
     private final int httpStatus;
