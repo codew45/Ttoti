@@ -21,6 +21,7 @@ public enum SuccessCode {
 
     QUIZ_LIST_GET_SUCCESS(200, "퀴즈 목록 조회 성공"),
     QUIZ_LIST_GET_SUCCESS_NO_CONTENT(200, "퀴즈 목록 조회에 성공했으나 데이터가 존재하지 않습니다"),
+    QUIZ_ANSWER_SUCCESS(200, "퀴즈 응답 처리 성공"),
 
     ;
 
