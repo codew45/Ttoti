@@ -31,7 +31,7 @@ const RoomTitle = () => {
   return (
     <RoomBox>
       <FirstLine>정진영의</FirstLine>
-      <SecondLine>99NULL뛰기</SecondLine>
+      <SecondLine>99NULL</SecondLine>
     </RoomBox>
   );
 };
