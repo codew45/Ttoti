@@ -5,6 +5,7 @@ import {
 	ButtonContainer,
 } from '@components/common/modals/ModalCard';
 import Check from '@assets/icons/check.svg?react';
+import { useNavigate } from 'react-router-dom';
 
 const ContentWrapper = styled.div`
 	display: flex;
@@ -66,6 +67,14 @@ export const MainModal = () => {
 	const buttonColor2 = 'background';
 	const buttonText2 = '닫기';
 
+	const navigate = useNavigate();
+	const handleMypage = () => {
+		navigate('/mypage');
+	};
+
+	const handleClose = () => {
+		console.log('모달 close를 연결해 주세요.');
+	};
 	return (
 		<Modal>
 			<TopContainer>
@@ -76,8 +85,10 @@ export const MainModal = () => {
 				explainText={explainText}
 				buttonColor1={buttonColor1}
 				buttonText1={buttonText1}
+				onClick1={handleMypage}
 				buttonColor2={buttonColor2}
 				buttonText2={buttonText2}
+				onClick2={handleClose}
 			/>
 		</Modal>
 	);

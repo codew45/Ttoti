@@ -35,15 +35,21 @@ const GoButton = styled(GameButtons)`
 	width: 165px;
 `;
 
-const RoomInviteCard = () => {
+interface RoomEnterProps {
+	onEnterClick: () => void;
+}
+
+const RoomEnterCard = ({ onEnterClick }: RoomEnterProps) => {
 	return (
 		<RoomInfoWrapper>
 			<ColumnContainer>
 				<ExplainText>초대 코드를 입력해주세요!</ExplainText>
-				<GoButton color="info">초대 코드로 입장</GoButton>
+				<GoButton color="info" onClick={onEnterClick}>
+					초대 코드로 입장
+				</GoButton>
 			</ColumnContainer>
 		</RoomInfoWrapper>
 	);
 };
 
-export default RoomInviteCard;
+export default RoomEnterCard;

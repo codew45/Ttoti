@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
 import { RoomCardProps } from 'src/types/RoomData';
 import ActiveAlarmIcon from '@assets/icons/active_alarm.svg?react';
 import InactiveAlarmIcon from '@assets/icons/inactive_alarm.svg?react';
@@ -55,18 +57,34 @@ const GoButton = styled(GameButtons)`
 // 알림 상태 확인 후 아이콘 변경
 interface NotificationProps {
 	status: boolean;
+	onClick: () => void;
 }
-const Notification = ({ status }: NotificationProps) => {
+const Notification = ({ status, onClick }: NotificationProps) => {
 	const alarmIcon =
 		status === true ? <ActiveAlarmIcon /> : <InactiveAlarmIcon />;
-	return <NotificationBox>{alarmIcon}</NotificationBox>;
+	return <NotificationBox onClick={onClick}>{alarmIcon}</NotificationBox>;
 };
 
-const RoomCard = ({ room }: RoomCardProps) => {
+interface RoomCardWithModalProps extends RoomCardProps {
+	onNotificationClick: () => void;
+}
+const RoomCard = ({ room, onNotificationClick }: RoomCardWithModalProps) => {
+	// 디버깅을 위한 콘솔 작성
 	console.log(room);
+	const navigate = useNavigate();
+	const handleEnter = (status: boolean) => {
+		if (status) {
+			navigate('/game');
+		} else {
+			navigate('/game-waiting');
+		}
+	};
 	return (
 		<RoomInfoWrapper>
-			<Notification status={room.hasUnreadNotifications} />
+			<Notification
+				status={room.hasUnreadNotifications}
+				onClick={onNotificationClick}
+			/>
 			{room.finishedAt ? (
 				<DateBox color="main">{room.finishedAt}</DateBox>
 			) : (
@@ -78,7 +96,12 @@ const RoomCard = ({ room }: RoomCardProps) => {
 				currentParticipants={room.currentParticipants}
 				imageURL={room.memberProfileImageUrl}
 			/>
-			<GoButton color="success">입장</GoButton>
+			<GoButton
+				color="success"
+				onClick={() => handleEnter(room.isRoomInProgress)}
+			>
+				입장
+			</GoButton>
 		</RoomInfoWrapper>
 	);
 };

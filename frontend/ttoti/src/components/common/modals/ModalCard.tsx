@@ -67,17 +67,21 @@ export const ButtonContainer = ({
 	explainText,
 	buttonColor1,
 	buttonText1,
+	onClick1,
 	buttonColor2,
 	buttonText2,
+	onClick2,
 }: ModalButtonProps) => {
 	return (
 		<ButtonWrapper>
 			<ExplainText>{explainText}</ExplainText>
-			<DefaultButtons color={buttonColor1}>
+			<DefaultButtons color={buttonColor1} onClick={onClick1}>
 				{buttonColor1 === 'login' && <Kakao />}
 				{buttonText1}
 			</DefaultButtons>
-			<DefaultButtons color={buttonColor2}>{buttonText2}</DefaultButtons>
+			<DefaultButtons color={buttonColor2} onClick={onClick2}>
+				{buttonText2}
+			</DefaultButtons>
 		</ButtonWrapper>
 	);
 };

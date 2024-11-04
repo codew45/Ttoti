@@ -71,7 +71,11 @@ const NotificationList = ({ title, content }: NotificationProps) => {
 	);
 };
 
-const NotificationModal = () => {
+interface NotificationModalProps {
+	onClose: () => void;
+}
+
+const NotificationModal = ({ onClose }: NotificationModalProps) => {
 	const subtitleText = '또띠 알림함';
 	const titleText = '읽지 않은 알림을 확인해주세요!';
 
@@ -79,7 +83,7 @@ const NotificationModal = () => {
 		<Modal>
 			<NotificationTop>
 				<ModalTitle titleText={titleText} subtitleText={subtitleText} />
-				<CloseIcon />
+				<CloseIcon onClick={onClose} />
 			</NotificationTop>
 			<NotificationList
 				title="게임 시작"
