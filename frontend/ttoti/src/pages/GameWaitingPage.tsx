@@ -1,6 +1,7 @@
 // GameWaitingPage.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import profile1 from '@assets/profiles/profile1.png';
 import profile2 from '@assets/profiles/profile2.png';
 import profile3 from '@assets/profiles/profile3.png';
@@ -11,6 +12,7 @@ import profile7 from '@assets/profiles/profile7.png';
 import profile8 from '@assets/profiles/profile8.png';
 import refreshIcon from '@assets/profiles/refreshIcon.png';
 import addMemberIcon from '@assets/profiles/addMemberIcon.png';
+import monkey from '@assets/characters/Monkey_pixcel.png';
 import ProfileContainer from '@components/common/ProfileComponents';
 
 const ModalContainer = styled.div`
@@ -21,11 +23,13 @@ const ModalContainer = styled.div`
   height: 395px;
   background-color: white;
   border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  position: absolute;             // 절대 위치 지정
-  left: 50%;                     // 가로 중앙 정렬
-  top: 120px;                    // 상단에서 152px 떨어짐
-  transform: translateX(-50%);   // 중앙 정렬을 위한 트랜스폼
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  left: 50%;
+  /* top: 120px;
+  transform: translateX(-50%); */
+  top: 50%;
+  transform: translate(-50%, -65%);
 `;
 
 const HeaderContainer = styled.div`
@@ -153,15 +157,23 @@ const ParticipantName = styled.div`
   font-weight: 300;
 `;
 
+const FooterContainer = styled.footer`
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
+`
+
 const NextButtonInfo = styled.div`
-margin-top: 20px;
   font-family: 'LINESeed';
   font-size: 16px;
   font-weight: 300;
 `
 
 const NextButton = styled.button`
-  margin-top: 10px;
   padding: 10px;
   width: 115px;
   height: 35px;
@@ -175,9 +187,63 @@ const NextButton = styled.button`
   cursor: pointer;
 `;
 
+const SelectedContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 228px;
+  height: 74px;
+  gap: 31px;
+`
+
+const CharacterImage = styled.img`
+  padding-left: 8px;
+  padding-right: 8px;
+`
+
+const SelectedTextBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 110px;
+`
+
+const CompleteText = styled.p`
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-family: 'GmarketSans';
+  font-size: 24px;
+  font-weight: bold;
+  color: #67c431;
+`
+
+const ToggleButton = styled.button`
+  align-self: center;
+  margin-top: 5px;
+  padding: 8px;
+  width: 90px;
+  height: 30px;
+  font-family: 'GmarketSans';
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #ff6430;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+`;
+
 const Modal: React.FC<{ participants: { name: string; imgSrc: string; $ready: boolean; }[] }> = ({ participants }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOverflow, setIsOverflow] = useState(false);
+  const [showNextButton, setShowNextButton] = useState(true);
+  const navigate = useNavigate();
+
+  const handleNextButtonClick = () => {
+    setShowNextButton(false);
+  };
+
+  const handleRetryButtonClick = () => {
+    navigate('/character-select');
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -224,8 +290,24 @@ const Modal: React.FC<{ participants: { name: string; imgSrc: string; $ready: bo
         ))}
         <ParticipantBlank></ParticipantBlank>
       </ParticipantsContainer>
-      <NextButtonInfo>캐릭터 선택으로 이동할까요?</NextButtonInfo>
-      <NextButton>다음</NextButton>
+      <FooterContainer>
+        {showNextButton ? (
+          <>
+            <NextButtonInfo>캐릭터 선택으로 이동할까요?</NextButtonInfo>
+            <NextButton onClick={handleNextButtonClick}>다음</NextButton>
+          </>
+        ) : (
+          <>
+            <SelectedContainer>
+              <CharacterImage src={monkey} alt="monkey" />
+              <SelectedTextBox>
+                <CompleteText>선택 완료!</CompleteText>
+                <ToggleButton onClick={handleRetryButtonClick}>다시 선택</ToggleButton>
+              </SelectedTextBox>
+            </SelectedContainer>
+          </>
+        )}
+      </FooterContainer>
     </ModalContainer>
   );
 };
