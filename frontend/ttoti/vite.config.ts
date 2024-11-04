@@ -13,6 +13,7 @@ export default defineConfig({
 			manifest: {
 				name: 'ttoti Projcet',
 				short_name: 'ttoti',
+				"theme_color": "#ffffff",
 				// 파일 세팅 초기화
 				// includeAssets: [],
 				// 현재 아이콘이 없기 때문에 임시 주석 처리

@@ -1,255 +1,193 @@
 // HoseaKim.tsx
-import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
-import profile1 from '@assets/profiles/profile1.png';
-import profile2 from '@assets/profiles/profile2.png';
-import profile3 from '@assets/profiles/profile3.png';
-import profile4 from '@assets/profiles/profile4.png';
-import profile5 from '@assets/profiles/profile5.png';
-import profile6 from '@assets/profiles/profile6.png';
-import profile7 from '@assets/profiles/profile7.png';
-import profile8 from '@assets/profiles/profile8.png';
-import refreshIcon from '@assets/profiles/refreshIcon.png';
-import addMemberIcon from '@assets/profiles/addMemberIcon.png';
-import ProfileContainer from '@components/common/ProfileComponents';
-
-const ModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 310px;
-  height: 395px;
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  position: absolute;             // 절대 위치 지정
-  left: 50%;                     // 가로 중앙 정렬
-  top: 120px;                    // 상단에서 152px 떨어짐
-  transform: translateX(-50%);   // 중앙 정렬을 위한 트랜스폼
-`;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 30px;
-  width: 250px;
-  height: 80px;
-  background-color: #90D4B9;
-  border-radius: 9px;
-`;
-
-const HeaderContent = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-left: 15px;
-  margin-right: 15px;
-  width: auto;
-  height: 70px;
-`
-
-const HeaderText = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  margin-left: 15px;
-`
-
-const HostName = styled.div`
-  font-family: 'GmarketSans';
-  font-size: 14px;
-  font-weight: 300;
-`
-
-const RoomName = styled.div`
-  font-family: 'GmarketSans';
-  font-size: 24px;
-  font-weight: normal;
-`
-
-const RoomInfo = styled.div`
-  margin-top: 50px;
-  margin-left: 3px;
-  font-family: 'GmarketSans';
-  font-size: 12px;
-  font-weight: Bold;
-  color: #90D4B9;
-  text-align: center;
-  line-height: 21px;
-  width: 17.5px;
-  height: 17.5px;
-  background-color: white;
-  border-radius: 50%;
-`
-
-const SubText = styled.div`
-  margin-top: 10px;
-  font-family: 'LINESeed';
-  font-size: 16px;
-  font-weight: 300;
-`;
-
-const ParticipantToolbar = styled.div`
-  margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  height: 27px;
-`
-
-const RefreshIcon = styled.img`
-  margin-left: 11px;
-  width: 19px;
-  height: 19px;
-`
-
-const MemberToolContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5px;
-`
-
-const MemberNumText = styled.div`
-  display: flex;
-  height: 16px;
-  font-family: 'LINESeed';
-  font-size: 16px;
-  font-weight: 300;
-`
-
-const AddMemberIcon = styled.img`
-  width: 19px;
-  height: 19px;
-  margin-right: 10px;
-`
-
-const ParticipantsContainer = styled.div<{ $isOverflow: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: ${({ $isOverflow }) => ($isOverflow ? 'flex-start' : 'center')};
-  width: 100%;
-  height: 100px;
-  overflow-x: auto;
-  white-space: nowrap;
-  gap: 10px;
-  background-color: #E1E9EF;
-`;
-
-const ParticipantBlank = styled.div`
-  width: 12px;
-  height: auto;
-`
-
-const Participant = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ParticipantName = styled.div`
-  margin-top: 5px;
-  font-family: 'SB어그로';
-  font-size: 12px;
-  font-weight: 300;
-`;
-
-// const FooterContainer = styled.div`
-//   display: flex;
-// `
-
-const NextButtonInfo = styled.div`
-margin-top: 20px;
-  font-family: 'LINESeed';
-  font-size: 16px;
-  font-weight: 300;
-`
-
-const NextButton = styled.button`
-  margin-top: 10px;
-  padding: 10px;
-  width: 115px;
-  height: 35px;
-  font-family: 'GmarketSans';
-  font-size: 16px;
-  font-weight: bold;
-  background-color: #1B95EC;
-  color: white;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-`;
-
-const Modal: React.FC<{ participants: { name: string; imgSrc: string; $ready: boolean; }[] }> = ({ participants }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isOverflow, setIsOverflow] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const container = containerRef.current;
-      if (container && container.scrollWidth > container.clientWidth) {
-        setIsOverflow(true);
-      } else {
-        setIsOverflow(false);
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [participants]);
-
-  return (
-    <ModalContainer>
-      <HeaderContainer>
-        <HeaderContent>
-          <ProfileContainer size="70px" src={profile1} ready={false} />
-          <HeaderText>
-            <HostName>정진영님의</HostName>
-            <RoomName>99NULL</RoomName>
-          </HeaderText>
-        </HeaderContent>
-        <RoomInfo>i</RoomInfo>
-      </HeaderContainer>
-      <SubText>또띠에 참여하였습니다!</SubText>
-      <ParticipantToolbar>
-        <RefreshIcon src={refreshIcon} alt='refreshIcon' />
-        <MemberToolContainer>
-          <MemberNumText>8 / 8</MemberNumText>
-          <AddMemberIcon src={addMemberIcon} alt='addMemberIcon' />
-        </MemberToolContainer>
-      </ParticipantToolbar>
-      <ParticipantsContainer ref={containerRef} $isOverflow={isOverflow}>
-        <ParticipantBlank></ParticipantBlank>
-        {participants.map((participant, index) => (
-          <Participant key={index}>
-            <ProfileContainer size="70px" src={participant.imgSrc} ready={participant.$ready} />
-            <ParticipantName>{participant.name}</ParticipantName>
-          </Participant>
-        ))}
-        <ParticipantBlank></ParticipantBlank>
-      </ParticipantsContainer>
-      <NextButtonInfo>캐릭터 선택으로 이동할까요?</NextButtonInfo>
-      <NextButton>다음</NextButton>
-    </ModalContainer>
-  );
-};
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
+import monkey from '@assets/characters/Monkey_portrait.png';
+import owl from '@assets/characters/Owl_portrait.png';
+import porcupine from '@assets/characters/Porcupine_portrait.png';
+import rabbit from '@assets/characters/Rabbit_portrait.png';
 
 const HoseaKim: React.FC = () => {
+  const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null);
 
-  const participants = [
-    { name: '정진영', imgSrc: profile1, $ready: true },
-    { name: '서지민', imgSrc: profile2, $ready: false },
-    { name: '김호진', imgSrc: profile3, $ready: false },
-    { name: '권재현', imgSrc: profile4, $ready: false },
-    { name: '채이슬', imgSrc: profile5, $ready: false },
-    { name: '이상무', imgSrc: profile6, $ready: false },
-    { name: '아쿠아', imgSrc: profile7, $ready: false },
-    { name: '토오사카', imgSrc: profile8, $ready: false },
+  const characters = [
+    { image: monkey, name: '원숭이', description: '안녕, 나는 원숭이 캐릭터야 우꺄!' },
+    { image: porcupine, name: '고슴도치', description: '안녕, 나는 고슴도치 캐릭터야 도치!' },
+    { image: owl, name: '부엉이', description: '안녕, 나는 부엉이 캐릭터야 부엉!' },
+    { image: rabbit, name: '토끼', description: '안녕, 나는 토끼 캐릭터야 총총!' },
+    { image: monkey, name: '원숭이', description: '안녕, 나는 원숭이 캐릭터야 우꺄!' },
+    { image: porcupine, name: '고슴도치', description: '안녕, 나는 고슴도치 캐릭터야 도치!' },
+    { image: owl, name: '부엉이', description: '안녕, 나는 부엉이 캐릭터야 부엉!' },
+    { image: rabbit, name: '토끼', description: '안녕, 나는 토끼 캐릭터야 총총!' }
   ];
 
+  const handleCardClick = (index: number) => {
+    setSelectedCardIndex(index);
+  };
+
   return (
-    <Modal participants={participants} />
+    <PageContainer>
+      <Overlay />
+      <ModalContatiner>
+        <TitleContainer>
+          <TitleText>캐릭터 선택</TitleText>
+        </TitleContainer>
+        <ListContainer>
+          {characters.map((character, index) => (
+            <Card
+              key={index}
+              onClick={() => handleCardClick(index)}
+              $highlighted={selectedCardIndex === index}
+            >
+              <ImageBox>
+                <CharacterImage src={character.image} alt={character.name} />
+              </ImageBox>
+              <CharacterText>
+                <Name>{character.name}</Name>
+                <Description>{character.description}</Description>
+              </CharacterText>
+            </Card>
+          ))}
+        </ListContainer>
+        <FooterContainer>
+          <SelectButton>
+            <SelectText>선택완료</SelectText>
+          </SelectButton>
+        </FooterContainer>
+      </ModalContatiner>
+    </PageContainer>
   );
 };
 
 export default HoseaKim;
+
+const PageContainer = styled.div`
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+`;
+
+const Overlay = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+`;
+
+const ModalContatiner = styled.div`
+  display: grid;
+  grid-template-rows: 130px 1fr 130px;
+  position: relative;
+  width: 100vw;
+  max-width: 422px;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 130px;
+  box-sizing: border-box;
+  border-bottom: 1px solid white;
+`;
+
+const TitleText = styled.h1`
+  height: 48px;
+  font-family: 'SB어그로';
+  font-size: 48px;
+  font-weight: bold;
+`;
+
+const ListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  white-space: nowrap;
+`;
+
+interface CardProps {
+  $highlighted: boolean;
+}
+
+const Card = styled.div<CardProps>`
+  display: flex;
+  flex-direction: row;
+  height: 130px;
+  box-sizing: border-box;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  ${({ $highlighted }) =>
+    $highlighted &&
+    css`
+      background-color: rgba(255, 255, 255, 0.2);
+    `}
+`;
+
+const ImageBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  height: 130px;
+`;
+
+const CharacterImage = styled.img`
+  margin-right: 8px;
+`;
+
+const CharacterText = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const Name = styled.h2`
+  line-height: 0px;
+  font-family: 'GmarketSans';
+  font-size: 24px;
+  font-weight: normal;
+`;
+
+const Description = styled.p`
+  font-family: 'LINESeed';
+  font-size: 14px;
+  font-weight: normal;
+`;
+
+const FooterContainer = styled.footer`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 130px;
+  box-sizing: border-box;
+  border-top: 1px solid white;
+`;
+
+const SelectButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 54px;
+  background-color: #1b95ec;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+`;
+
+const SelectText = styled.p`
+  height: 32px;
+  font-family: 'GmarketSans';
+  font-size: 32px;
+  font-weight: normal;
+`;
