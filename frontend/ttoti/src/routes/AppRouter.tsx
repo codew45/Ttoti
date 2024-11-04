@@ -25,8 +25,7 @@ import MooMoo from '@pages/test/MooMoo';
 
 const Background = styled.div`
 	position: absolute;
-	/* background-color: #90D4B9; */
-	background: linear-gradient(#1B95EC, #90D4B9);
+	background: linear-gradient(#1B95EC 23%, #2C96D0 47%, #90D4B9 100%);
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
