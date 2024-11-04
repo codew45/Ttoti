@@ -1,6 +1,7 @@
 package kr.co.ttoti.backend.domain.ttoti.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -17,4 +18,8 @@ public interface TtotiRepository extends JpaRepository<Ttoti, Integer> {
 	List<Ttoti> findByRoom(Room room);
 
 	Ttoti findByRoomAndManitiId(Room room, Integer manitiId);
+
+	Optional<Ttoti> findByTtotiIdAndMember(Integer ttotiId, Member member);
+
+	Optional<Ttoti> findByTtotiIdAndManitiId(Integer ttotiId, Integer manitiId);
 }
