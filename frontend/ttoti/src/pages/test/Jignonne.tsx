@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import NotificationModal from '@components/common/modals/NotificationModal';
 
 const TestWrapper = styled.div`
 	display: flex;
@@ -13,8 +12,7 @@ const TestWrapper = styled.div`
 const Jignonne = () => {
 	return (
 		<TestWrapper>
-			<h1>Modal</h1>
-			<NotificationModal />
+			<h1>테스트 끝!</h1>
 		</TestWrapper>
 	);
 };

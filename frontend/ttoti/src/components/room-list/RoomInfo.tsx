@@ -26,7 +26,6 @@ const ProfileImage = styled.img`
 	width: 65px;
 	height: 65px;
 	object-fit: cover;
-	z-index: 1;
 `;
 
 const InfoColumnContainer = styled.div`
@@ -39,13 +38,13 @@ const InfoColumnContainer = styled.div`
 	gap: 5px;
 `;
 
-const InfoText = styled.div<{ field: string }>`
+const InfoText = styled.div<{ $field: string }>`
 	width: 100px;
 	font-family: 'GmarketSans';
-	font-weight: ${({ field }) => (field === 'name' ? 'bold' : '300')};
-	font-size: ${({ field }) =>
-		field === 'participants' ? '12px' : field === 'host' ? '14px' : '16px'};
-	margin-top: ${({ field }) => (field === 'participants' ? '5px' : '0px')};
+	font-weight: ${({ $field }) => ($field === 'name' ? 'bold' : '300')};
+	font-size: ${({ $field }) =>
+		$field === 'participants' ? '12px' : $field === 'host' ? '14px' : '16px'};
+	margin-top: ${({ $field }) => ($field === 'participants' ? '5px' : '0px')};
 `;
 
 const RoomInfo = ({
@@ -60,9 +59,9 @@ const RoomInfo = ({
 				<ProfileImage src={imageURL} />
 			</ImageWrapper>
 			<InfoColumnContainer>
-				<InfoText field="host">{hostName}님의</InfoText>
-				<InfoText field="name">{roomName}</InfoText>
-				<InfoText field="participants">
+				<InfoText $field="host">{hostName}님의</InfoText>
+				<InfoText $field="name">{roomName}</InfoText>
+				<InfoText $field="participants">
 					참여중 또띠 : {currentParticipants}
 				</InfoText>
 			</InfoColumnContainer>
