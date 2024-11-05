@@ -9,9 +9,8 @@ const LoginWrapper = styled.div`
 	justify-content: center;
 	align-items: center;
 	gap: 10px;
-
 	position: absolute;
-	top: 365px;
+	top: 340px;
 `;
 const LoginText = styled.div`
 	width: 240px;
@@ -34,11 +33,16 @@ const LoginButtonText = styled.div`
 	width: 140px;
 `;
 
+const API_URL = import.meta.env.VITE_URL;
+
 const LoginContainer = () => {
+	const handleLogin = () => {
+		window.location.href = `${API_URL}/oauth`;
+	};
 	return (
 		<LoginWrapper>
 			<LoginText>나만의 특별한 친구를 만나기 위해 로그인이 필요해요!</LoginText>
-			<LoginButton color="login">
+			<LoginButton color="login" onClick={handleLogin}>
 				<Kakao />
 				<LoginButtonText>카카오 로그인</LoginButtonText>
 			</LoginButton>
