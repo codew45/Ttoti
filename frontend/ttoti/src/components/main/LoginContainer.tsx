@@ -37,7 +37,7 @@ const API_URL = import.meta.env.VITE_URL;
 
 const LoginContainer = () => {
 	const handleLogin = () => {
-		window.location.href = `${API_URL}/oauth`;
+		window.location.href = `${API_URL}/oauth/kakao`;
 	};
 	return (
 		<LoginWrapper>
