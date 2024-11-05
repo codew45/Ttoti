@@ -7,6 +7,65 @@ import owl from '@assets/characters/Owl_portrait.png';
 import porcupine from '@assets/characters/Porcupine_portrait.png';
 import rabbit from '@assets/characters/Rabbit_portrait.png';
 
+const CharacterSelectPage: React.FC = () => {
+  const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null);
+  const navigate = useNavigate();
+
+  const characters = [
+    { image: monkey, name: '원숭이', description: '안녕, 나는 원숭이 캐릭터야 우꺄!' },
+    { image: porcupine, name: '고슴도치', description: '안녕, 나는 고슴도치 캐릭터야 도치!' },
+    { image: owl, name: '부엉이', description: '안녕, 나는 부엉이 캐릭터야 부엉!' },
+    { image: rabbit, name: '토끼', description: '안녕, 나는 토끼 캐릭터야 총총!' },
+    { image: monkey, name: '원숭이', description: '안녕, 나는 원숭이 캐릭터야 우꺄!' },
+    { image: porcupine, name: '고슴도치', description: '안녕, 나는 고슴도치 캐릭터야 도치!' },
+    { image: owl, name: '부엉이', description: '안녕, 나는 부엉이 캐릭터야 부엉!' },
+    { image: rabbit, name: '토끼', description: '안녕, 나는 토끼 캐릭터야 총총!' }
+  ];
+
+  const handleCardClick = (index: number) => {
+    setSelectedCardIndex(index);
+  };
+
+  const handleRetryButtonClick = () => {
+    navigate('/game-waiting');
+  };
+
+  return (
+    <PageContainer>
+      <Overlay />
+      <ModalContatiner>
+        <TitleContainer>
+          <TitleText>캐릭터 선택</TitleText>
+        </TitleContainer>
+        <ListContainer>
+          {characters.map((character, index) => (
+            <Card
+              key={index}
+              onClick={() => handleCardClick(index)}
+              $highlighted={selectedCardIndex === index}
+            >
+              <ImageBox>
+                <CharacterImage src={character.image} alt={character.name} />
+              </ImageBox>
+              <CharacterText>
+                <Name>{character.name}</Name>
+                <Description>{character.description}</Description>
+              </CharacterText>
+            </Card>
+          ))}
+        </ListContainer>
+        <FooterContainer>
+          <SelectButton onClick={handleRetryButtonClick}>
+            <SelectText>선택완료</SelectText>
+          </SelectButton>
+        </FooterContainer>
+      </ModalContatiner>
+    </PageContainer>
+  );
+};
+
+export default CharacterSelectPage;
+
 const PageContainer = styled.div`
   position: relative;
   width: 100vw;
@@ -138,62 +197,3 @@ const SelectText = styled.p`
   font-size: 32px;
   font-weight: normal;
 `;
-
-const CharacterSelectPage: React.FC = () => {
-  const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null);
-  const navigate = useNavigate();
-
-  const characters = [
-    { image: monkey, name: '원숭이', description: '안녕, 나는 원숭이 캐릭터야 우꺄!' },
-    { image: porcupine, name: '고슴도치', description: '안녕, 나는 고슴도치 캐릭터야 도치!' },
-    { image: owl, name: '부엉이', description: '안녕, 나는 부엉이 캐릭터야 부엉!' },
-    { image: rabbit, name: '토끼', description: '안녕, 나는 토끼 캐릭터야 총총!' },
-    { image: monkey, name: '원숭이', description: '안녕, 나는 원숭이 캐릭터야 우꺄!' },
-    { image: porcupine, name: '고슴도치', description: '안녕, 나는 고슴도치 캐릭터야 도치!' },
-    { image: owl, name: '부엉이', description: '안녕, 나는 부엉이 캐릭터야 부엉!' },
-    { image: rabbit, name: '토끼', description: '안녕, 나는 토끼 캐릭터야 총총!' }
-  ];
-
-  const handleCardClick = (index: number) => {
-    setSelectedCardIndex(index);
-  };
-
-  const handleRetryButtonClick = () => {
-    navigate('/game-waiting');
-  };
-
-  return (
-    <PageContainer>
-      <Overlay />
-      <ModalContatiner>
-        <TitleContainer>
-          <TitleText>캐릭터 선택</TitleText>
-        </TitleContainer>
-        <ListContainer>
-          {characters.map((character, index) => (
-            <Card
-              key={index}
-              onClick={() => handleCardClick(index)}
-              $highlighted={selectedCardIndex === index}
-            >
-              <ImageBox>
-                <CharacterImage src={character.image} alt={character.name} />
-              </ImageBox>
-              <CharacterText>
-                <Name>{character.name}</Name>
-                <Description>{character.description}</Description>
-              </CharacterText>
-            </Card>
-          ))}
-        </ListContainer>
-        <FooterContainer>
-          <SelectButton onClick={handleRetryButtonClick}>
-            <SelectText>선택완료</SelectText>
-          </SelectButton>
-        </FooterContainer>
-      </ModalContatiner>
-    </PageContainer>
-  );
-};
-
-export default CharacterSelectPage;
