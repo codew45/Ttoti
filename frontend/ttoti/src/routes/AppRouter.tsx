@@ -17,6 +17,7 @@ import MainPage from '@pages/MainPage';
 import MyPage from '@pages/MyPage';
 import RoomCreatePage from '@pages/RoomCreatePage';
 import RoomListPage from '@pages/RoomListPage';
+import Auth from '@pages/Auth';
 
 // Test Page import
 import HoseaKim from '@pages/test/HoseaKim';
@@ -25,7 +26,7 @@ import MooMoo from '@pages/test/MooMoo';
 
 const Background = styled.div`
 	position: absolute;
-	background: linear-gradient(#1B95EC 23%, #2C96D0 47%, #90D4B9 100%);
+	background: linear-gradient(#1b95ec 23%, #2c96d0 47%, #90d4b9 100%);
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -64,7 +65,9 @@ const AppRouter = () => {
 	return (
 		<>
 			<Background />
-			{backgroundImage && <BackgroundImage src={backgroundImage} alt="backgroundImage" />}
+			{backgroundImage && (
+				<BackgroundImage src={backgroundImage} alt="backgroundImage" />
+			)}
 			<Routes>
 				{/* 메인 라우트 */}
 				<Route path="/" element={<MainPage />} />
@@ -77,6 +80,8 @@ const AppRouter = () => {
 				<Route path="/mypage" element={<MyPage />} />
 				<Route path="/landing" element={<LandingPage />} />
 				<Route path="/credit" element={<CreditPage />} />
+				{/* Social Login */}
+				<Route path="/callback" element={<Auth />} />
 				{/* 테스트 페이지 라우트  */}
 				<Route path="/hoseakim" element={<HoseaKim />} />
 				<Route path="/jignonne" element={<Jignonne />} />
