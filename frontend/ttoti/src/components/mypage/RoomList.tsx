@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface RoomListProps {
+  dateRange: [Date, Date]; // 정확히 두 개의 Date를 가지는 배열로 설정
+}
+
 const RoomListWrapper = styled.div`
   margin-top: 5px;
   display: grid;
@@ -16,7 +20,8 @@ const Room = styled.div`
   background-color: white;
 `;
 
-const RoomList = () => {
+const RoomList: React.FC<RoomListProps> = () => {
+
   return <RoomListWrapper>
     <Room />
     <Room />
