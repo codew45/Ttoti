@@ -5,6 +5,9 @@ spring:
   config:
     import: optional:file:.env[.properties]
 
+  jackson:
+    time-zone: Asia/Seoul
+
 --- # 로컬 설정
 spring:
   config:
@@ -39,7 +42,12 @@ spring:
       host: ${LOCAL_REDIS_HOST}
       port: ${LOCAL_REDIS_PORT}
 
-
+  kafka:
+    bootstrap-servers: ${LOCAL_KAFKA_BOOTSTRAP_SERVERS}
+    producer:
+      key-serializer:
+    consumer:
+      group-id: ${LOCAL_KAFKA_CONSUMER_GROUP_ID}
 
 --- # 개발 서버 설정
 spring:
@@ -66,3 +74,10 @@ spring:
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    producer:
+      key-serializer:
+    consumer:
+      group-id: ${KAFKA_CONSUMER_GROUP_ID}
