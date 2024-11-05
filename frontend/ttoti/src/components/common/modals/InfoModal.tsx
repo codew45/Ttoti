@@ -5,7 +5,6 @@ import {
 	ButtonContainer,
 } from '@components/common/modals/ModalCard';
 import ListBox from '@components/common/box/ListBox';
-import { useNavigate } from 'react-router-dom';
 
 const ListContainer = styled.div`
 	display: flex;
@@ -75,11 +74,11 @@ const InfoModal = () => {
 	const buttonColor2 = 'background';
 	const buttonText2 = '닫기';
 
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 
 	const handleMypage = () => {
 		// 나가기 버튼을 활성화해주세욘
-		navigate('/game');
+		console.log('/game');
 	};
 	const handleClose = () => {
 		console.log('close 버튼을 활성화 함수를 연결해주세요');

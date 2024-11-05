@@ -6,7 +6,6 @@ import {
 } from '@components/common/modals/ModalCard';
 import ListBox from '@components/common/box/ListBox';
 import DuplicateIcon from '@assets/icons/duplicate.svg?react';
-import { useNavigate } from 'react-router-dom';
 
 const InviteWrapper = styled.div`
 	display: flex;
@@ -73,10 +72,8 @@ const InviteModal = () => {
 	const buttonColor2 = 'background';
 	const buttonText2 = '닫기';
 
-	const navigate = useNavigate();
-
 	const handleInvite = () => {
-		navigate('/game');
+		console.log('/game');
 	};
 
 	const handleClose = () => {
