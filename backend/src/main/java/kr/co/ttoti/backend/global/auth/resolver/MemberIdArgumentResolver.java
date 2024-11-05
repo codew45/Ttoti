@@ -31,6 +31,6 @@ public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
             token = token.substring(7);
             return jwtProvider.getRealMemberIdFromAccessToken(token);
         }
-        return null;
+        throw new RuntimeException("sd");
     }
 }
