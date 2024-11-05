@@ -1,5 +1,5 @@
 // GameWaitingPage.tsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import profile1 from '@assets/profiles/profile1.png';
@@ -14,6 +14,130 @@ import refreshIcon from '@assets/profiles/refreshIcon.png';
 import addMemberIcon from '@assets/profiles/addMemberIcon.png';
 import monkey from '@assets/characters/Monkey_pixcel.png';
 import ProfileContainer from '@components/common/ProfileComponents';
+import InviteModal from '@components/common/modals/InviteModal';
+
+const GameWaitingPage: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isOverflow, setIsOverflow] = useState(false);
+  const [showNextButton, setShowNextButton] = useState(true);
+  const [$isInviteModalOpen, setInviteModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const participants = useMemo(() => [
+    { name: '정진영', imgSrc: profile1, $ready: true },
+    { name: '서지민', imgSrc: profile2, $ready: false },
+    { name: '김호진', imgSrc: profile3, $ready: false },
+    { name: '권재현', imgSrc: profile4, $ready: false },
+    { name: '채이슬', imgSrc: profile5, $ready: false },
+    { name: '이상무', imgSrc: profile6, $ready: false },
+    { name: '아쿠아', imgSrc: profile7, $ready: false },
+    { name: '토오사카', imgSrc: profile8, $ready: false },
+  ], []);
+
+  const openInviteModal = () => setInviteModalOpen(true);
+  const closeInviteModal = () => {
+    if ($isInviteModalOpen) {
+      setInviteModalOpen(false);
+    }
+  };
+
+  const handleNextButtonClick = () => {
+    setShowNextButton(false);
+  };
+
+  const handleRetryButtonClick = () => {
+    navigate('/character-select');
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const container = containerRef.current;
+      if (container && container.scrollWidth > container.clientWidth) {
+        setIsOverflow(true);
+      } else {
+        setIsOverflow(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [participants]);
+
+  return (
+    <Overlay onClick={closeInviteModal} $isInviteModalOpen={$isInviteModalOpen}>
+      <ModalContainer>
+        <HeaderContainer>
+          <HeaderContent>
+            <ProfileContainer size="70px" src={profile1} ready={false} />
+            <HeaderText>
+              <HostName>정진영님의</HostName>
+              <RoomName>99NULL</RoomName>
+            </HeaderText>
+          </HeaderContent>
+          <RoomInfo>i</RoomInfo>
+        </HeaderContainer>
+        <SubText>또띠에 참여하였습니다!</SubText>
+        <ParticipantToolbar>
+          <RefreshIcon src={refreshIcon} alt='refreshIcon' />
+          <MemberToolContainer>
+            <MemberNumText>8 / 8</MemberNumText>
+            <AddMemberIcon onClick={openInviteModal} src={addMemberIcon} alt='addMemberIcon' />
+          </MemberToolContainer>
+        </ParticipantToolbar>
+        <ParticipantsContainer ref={containerRef} $isOverflow={isOverflow}>
+          <ParticipantBlank></ParticipantBlank>
+          {participants.map((participant, index) => (
+            <Participant key={index}>
+              <ProfileContainer size="70px" src={participant.imgSrc} ready={participant.$ready} />
+              <ParticipantName>{participant.name}</ParticipantName>
+            </Participant>
+          ))}
+          <ParticipantBlank></ParticipantBlank>
+        </ParticipantsContainer>
+        <FooterContainer>
+          {showNextButton ? (
+            <>
+              <NextButtonInfo>캐릭터 선택으로 이동할까요?</NextButtonInfo>
+              <NextButton onClick={handleNextButtonClick}>다음</NextButton>
+            </>
+          ) : (
+            <>
+              <SelectedContainer>
+                <CharacterImage src={monkey} alt="monkey" />
+                <SelectedTextBox>
+                  <CompleteText>선택 완료!</CompleteText>
+                  <ToggleButton onClick={handleRetryButtonClick}>다시 선택</ToggleButton>
+                </SelectedTextBox>
+              </SelectedContainer>
+            </>
+          )}
+        </FooterContainer>
+      </ModalContainer>
+      
+      {$isInviteModalOpen && (
+        <InviteModalWrapper onClick={(e) => e.stopPropagation()}> {/* 모달 자체를 클릭했을 때 닫히지 않게 설정 */}
+          <InviteModal onClose={closeInviteModal} />
+        </InviteModalWrapper>
+      )}
+    </Overlay>
+  );
+};
+
+export default GameWaitingPage;
+
+const Overlay = styled.div<{ $isInviteModalOpen: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: ${({ $isInviteModalOpen }) => ($isInviteModalOpen ? 'rgba(0, 0, 0, 0.5)' : 'transparent')};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 90;
+`;
 
 const ModalContainer = styled.div`
   display: flex;
@@ -26,8 +150,6 @@ const ModalContainer = styled.div`
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   position: absolute;
   left: 50%;
-  /* top: 120px;
-  transform: translateX(-50%); */
   top: 50%;
   transform: translate(-50%, -65%);
 `;
@@ -125,6 +247,7 @@ const AddMemberIcon = styled.img`
   width: 19px;
   height: 19px;
   margin-right: 10px;
+  cursor: pointer;
 `
 
 const ParticipantsContainer = styled.div<{ $isOverflow: boolean }>`
@@ -231,103 +354,10 @@ const ToggleButton = styled.button`
   cursor: pointer;
 `;
 
-const Modal: React.FC<{ participants: { name: string; imgSrc: string; $ready: boolean; }[] }> = ({ participants }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isOverflow, setIsOverflow] = useState(false);
-  const [showNextButton, setShowNextButton] = useState(true);
-  const navigate = useNavigate();
-
-  const handleNextButtonClick = () => {
-    setShowNextButton(false);
-  };
-
-  const handleRetryButtonClick = () => {
-    navigate('/character-select');
-  };
-
-  useEffect(() => {
-    const handleResize = () => {
-      const container = containerRef.current;
-      if (container && container.scrollWidth > container.clientWidth) {
-        setIsOverflow(true);
-      } else {
-        setIsOverflow(false);
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [participants]);
-
-  return (
-    <ModalContainer>
-      <HeaderContainer>
-        <HeaderContent>
-          <ProfileContainer size="70px" src={profile1} ready={false} />
-          <HeaderText>
-            <HostName>정진영님의</HostName>
-            <RoomName>99NULL</RoomName>
-          </HeaderText>
-        </HeaderContent>
-        <RoomInfo>i</RoomInfo>
-      </HeaderContainer>
-      <SubText>또띠에 참여하였습니다!</SubText>
-      <ParticipantToolbar>
-        <RefreshIcon src={refreshIcon} alt='refreshIcon' />
-        <MemberToolContainer>
-          <MemberNumText>8 / 8</MemberNumText>
-          <AddMemberIcon src={addMemberIcon} alt='addMemberIcon' />
-        </MemberToolContainer>
-      </ParticipantToolbar>
-      <ParticipantsContainer ref={containerRef} $isOverflow={isOverflow}>
-        <ParticipantBlank></ParticipantBlank>
-        {participants.map((participant, index) => (
-          <Participant key={index}>
-            <ProfileContainer size="70px" src={participant.imgSrc} ready={participant.$ready} />
-            <ParticipantName>{participant.name}</ParticipantName>
-          </Participant>
-        ))}
-        <ParticipantBlank></ParticipantBlank>
-      </ParticipantsContainer>
-      <FooterContainer>
-        {showNextButton ? (
-          <>
-            <NextButtonInfo>캐릭터 선택으로 이동할까요?</NextButtonInfo>
-            <NextButton onClick={handleNextButtonClick}>다음</NextButton>
-          </>
-        ) : (
-          <>
-            <SelectedContainer>
-              <CharacterImage src={monkey} alt="monkey" />
-              <SelectedTextBox>
-                <CompleteText>선택 완료!</CompleteText>
-                <ToggleButton onClick={handleRetryButtonClick}>다시 선택</ToggleButton>
-              </SelectedTextBox>
-            </SelectedContainer>
-          </>
-        )}
-      </FooterContainer>
-    </ModalContainer>
-  );
-};
-
-const GameWaitingPage: React.FC = () => {
-
-  const participants = [
-    { name: '정진영', imgSrc: profile1, $ready: true },
-    { name: '서지민', imgSrc: profile2, $ready: false },
-    { name: '김호진', imgSrc: profile3, $ready: false },
-    { name: '권재현', imgSrc: profile4, $ready: false },
-    { name: '채이슬', imgSrc: profile5, $ready: false },
-    { name: '이상무', imgSrc: profile6, $ready: false },
-    { name: '아쿠아', imgSrc: profile7, $ready: false },
-    { name: '토오사카', imgSrc: profile8, $ready: false },
-  ];
-
-  return (
-    <Modal participants={participants} />
-  );
-};
-
-export default GameWaitingPage;
+const InviteModalWrapper = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200;
+`;

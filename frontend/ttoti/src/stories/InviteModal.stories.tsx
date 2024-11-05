@@ -13,7 +13,9 @@ const meta: Meta<typeof InviteModal> = {
 export default meta;
 
 // 스토리 템플릿
-const Template: StoryFn = () => <InviteModal />;
+const Template: StoryFn = () => <InviteModal onClose={function (): void {
+  throw new Error('Function not implemented.');
+} } />;
 
 // 기본 InviteModal 예시
 export const Default = Template.bind({});

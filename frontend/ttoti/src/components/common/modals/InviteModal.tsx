@@ -1,3 +1,4 @@
+// InviteModal.tsx
 import styled from 'styled-components';
 import {
 	Modal,
@@ -63,7 +64,7 @@ const InviteContents = () => {
 	);
 };
 
-const InviteModal = () => {
+const InviteModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 	const subtitleText = '또띠 초대';
 	const titleText = '친구를 또띠에 초대해주세요!';
 	const explainText = '';
@@ -74,10 +75,6 @@ const InviteModal = () => {
 
 	const handleInvite = () => {
 		console.log('/game');
-	};
-
-	const handleClose = () => {
-		console.log('모달 close를 연결해 주세요.');
 	};
 
 	return (
@@ -91,7 +88,7 @@ const InviteModal = () => {
 				onClick1={handleInvite}
 				buttonColor2={buttonColor2}
 				buttonText2={buttonText2}
-				onClick2={handleClose}
+				onClick2={onClose}
 			/>
 		</Modal>
 	);
