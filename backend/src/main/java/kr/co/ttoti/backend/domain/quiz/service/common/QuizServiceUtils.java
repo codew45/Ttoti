@@ -29,6 +29,7 @@ public class QuizServiceUtils {
 
 		return QuizHistoryDto.builder()
 			.ttotiId(quizAnswer.getTtotiId())
+			.quizId(quiz.getQuizId())
 			.quizDate(quizAnswer.getQuizDate())
 			.quizChoiceMap(quizChoiceMap)
 			.quizChoiceContent(quiz.getQuizContent())

@@ -13,9 +13,12 @@ public class TtotiMatchDto {
 	private String myManittoAnimalName;
 	private String myManittoAnimalImageUrl;
 
+	private String myName;
+	private String myProfileImageUrl;
+
 	private String myAnimalName;
 	private String myAnimalImageUrl;
 
-	private String manitiMemberName;
-	private String manitiProfileImageUrl;
+	private String myManitiMemberName;
+	private String myManitiProfileImageUrl;
 }

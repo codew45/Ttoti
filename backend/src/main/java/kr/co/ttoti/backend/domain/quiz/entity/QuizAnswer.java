@@ -87,7 +87,7 @@ public class QuizAnswer extends BaseEntity {
 		this.manitiAnswerAt = LocalDateTime.now();
 	}
 
-	public void updateQuizAnswerIsCorrect() {
-		this.quizAnswerIsCorrect = true;
+	public void updateQuizAnswerIsCorrect(Boolean quizAnswerIsCorrect) {
+		this.quizAnswerIsCorrect = quizAnswerIsCorrect;
 	}
 }

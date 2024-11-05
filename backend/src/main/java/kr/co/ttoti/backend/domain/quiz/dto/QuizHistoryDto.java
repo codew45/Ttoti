@@ -14,6 +14,8 @@ public class QuizHistoryDto {
 
 	Integer ttotiId;
 
+	Integer quizId;
+	
 	LocalDate quizDate;
 	String quizChoiceContent;
 

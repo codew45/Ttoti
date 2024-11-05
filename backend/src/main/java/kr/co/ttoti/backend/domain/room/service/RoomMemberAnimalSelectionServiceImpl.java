@@ -90,14 +90,14 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 		return animal.toDto();
 	}
 
-	public RoomStartDto startRoom(Room room, List<RoomMember> readyRoomMemberList, RoomMember roomMember) {
+	public RoomStartDto startRoom(Room room, List<RoomMember> readyRoomMemberList, RoomMember roomMember, Member member) {
 
 		room.startRoom();
 		Integer myTtotiId = createTtoti(room, readyRoomMemberList, roomMember);
 
-		Ttoti ttoti = ttotiRepository.findByTtotiId(myTtotiId);
+		Ttoti ttoti = validator.validateTtoti(myTtotiId);
 		Member myManiti = validator.validateMember(ttoti.getManitiId());
-		Ttoti titto = ttotiRepository.findByTtotiId(ttoti.getTittoId());
+		Ttoti titto = validator.validateTtoti(ttoti.getTittoId());
 
 		quizInsertService.insertQuiz(room.getRoomId());
 
@@ -106,10 +106,12 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 			.myTittoId(titto.getTtotiId())
 			.myManittoAnimalName(titto.getTtotiAnimalName())
 			.myManittoAnimalImageUrl(titto.getAnimal().getAnimalImageUrl())
+			.myName(member.getMemberName())
+			.myProfileImageUrl(member.getMemberProfileImageUrl())
 			.myAnimalName(ttoti.getTtotiAnimalName())
 			.myAnimalImageUrl(ttoti.getAnimal().getAnimalImageUrl())
-			.manitiMemberName(myManiti.getMemberName())
-			.manitiProfileImageUrl(myManiti.getMemberProfileImageUrl())
+			.myManitiMemberName(myManiti.getMemberName())
+			.myManitiProfileImageUrl(myManiti.getMemberProfileImageUrl())
 			.build();
 
 		QuizHistoryDto todayManittoQuiz = quizServiceUtils.mapToQuizHistoryDto(
@@ -143,6 +145,6 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 				.animalImageUrl(animalDto.getAnimalImageUrl())
 				.build();
 		}
-		return startRoom(room, readyRoomMemberList, roomMember);
+		return startRoom(room, readyRoomMemberList, roomMember, member);
 	}
 }

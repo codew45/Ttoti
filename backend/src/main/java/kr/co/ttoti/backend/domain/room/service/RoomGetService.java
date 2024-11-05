@@ -1,5 +1,6 @@
 package kr.co.ttoti.backend.domain.room.service;
 
+import kr.co.ttoti.backend.domain.room.dto.RoomInProgressDto;
 import kr.co.ttoti.backend.domain.room.dto.RoomMemberListPendingDto;
 import kr.co.ttoti.backend.domain.room.dto.RoomPendingDto;
 
@@ -36,4 +37,12 @@ public interface RoomGetService {
 	 * @return
 	 */
 	String getRoomLink(Integer memberId, Integer roomId);
+
+	/**
+	 * 진행중인 방에 입장했을 때 방장 이름, 방 제목, 마니또 관계를 조회한다.
+	 * @param memberId
+	 * @param roomId
+	 * @return
+	 */
+	RoomInProgressDto getRoomIfInProgress(Integer memberId, Integer roomId);
 }

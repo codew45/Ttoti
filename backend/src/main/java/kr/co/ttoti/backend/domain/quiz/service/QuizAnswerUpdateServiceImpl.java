@@ -63,7 +63,7 @@ public class QuizAnswerUpdateServiceImpl implements QuizAnswerUpdateService {
 		if (manittoAnswerNumber != null && manittoAnswerNumber.equals(
 			manitiAnswerNumber)) {
 
-			quizAnswer.updateQuizAnswerIsCorrect();
+			quizAnswer.updateQuizAnswerIsCorrect(true);
 			quizAnswerRepository.saveAndFlush(quizAnswer);
 
 			temperatureInsertService.calculateTemperatureIncrease(
