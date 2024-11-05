@@ -33,7 +33,7 @@ public class Validator {
 	private final QuizAnswerRepository quizAnswerRepository;
 
 	public Member validateMember(Integer memberId) {
-		return memberRepository.findById(memberId)
+		return memberRepository.findByMemberIdAndMemberIsDeletedFalse(memberId)
 			.orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 	}
 
@@ -59,12 +59,6 @@ public class Validator {
 	public Ttoti validateManittoByTtotiIdAndMember(Integer ttotiId, Member member) {
 		return ttotiRepository.findByTtotiIdAndMember(ttotiId, member).orElseThrow(
 			() -> new CustomException(ErrorCode.TTOTI_INVALID_MANITTO)
-		);
-	}
-
-	public Ttoti validateManittoByTtotiIdAndManitiId(Integer ttotiId, Integer manitiId) {
-		return ttotiRepository.findByTtotiIdAndManitiId(ttotiId, manitiId).orElseThrow(
-			() -> new CustomException(ErrorCode.TTOTI_INVALID_MANITI)
 		);
 	}
 

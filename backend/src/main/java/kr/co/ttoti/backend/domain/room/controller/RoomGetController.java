@@ -1,11 +1,13 @@
 package kr.co.ttoti.backend.domain.room.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.co.ttoti.backend.domain.room.dto.RoomInProgressDto;
 import kr.co.ttoti.backend.domain.room.dto.RoomPendingDto;
 import kr.co.ttoti.backend.domain.room.service.RoomGetService;
 import kr.co.ttoti.backend.global.dto.ResponseDto;
@@ -35,6 +37,12 @@ public class RoomGetController {
 	@GetMapping("/link/get/{room-id}")
 	public ResponseDto<String> getRoomLink(@RequestHeader Integer memberId, @PathVariable("room-id") Integer roomId) {
 		return ResponseDto.success(SuccessCode.OK, roomGetService.getRoomLink(memberId, roomId));
+	}
+
+	@GetMapping("/inprogress/{room-id}")
+	public ResponseEntity<ResponseDto<RoomInProgressDto>> getRoomIfInProgress(@RequestHeader Integer memberId,
+		@PathVariable("room-id") Integer roomId){
+		return ResponseEntity.ok(ResponseDto.success(SuccessCode.OK, roomGetService.getRoomIfInProgress(memberId, roomId)));
 	}
 
 }

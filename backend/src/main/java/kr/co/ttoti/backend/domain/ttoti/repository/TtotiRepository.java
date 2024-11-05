@@ -21,5 +21,5 @@ public interface TtotiRepository extends JpaRepository<Ttoti, Integer> {
 
 	Optional<Ttoti> findByTtotiIdAndMember(Integer ttotiId, Member member);
 
-	Optional<Ttoti> findByTtotiIdAndManitiId(Integer ttotiId, Integer manitiId);
+	Optional<Ttoti> findByRoomAndMember(Room room, Member member);
 }

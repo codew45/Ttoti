@@ -43,7 +43,7 @@ public interface RoomMemberAnimalSelectionService {
 	 * @param roomMember
 	 * @return
 	 */
-	RoomStartDto startRoom(Room room, List<RoomMember> readyRoomMemberList, RoomMember roomMember);
+	RoomStartDto startRoom(Room room, List<RoomMember> readyRoomMemberList, RoomMember roomMember, Member member);
 
 	/**
 	 * 랜덤으로 마니또를 매칭한다.
