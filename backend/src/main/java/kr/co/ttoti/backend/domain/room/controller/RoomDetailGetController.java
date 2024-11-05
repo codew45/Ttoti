@@ -1,5 +1,6 @@
 package kr.co.ttoti.backend.domain.room.controller;
 
+import kr.co.ttoti.backend.global.auth.annotation.MemberId;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,7 @@ public class RoomDetailGetController {
 	private final RoomDetailGetService roomDetailGetService;
 
 	@GetMapping("rooms/pending/detail/{room-id}")
-	ResponseEntity<ResponseDto<RoomPendingDetailGetDto>> getRoomPendingDetail(@RequestHeader Integer memberId,
+	ResponseEntity<ResponseDto<RoomPendingDetailGetDto>> getRoomPendingDetail(@MemberId Integer memberId,
 		@PathVariable(name="room-id") Integer roomId) {
 
 		RoomPendingDetailGetDto result = roomDetailGetService.getRoomPendingDetail(memberId, roomId);
@@ -31,7 +32,7 @@ public class RoomDetailGetController {
 	}
 
 	@GetMapping("rooms/inprogress/detail/{room-id}")
-	ResponseEntity<ResponseDto<RoomInProgressDetailGetDto>> getRoomInProgressDetail(@RequestHeader Integer memberId,
+	ResponseEntity<ResponseDto<RoomInProgressDetailGetDto>> getRoomInProgressDetail(@MemberId Integer memberId,
 		@PathVariable(name="room-id") Integer roomId){
 
 		RoomInProgressDetailGetDto result = roomDetailGetService.getRoomInProgressDetail(memberId, roomId);

@@ -11,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import kr.co.ttoti.backend.domain.animal.entity.Animal;
-import kr.co.ttoti.backend.domain.member.entity.Member;
+import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.global.base.BaseEntity;
 import lombok.AccessLevel;

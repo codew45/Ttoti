@@ -1,11 +1,11 @@
 package kr.co.ttoti.backend.domain.common;
 
+import kr.co.ttoti.backend.global.auth.entity.Member;
+import kr.co.ttoti.backend.global.auth.repository.MemberRepository;
 import org.springframework.stereotype.Component;
 
 import kr.co.ttoti.backend.domain.animal.entity.Animal;
 import kr.co.ttoti.backend.domain.animal.repository.AnimalRepository;
-import kr.co.ttoti.backend.domain.member.entity.Member;
-import kr.co.ttoti.backend.domain.member.repository.MemberRepository;
 import kr.co.ttoti.backend.domain.quiz.entity.Quiz;
 import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
 import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;

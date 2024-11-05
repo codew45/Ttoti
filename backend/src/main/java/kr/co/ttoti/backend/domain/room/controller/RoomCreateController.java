@@ -1,5 +1,6 @@
 package kr.co.ttoti.backend.domain.room.controller;
 
+import kr.co.ttoti.backend.global.auth.annotation.MemberId;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -23,7 +24,7 @@ public class RoomCreateController {
 	private final RoomMemberCreateService roomMemberCreateService;
 
 	@PostMapping()
-	public ResponseDto<Void> createRoom(@RequestHeader Integer memberId,
+	public ResponseDto<Void> createRoom(@MemberId Integer memberId,
 		@Valid @RequestBody RoomCreateRequest roomCreateRequest) {
 
 		Integer roomId = roomCreateService.createRoom(memberId, roomCreateRequest);

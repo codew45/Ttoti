@@ -1,10 +1,10 @@
 package kr.co.ttoti.backend.domain.room.service;
 
+import kr.co.ttoti.backend.global.auth.entity.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.ttoti.backend.domain.common.Validator;
-import kr.co.ttoti.backend.domain.member.entity.Member;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;

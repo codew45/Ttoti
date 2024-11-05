@@ -2,14 +2,13 @@ package kr.co.ttoti.backend.domain.chat.service;
 
 import java.time.LocalDateTime;
 
+import kr.co.ttoti.backend.global.auth.entity.Member;
 import org.springframework.stereotype.Service;
 
 import kr.co.ttoti.backend.domain.animal.entity.Animal;
 import kr.co.ttoti.backend.domain.chat.entity.ChatMessage;
 import kr.co.ttoti.backend.domain.chat.repository.ChatMessageRepository;
 import kr.co.ttoti.backend.domain.common.Validator;
-import kr.co.ttoti.backend.domain.member.entity.Member;
-import kr.co.ttoti.backend.domain.member.repository.MemberRepository;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
@@ -21,6 +20,7 @@ import kr.co.ttoti.backend.global.status.ErrorCode;
 import kr.co.ttoti.backend.global.util.KafkaConsumerUtil;
 import kr.co.ttoti.backend.global.util.KafkaProducerUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -39,6 +39,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
+	@Transactional
 	public void sendMessageByManitto(Integer ttotiId, Integer senderId, String message) {
 		Member member = validator.validateMember(senderId);
 
@@ -59,6 +60,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
+	@Transactional
 	public void sendMessageByManiti(Integer ttotiId, Integer senderId, String message) {
 		Member member = validator.validateMember(senderId);
 

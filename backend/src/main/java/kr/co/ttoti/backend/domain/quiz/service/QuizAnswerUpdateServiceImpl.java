@@ -1,9 +1,9 @@
 package kr.co.ttoti.backend.domain.quiz.service;
 
+import kr.co.ttoti.backend.global.auth.entity.Member;
 import org.springframework.stereotype.Service;
 
 import kr.co.ttoti.backend.domain.common.Validator;
-import kr.co.ttoti.backend.domain.member.entity.Member;
 import kr.co.ttoti.backend.domain.quiz.dto.QuizAnswerUpdateRequest;
 import kr.co.ttoti.backend.domain.quiz.entity.Quiz;
 import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;

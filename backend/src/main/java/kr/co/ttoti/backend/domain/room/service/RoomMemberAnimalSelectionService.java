@@ -3,7 +3,7 @@ package kr.co.ttoti.backend.domain.room.service;
 import java.util.List;
 
 import kr.co.ttoti.backend.domain.animal.dto.AnimalDto;
-import kr.co.ttoti.backend.domain.member.entity.Member;
+import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.domain.room.dto.RoomMemberAnimalSelectRequest;
 import kr.co.ttoti.backend.domain.room.dto.RoomStartDto;
 import kr.co.ttoti.backend.domain.room.entity.Room;

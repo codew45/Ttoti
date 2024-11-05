@@ -1,4 +1,4 @@
-package kr.co.ttoti.backend.domain.member.entity;
+package kr.co.ttoti.backend.global.auth.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -21,9 +21,17 @@ public class Member extends BaseEntity {
     private Integer memberId;
 
     @NotNull
+    @Column(name = "member_uuid")
+    private String memberUuid;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "member_social_category")
     private OAuth2Provider memberSocialCategory;
+
+    @NotNull
+    @Column(name = "member_provider_id")
+    private Long memberProviderId;
 
     @NotNull
     @Column(name = "member_email")
@@ -37,9 +45,9 @@ public class Member extends BaseEntity {
     @Column(name = "member_profile_image_url")
     private String memberProfileImageUrl;
 
-    @NotNull
-    @Column(name = "refresh_token")
-    private String refreshToken;
+//    @NotNull
+//    @Column(name = "refresh_token")
+//    private String refreshToken;
 
     @NotNull
     @Column(name = "member_is_deleted")
