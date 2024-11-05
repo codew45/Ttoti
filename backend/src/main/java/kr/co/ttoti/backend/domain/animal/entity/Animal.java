@@ -35,9 +35,10 @@ public class Animal {
 
     public AnimalDto toDto(){
         return AnimalDto.builder()
+            .animalId(this.animalId)
             .animalName(this.animalName)
-            .animalImageUrl(this.getAnimalImageUrl())
-            .animalDescription(this.getAnimalDescription())
+            .animalImageUrl(this.animalImageUrl)
+            .animalDescription(this.animalDescription)
             .build();
     }
 }

@@ -18,6 +18,7 @@ public class AnimalListGetServiceImpl implements AnimalListGetService{
 	public List<AnimalDto> getAnimalList(boolean animalIsAvailable) {
 		return animalRepository.findByAnimalIsAvailable(animalIsAvailable).stream()
 			.map(animal -> AnimalDto.builder()
+				.animalId(animal.getAnimalId())
 				.animalName(animal.getAnimalName())
 				.animalDescription(animal.getAnimalDescription())
 				.animalImageUrl(animal.getAnimalImageUrl())

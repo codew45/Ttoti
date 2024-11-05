@@ -141,6 +141,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 
 		if (readyRoomMemberList.size() != room.getRoomParticipants()) {
 			return AnimalSelectDto.builder()
+				.animalId(animalDto.getAnimalId())
 				.animalName(animalDto.getAnimalName())
 				.animalImageUrl(animalDto.getAnimalImageUrl())
 				.build();

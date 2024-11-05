@@ -7,6 +7,7 @@ import lombok.Getter;
 @Builder
 public class AnimalSelectDto {
 
+	Integer animalId;
 	String animalName;
 	String animalImageUrl;
 }
