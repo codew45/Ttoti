@@ -3,26 +3,54 @@ import RoomInfo from "@components/mypage/RoomInfo";
 import HomeIcon from "@assets/icons/home.svg?react"
 import styled from "styled-components";
 
+
+const MyPageWrapper = styled.div`
+	width:100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
+
+const MyPageBox = styled.div`
+	display: flex;
+	width: 360px;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+
+`
+
+const HomeIconWrapper = styled.div`
+	position: absolute;
+	top: 10px;
+	left: 30px;
+`;
+
 const MyPageHeader = styled.div`
 	margin-top: 10px;
 	padding: 30px;
 `;
 
 const ProfileBoxWrapper = styled.div`
-  margin-left: 82px; 
 `;
 
 
 const MyPage = () => {
-	return <>
+	return <MyPageWrapper>
+		<MyPageBox>
+			<HomeIconWrapper>
+      	<HomeIcon />
+			</HomeIconWrapper>
       <MyPageHeader>
-        <HomeIcon />
-        <ProfileBoxWrapper>
-          <ProfileBox />
-        </ProfileBoxWrapper>
+       	<ProfileBoxWrapper>
+         	<ProfileBox />
+       	</ProfileBoxWrapper>
       </MyPageHeader>
 			<RoomInfo />
-	</>;
+		</MyPageBox>
+	</MyPageWrapper>;
 };
 
 export default MyPage;
