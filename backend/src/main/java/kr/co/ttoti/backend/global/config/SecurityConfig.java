@@ -47,7 +47,8 @@ public class SecurityConfig {
     private static final List<String> CORS_ALLOWED_ORIGIN = List.of(
             "http://localhost:5173",
             "http://localhost:8080",
-            "https://ttoti.co.kr"
+            "https://ttoti.co.kr",
+            "http://ttoti.co.kr:8080"
     );
 
     private static final String[] PERMIT_PATTERNS = {
