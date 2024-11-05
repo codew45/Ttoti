@@ -18,6 +18,8 @@ public enum SuccessCode {
     ROOM_START_SUCCESS(200, "방 시작 성공"),
     ROOM_PENDING_DETAIL_SUCCESS(200, "시작 전 방 상세 조회 성공"),
     ROOM_IN_PROGRESS_DETAIL_SUCCESS(200, "진행 중 방 상세 조회 성공"),
+    ROOM_DELETE_SUCCESS(200, "방장 퇴장으로 인한 방 삭제 성공"),
+    ROOM_MEMBER_DELETE_SUCCESS(200, "방 퇴장 성공"),
 
     QUIZ_LIST_GET_SUCCESS(200, "퀴즈 목록 조회 성공"),
     QUIZ_LIST_GET_SUCCESS_NO_CONTENT(200, "퀴즈 목록 조회에 성공했으나 데이터가 존재하지 않습니다"),
