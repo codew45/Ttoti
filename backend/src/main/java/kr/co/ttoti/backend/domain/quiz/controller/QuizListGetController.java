@@ -1,9 +1,9 @@
 package kr.co.ttoti.backend.domain.quiz.controller;
 
+import kr.co.ttoti.backend.global.auth.annotation.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +23,7 @@ public class QuizListGetController {
 	private final QuizHistoryListGetService quizHistoryListGetService;
 
 	@GetMapping("/{ttoti-id}/quiz")
-	ResponseEntity<ResponseDto<QuizHistoryListGetDto>> getQuizList(@RequestHeader Integer memberId,
+	ResponseEntity<ResponseDto<QuizHistoryListGetDto>> getQuizList(@MemberId Integer memberId,
 		@PathVariable("ttoti-id") Integer ttotiId) {
 
 		QuizHistoryListGetDto result = quizHistoryListGetService.getQuizHistoryList(memberId, ttotiId);

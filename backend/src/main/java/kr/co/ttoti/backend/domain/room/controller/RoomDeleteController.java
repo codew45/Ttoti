@@ -1,9 +1,9 @@
 package kr.co.ttoti.backend.domain.room.controller;
 
+import kr.co.ttoti.backend.global.auth.annotation.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +20,7 @@ public class RoomDeleteController {
 	private final RoomDeleteService roomDeleteService;
 
 	@DeleteMapping("/{room-id}")
-	ResponseEntity<ResponseDto<?>> deleteRoom(@RequestHeader Integer memberId,
+	ResponseEntity<ResponseDto<?>> deleteRoom(@MemberId Integer memberId,
 		@PathVariable(name = "room-id") Integer roomId) {
 		Boolean isHostLeaving = roomDeleteService.deleteRoom(memberId, roomId);
 		if(isHostLeaving){

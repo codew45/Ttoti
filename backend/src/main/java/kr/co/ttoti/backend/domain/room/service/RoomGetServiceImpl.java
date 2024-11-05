@@ -2,12 +2,12 @@ package kr.co.ttoti.backend.domain.room.service;
 
 import java.util.List;
 
+import kr.co.ttoti.backend.global.auth.entity.Member;
+import kr.co.ttoti.backend.global.auth.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.ttoti.backend.domain.common.Validator;
-import kr.co.ttoti.backend.domain.member.entity.Member;
-import kr.co.ttoti.backend.domain.member.repository.MemberRepository;
 import kr.co.ttoti.backend.domain.room.dto.RoomInProgressDto;
 import kr.co.ttoti.backend.domain.room.dto.RoomMemberDto;
 import kr.co.ttoti.backend.domain.room.dto.RoomMemberListPendingDto;

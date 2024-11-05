@@ -1,4 +1,4 @@
-package kr.co.ttoti.backend.domain.member.entity;
+package kr.co.ttoti.backend.global.auth.entity;
 
 public enum OAuth2Provider {
 

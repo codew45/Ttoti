@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.co.ttoti.backend.domain.member.entity.Member;
-import kr.co.ttoti.backend.domain.member.repository.MemberRepository;
+import kr.co.ttoti.backend.global.auth.entity.Member;
+import kr.co.ttoti.backend.global.auth.repository.MemberRepository;
 import kr.co.ttoti.backend.domain.room.dto.RoomMemberDto;
 import kr.co.ttoti.backend.domain.room.dto.RoomSummaryDto;
 import kr.co.ttoti.backend.domain.room.entity.Room;

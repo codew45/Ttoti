@@ -12,7 +12,7 @@ import kr.co.ttoti.backend.domain.animal.dto.AnimalDto;
 import kr.co.ttoti.backend.domain.animal.dto.AnimalSelectDto;
 import kr.co.ttoti.backend.domain.animal.entity.Animal;
 import kr.co.ttoti.backend.domain.common.Validator;
-import kr.co.ttoti.backend.domain.member.entity.Member;
+import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.domain.quiz.dto.QuizHistoryDto;
 import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
 import kr.co.ttoti.backend.domain.quiz.service.QuizInsertService;

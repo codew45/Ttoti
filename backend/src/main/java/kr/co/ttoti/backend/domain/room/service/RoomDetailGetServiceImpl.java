@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import kr.co.ttoti.backend.domain.member.entity.Member;
-import kr.co.ttoti.backend.domain.member.repository.MemberRepository;
+import kr.co.ttoti.backend.global.auth.entity.Member;
+import kr.co.ttoti.backend.global.auth.repository.MemberRepository;
 import kr.co.ttoti.backend.domain.room.dto.RoomInProgressDetailGetDto;
 import kr.co.ttoti.backend.domain.room.dto.RoomPendingDetailGetDto;
 import kr.co.ttoti.backend.domain.room.entity.Room;

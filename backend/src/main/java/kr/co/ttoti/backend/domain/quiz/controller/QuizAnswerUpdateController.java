@@ -1,5 +1,6 @@
 package kr.co.ttoti.backend.domain.quiz.controller;
 
+import kr.co.ttoti.backend.global.auth.annotation.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,7 @@ public class QuizAnswerUpdateController {
 	private final QuizAnswerUpdateService quizAnswerUpdateService;
 
 	@PatchMapping("/{ttoti-id}/quiz/{quiz-id}")
-	ResponseEntity<ResponseDto<?>> updateQuizAnswer(@RequestHeader Integer memberId,
+	ResponseEntity<ResponseDto<?>> updateQuizAnswer(@MemberId Integer memberId,
 		@PathVariable(name = "ttoti-id") Integer ttotiId,
 		@PathVariable(name = "quiz-id") Integer quizId,
 		@RequestBody QuizAnswerUpdateRequest quizAnswerUpdateRequest) {

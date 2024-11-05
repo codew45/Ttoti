@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import kr.co.ttoti.backend.domain.member.entity.Member;
+import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 

@@ -3,9 +3,8 @@ package kr.co.ttoti.backend.domain.room.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.co.ttoti.backend.domain.member.entity.Member;
-import kr.co.ttoti.backend.domain.member.repository.MemberRepository;
-import kr.co.ttoti.backend.domain.room.dto.RoomMemberDto;
+import kr.co.ttoti.backend.global.auth.entity.Member;
+import kr.co.ttoti.backend.global.auth.repository.MemberRepository;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;

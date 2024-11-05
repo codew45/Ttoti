@@ -1,5 +1,6 @@
 package kr.co.ttoti.backend.domain.room.controller;
 
+import kr.co.ttoti.backend.global.auth.annotation.MemberId;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -20,7 +21,7 @@ public class RoomMemberListGetController {
 	private final RoomGetService roomGetService;
 
 	@GetMapping("/refresh/{room-id}")
-	public ResponseDto<RoomMemberListPendingDto> getRoomMemberList(@RequestHeader Integer memberId,
+	public ResponseDto<RoomMemberListPendingDto> getRoomMemberList(@MemberId Integer memberId,
 		@PathVariable("room-id") Integer roomId) {
 		return ResponseDto.success(SuccessCode.OK, roomGetService.getRoomMemberListIfPending(memberId, roomId));
 	}

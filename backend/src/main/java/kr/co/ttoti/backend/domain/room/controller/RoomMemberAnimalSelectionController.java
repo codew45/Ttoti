@@ -1,5 +1,6 @@
 package kr.co.ttoti.backend.domain.room.controller;
 
+import kr.co.ttoti.backend.global.auth.annotation.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class RoomMemberAnimalSelectionController {
 	private final RoomMemberAnimalSelectionService roomMemberAnimalSelectService;
 
 	@PostMapping("{room-id}/animals")
-	ResponseEntity<ResponseDto<?>> selectAnimal(@RequestHeader Integer memberId,
+	ResponseEntity<ResponseDto<?>> selectAnimal(@MemberId Integer memberId,
 		@PathVariable("room-id") Integer roomId,
 		@RequestBody RoomMemberAnimalSelectRequest roomMemberAnimalSelectRequest) {
 

@@ -3,7 +3,7 @@ package kr.co.ttoti.backend.domain.room.dto;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-import kr.co.ttoti.backend.domain.member.entity.Member;
+import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 import lombok.Builder;
