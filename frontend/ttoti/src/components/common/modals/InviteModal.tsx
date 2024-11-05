@@ -8,6 +8,53 @@ import {
 import ListBox from '@components/common/box/ListBox';
 import DuplicateIcon from '@assets/icons/duplicate.svg?react';
 
+const InviteModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+	const subtitleText = '또띠 초대';
+	const titleText = '친구를 또띠에 초대해주세요!';
+	const explainText = '';
+	const buttonColor1 = 'login';
+	const buttonText1 = '카카오톡 공유하기';
+	const buttonColor2 = 'background';
+	const buttonText2 = '닫기';
+
+	const handleInvite = () => {
+		console.log('/game');
+	};
+
+	return (
+		<ModalOverlay onClick={onClose}>
+			<Modal>
+				<ModalTitle titleText={titleText} subtitleText={subtitleText} />
+				<InviteContents />
+				<ButtonContainer
+					explainText={explainText}
+					buttonColor1={buttonColor1}
+					buttonText1={buttonText1}
+					onClick1={handleInvite}
+					buttonColor2={buttonColor2}
+					buttonText2={buttonText2}
+					onClick2={onClose}
+				/>
+			</Modal>
+		</ModalOverlay>
+	);
+};
+
+export default InviteModal;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
 const InviteWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -63,35 +110,3 @@ const InviteContents = () => {
 		</InviteWrapper>
 	);
 };
-
-const InviteModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-	const subtitleText = '또띠 초대';
-	const titleText = '친구를 또띠에 초대해주세요!';
-	const explainText = '';
-	const buttonColor1 = 'login';
-	const buttonText1 = '카카오톡 공유하기';
-	const buttonColor2 = 'background';
-	const buttonText2 = '닫기';
-
-	const handleInvite = () => {
-		console.log('/game');
-	};
-
-	return (
-		<Modal>
-			<ModalTitle titleText={titleText} subtitleText={subtitleText} />
-			<InviteContents />
-			<ButtonContainer
-				explainText={explainText}
-				buttonColor1={buttonColor1}
-				buttonText1={buttonText1}
-				onClick1={handleInvite}
-				buttonColor2={buttonColor2}
-				buttonText2={buttonText2}
-				onClick2={onClose}
-			/>
-		</Modal>
-	);
-};
-
-export default InviteModal;

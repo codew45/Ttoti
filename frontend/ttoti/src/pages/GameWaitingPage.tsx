@@ -15,12 +15,14 @@ import addMemberIcon from '@assets/profiles/addMemberIcon.png';
 import monkey from '@assets/characters/Monkey_pixcel.png';
 import ProfileContainer from '@components/common/ProfileComponents';
 import InviteModal from '@components/common/modals/InviteModal';
+import RoomInfoModal from '@components/common/modals/RoomInfoModal';
 
 const GameWaitingPage: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOverflow, setIsOverflow] = useState(false);
   const [showNextButton, setShowNextButton] = useState(true);
   const [$isInviteModalOpen, setInviteModalOpen] = useState(false);
+  const [$isRoomInfoModalOpen, setRoomInfoModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const participants = useMemo(() => [
@@ -33,6 +35,21 @@ const GameWaitingPage: React.FC = () => {
     { name: '아쿠아', imgSrc: profile7, $ready: false },
     { name: '토오사카', imgSrc: profile8, $ready: false },
   ], []);
+
+  const infoList = [
+    { label: '방 이름', value: '99NULL' },
+    { label: '방장', value: '정진영' },
+    { label: '종료 시간', value: '18:30' },
+    { label: '진행 기간', value: '7일' },
+  ];
+
+  const openModal = () => {
+    setRoomInfoModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setRoomInfoModalOpen(false);
+  };
 
   const openInviteModal = () => setInviteModalOpen(true);
   const closeInviteModal = () => {
@@ -65,7 +82,7 @@ const GameWaitingPage: React.FC = () => {
   }, [participants]);
 
   return (
-    <Overlay onClick={closeInviteModal} $isInviteModalOpen={$isInviteModalOpen}>
+    <>
       <ModalContainer>
         <HeaderContainer>
           <HeaderContent>
@@ -75,7 +92,7 @@ const GameWaitingPage: React.FC = () => {
               <RoomName>99NULL</RoomName>
             </HeaderText>
           </HeaderContent>
-          <RoomInfo>i</RoomInfo>
+          <RoomInfo onClick={openModal}>i</RoomInfo>
         </HeaderContainer>
         <SubText>또띠에 참여하였습니다!</SubText>
         <ParticipantToolbar>
@@ -116,28 +133,24 @@ const GameWaitingPage: React.FC = () => {
       </ModalContainer>
       
       {$isInviteModalOpen && (
-        <InviteModalWrapper onClick={(e) => e.stopPropagation()}> {/* 모달 자체를 클릭했을 때 닫히지 않게 설정 */}
-          <InviteModal onClose={closeInviteModal} />
-        </InviteModalWrapper>
+        <InviteModal onClose={closeInviteModal} />
       )}
-    </Overlay>
+
+      {$isRoomInfoModalOpen && (
+        <RoomInfoModal
+          onClose={closeModal}
+          onLeave={() => {
+            closeModal();
+            alert("방에서 나갔습니다.");
+          }}
+          infoList={infoList}
+        />
+      )}
+    </>
   );
 };
 
 export default GameWaitingPage;
-
-const Overlay = styled.div<{ $isInviteModalOpen: boolean }>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: ${({ $isInviteModalOpen }) => ($isInviteModalOpen ? 'rgba(0, 0, 0, 0.5)' : 'transparent')};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 90;
-`;
 
 const ModalContainer = styled.div`
   display: flex;
@@ -205,6 +218,7 @@ const RoomInfo = styled.div`
   height: 17.5px;
   background-color: white;
   border-radius: 50%;
+  cursor: pointer;
 `
 
 const SubText = styled.div`
@@ -352,12 +366,4 @@ const ToggleButton = styled.button`
   border: none;
   border-radius: 15px;
   cursor: pointer;
-`;
-
-const InviteModalWrapper = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 200;
 `;
