@@ -95,4 +95,9 @@ public class Room extends BaseEntity {
 		this.roomStartTime = LocalTime.now();
 		this.roomFinishDate = LocalDate.now().plusDays(this.roomPeriod);
 	}
+
+	public void deleteRoom(){
+		this.roomIsDeleted = true;
+		this.roomDeletedAt = LocalDateTime.now();
+	}
 }
