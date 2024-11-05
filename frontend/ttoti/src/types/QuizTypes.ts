@@ -1,6 +1,7 @@
 // src/types/QuizTypes.ts
 export interface Quiz {
   ttotiId: number;
+  quizId: number;
   quizDate: string;
   quizChoiceContent: string;
   quizType: 'OX' | 'TWO_CHOICE' | 'FOUR_CHOICE';

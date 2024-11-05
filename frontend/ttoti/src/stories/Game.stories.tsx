@@ -17,6 +17,7 @@ const mockQuizData: QuizData = {
   "manittoQuizList": [
       {
           "ttotiId": 1,
+          "quizId": 1,
           "quizDate": "2024-11-01",
           "quizChoiceContent": "약 먹을 때 먼저 먹는 것은?",
           "quizType": "TWO_CHOICE",
@@ -32,6 +33,7 @@ const mockQuizData: QuizData = {
       },
       {
           "ttotiId": 1,
+          "quizId": 2,
           "quizDate": "2024-10-31",
           "quizChoiceContent": "가장 가지고 싶은 초능력은?",
           "quizType": "FOUR_CHOICE",
@@ -51,6 +53,7 @@ const mockQuizData: QuizData = {
   "manitiQuizList": [
       {
           "ttotiId": 8,
+          "quizId": 1,
           "quizDate": "2024-11-01",
           "quizChoiceContent": "약 먹을 때 먼저 먹는 것은?",
           "quizType": "TWO_CHOICE",
@@ -66,6 +69,7 @@ const mockQuizData: QuizData = {
       },
       {
           "ttotiId": 8,
+          "quizId": 2,
           "quizDate": "2024-10-31",
           "quizChoiceContent": "가장 가지고 싶은 초능력은?",
           "quizType": "FOUR_CHOICE",
@@ -84,6 +88,7 @@ const mockQuizData: QuizData = {
   ],
   "todayManittoQuiz": {
       "ttotiId": 1,
+      "quizId": 3,
       "quizDate": "2024-11-02",
       "quizChoiceContent": "영화를 같이 보러 가는 사람은?",
       "quizType": "FOUR_CHOICE",
@@ -101,6 +106,7 @@ const mockQuizData: QuizData = {
   },
   "todayManitiQuiz": {
       "ttotiId": 8,
+      "quizId": 3,
       "quizDate": "2024-11-02",
       "quizChoiceContent": "영화를 같이 보러 가는 사람은?",
       "quizType": "FOUR_CHOICE",
