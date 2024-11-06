@@ -34,10 +34,16 @@ const LoginButtonText = styled.div`
 `;
 
 const API_URL = import.meta.env.VITE_URL;
-
 const LoginContainer = () => {
-	const handleLogin = () => {
-		window.location.href = `${API_URL}/oauth/kakao`;
+	const handleLogin = async () => {
+		// 화면 새로고침
+		console.log('check');
+		try {
+			window.location.href = `${API_URL}/oauth/kakao`;
+			// console.log
+		} catch (error) {
+			console.log('Redirect Error:', error);
+		}
 	};
 	return (
 		<LoginWrapper>
