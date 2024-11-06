@@ -31,6 +31,16 @@ const CloudsImage = styled.img`
 `;
 
 const LoginPage = () => {
+	if ('serviceWorker' in navigator) {
+		if (
+			window.location.pathname === '/login' ||
+			window.location.pathname === '/api/v1/ttoti/oauth/kakao'
+		) {
+			navigator.serviceWorker.ready.then((registration) => {
+				registration.unregister();
+			});
+		}
+	}
 	return (
 		<LoginWrapper>
 			<CloudsImage src={Clouds} alt="cloudImage" />

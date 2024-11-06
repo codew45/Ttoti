@@ -15,6 +15,7 @@ const Auth = () => {
 					// local에 저장
 					localStorage.setItem('accessToken', accessToken);
 					localStorage.setItem('refreshToken', refreshToken);
+					console.log('토큰 저장 완료!');
 
 					// 메인 페이지로 이동
 					navigate('/');
