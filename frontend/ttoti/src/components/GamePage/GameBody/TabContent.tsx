@@ -11,10 +11,12 @@ interface TabContentProps {
 }
 
 const ContentContainer = styled.div<{ $backgroundColor: string }>`
-  width: 100%;
-  height: 505px;
+  width: 380px;
+  height: 500px;
   background-color: ${({ $backgroundColor }) => $backgroundColor};
-  border-top: 1px solid black;
+  box-sizing: border-box;
+  border: 1px solid black;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;

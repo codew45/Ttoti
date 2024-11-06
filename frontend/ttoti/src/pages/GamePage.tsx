@@ -9,7 +9,8 @@ import { QuizData } from "src/types/QuizTypes"; // QuizData 타입 import
 // Styled component for the GamePage container
 const GamePageContainer = styled.div`
   background-color: #1b95ec;
-  min-height: 740px;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,9 +43,11 @@ const RoomTitleWrapper = styled.div`
 
 const GameWrapper = styled.div`
 	position: absolute;
-	width: 360px;
-	height: 600px;
-	bottom: -55px;
+  left: 50%;
+  transform: translateX(-50%);
+	width: 380px;
+	height: 539px;
+	top: 230px;
 `;
 
 const GamePage: React.FC = () => {

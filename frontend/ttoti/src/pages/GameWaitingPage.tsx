@@ -162,8 +162,8 @@ const ModalContainer = styled.div`
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   position: absolute;
-  left: 50%;
   top: 50%;
+  left: 50%;
   transform: translate(-50%, -65%);
 `;
 

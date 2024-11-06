@@ -14,6 +14,8 @@ interface QuizContentProps {
 }
 
 const BodyWrapper = styled.div`
+  position: absolute;
+  top: 43px;
   display: flex;
   flex-direction: column;
   align-items: center;

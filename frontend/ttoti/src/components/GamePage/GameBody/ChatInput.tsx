@@ -3,19 +3,20 @@ import React, { useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 
 const InputContainer = styled.div<{ $backgroundColor: string }>`
-  width: 360px;
+  width: 378px;
   height: 80px;
   display: flex;
   align-items: center;
   background-color: ${({ $backgroundColor }) => $backgroundColor};
   border-top: 3px solid black;
+  border-radius: 0 0 9px 9px;
 `;
 
 const InputField = styled.input`
   flex: 1;
   padding: 8px;
   font-size: 16px;
-  margin-left: 8px; 
+  margin-left: 25px; 
   border: 2px solid #e1e9ef;
   border-radius: 15px;
   outline: none;
@@ -24,6 +25,7 @@ const InputField = styled.input`
 const SendButton = styled.button`
   background: none;
   border: none;
+  margin-right: 15px;
   padding: 8px;
   cursor: pointer;
 `;
