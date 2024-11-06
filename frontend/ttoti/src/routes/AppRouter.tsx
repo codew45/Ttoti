@@ -3,8 +3,8 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 // 배경화면 import
-import LoginBackground from '@assets/images/login.png';
-import MainBackground from '@assets/images/main.png';
+import LoginBackground from '@assets/images/login.gif';
+import MainBackground from '@assets/images/main.gif';
 import MypageBackground from '@assets/images/mypage.png';
 
 import CharacterSelect from '@pages/CharacterSelectPage';
@@ -41,12 +41,15 @@ const BackgroundImage = styled.img`
 	bottom: 0;
 	left: 50%;
 	transform: translateX(-50%);
+	width: 380px;
 	object-fit: cover;
 	z-index: -1;
 `;
 
 const AppRouter = () => {
-	const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
+	const [backgroundImage, setBackgroundImage] = useState<string | undefined>(
+		undefined,
+	);
 	const location = useLocation();
 
 	// 경로 변경 시 path -> pathname 확인 후 배경화면 지정
@@ -66,7 +69,9 @@ const AppRouter = () => {
 		<>
 			<Background />
 			{backgroundImage && (
-				<BackgroundImage src={backgroundImage} alt="backgroundImage" />
+				<>
+					<BackgroundImage src={backgroundImage} alt="backgroundImage" />
+				</>
 			)}
 			<Routes>
 				{/* 메인 라우트 */}

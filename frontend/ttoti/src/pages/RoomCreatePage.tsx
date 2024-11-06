@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import RowLogo from '@assets/icons/logo/row_logo.svg?react';
 import CreateCard from '@components/room-create/CreateCard';
 
 const RoomCreateWrapper = styled.div`
@@ -12,9 +13,20 @@ const RoomCreateWrapper = styled.div`
 	align-items: center;
 `;
 
+const LogoDiv = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	position: absolute;
+	top: 70px;
+`;
 const RoomCreatePage = () => {
 	return (
 		<RoomCreateWrapper>
+			<LogoDiv>
+				<RowLogo />
+			</LogoDiv>
 			<CreateCard />
 		</RoomCreateWrapper>
 	);
