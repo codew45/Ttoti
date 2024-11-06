@@ -7,9 +7,11 @@ import OwlGif from '@assets/gamecloud/OwlGif.gif';
 
 const TabContainer = styled.div`
   display: flex;
+  justify-self: center;
   justify-content: space-around;
   position: relative;
-  margin-bottom: -1.76px;
+  margin-bottom: -0.6px;
+  width: 360px;
 `;
 
 const TabWrapper = styled.div`
@@ -21,6 +23,7 @@ const TabWrapper = styled.div`
 
 const Tab = styled.button<{ color: string; $isActive: boolean }>`
   width: 108px;
+  height: 40px;
   background-color: ${({ color }) => color};
   font-family: 'SB어그로';
   font-weight: 300;
@@ -32,7 +35,6 @@ const Tab = styled.button<{ color: string; $isActive: boolean }>`
   border-top-right-radius: 12px;
   padding: 10px 20px;
   cursor: pointer;
-  transition: background-color 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
