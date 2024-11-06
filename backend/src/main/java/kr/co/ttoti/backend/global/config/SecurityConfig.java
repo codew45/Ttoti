@@ -87,7 +87,6 @@ public class SecurityConfig {
                                         .map(AntPathRequestMatcher::antMatcher)
                                         .toArray(AntPathRequestMatcher[]::new)).permitAll()
                         .anyRequest().authenticated()
-
                 )
 
                 .oauth2Login(oAuth2Conf -> oAuth2Conf
