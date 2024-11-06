@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 // 배경화면 import
@@ -50,9 +50,14 @@ const AppRouter = () => {
 	const [backgroundImage, setBackgroundImage] = useState<string | undefined>(
 		undefined,
 	);
-	const location = useLocation();
 
-	// 경로 변경 시 path -> pathname 확인 후 배경화면 지정
+	const location = useLocation();
+	const loggedIn = !!localStorage.getItem('accessToken ');
+
+	const RequireAuth = ({ children }: { children: JSX.Element }) => {
+		const loggedIn = !!localStorage.getItem('accessToken');
+		return loggedIn ? children : <Navigate replace to="/login" />;
+	};
 
 	useEffect(() => {
 		const pathname = location.pathname.split('/')[1];
@@ -75,16 +80,71 @@ const AppRouter = () => {
 			)}
 			<Routes>
 				{/* 메인 라우트 */}
-				<Route path="/" element={<MainPage />} />
-				<Route path="/login" element={<LoginPage />} />
-				<Route path="/room-create" element={<RoomCreatePage />} />
-				<Route path="/room-list" element={<RoomListPage />} />
-				<Route path="/game-waiting" element={<GameWaitingPage />} />
-				<Route path="/game" element={<GamePage />} />
-				<Route path="/character-select" element={<CharacterSelect />} />
-				<Route path="/mypage" element={<MyPage />} />
+				<Route
+					path="/"
+					element={loggedIn ? <MainPage /> : <Navigate replace to="/login" />}
+				/>
+				<Route
+					path="/login"
+					element={!loggedIn ? <LoginPage /> : <Navigate replace to="/" />}
+				/>
+				<Route
+					path="/room-create"
+					element={
+						<RequireAuth>
+							<RoomCreatePage />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="/room-list"
+					element={
+						<RequireAuth>
+							<RoomListPage />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="/game-waiting"
+					element={
+						<RequireAuth>
+							<GameWaitingPage />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="/game"
+					element={
+						<RequireAuth>
+							<GamePage />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="/character-select"
+					element={
+						<RequireAuth>
+							<CharacterSelect />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="/mypage"
+					element={
+						<RequireAuth>
+							<MyPage />
+						</RequireAuth>
+					}
+				/>
 				<Route path="/landing" element={<LandingPage />} />
-				<Route path="/credit" element={<CreditPage />} />
+				<Route
+					path="/credit"
+					element={
+						<RequireAuth>
+							<CreditPage />
+						</RequireAuth>
+					}
+				/>
 				{/* Social Login */}
 				<Route path="/callback" element={<Auth />} />
 				{/* 테스트 페이지 라우트  */}
