@@ -3,9 +3,13 @@ package kr.co.ttoti.backend.domain.ttoti.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.ttoti.backend.domain.common.Validator;
+import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
 import kr.co.ttoti.backend.domain.ttoti.entity.Temperature;
 import kr.co.ttoti.backend.domain.ttoti.entity.TemperatureChangeReason;
+import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
 import kr.co.ttoti.backend.domain.ttoti.repository.TemperatureRepository;
+import kr.co.ttoti.backend.domain.ttoti.repository.TtotiRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -16,9 +20,10 @@ public class TemperatureInsertServiceImpl implements TemperatureInsertService {
 	private static final Float MAX_TEMPERATURE = 100F;
 
 	private final TemperatureRepository temperatureRepository;
+	private final TtotiRepository ttotiRepository;
+	private final Validator validator;
 
 	@Override
-	@Transactional
 	public Temperature calculateTemperatureIncrease(Integer ttotiId, Float prevTemperature,
 		TemperatureChangeReason temperatureChangeReason, int roomPeriod) {
 
@@ -30,6 +35,9 @@ public class TemperatureInsertServiceImpl implements TemperatureInsertService {
 
 		Float currentTemperature = Math.min(prevTemperature + increase, MAX_TEMPERATURE);
 
+		Ttoti ttoti = validator.validateTtoti(ttotiId);
+		ttoti.updateTtotiTemperature(currentTemperature);
+
 		return temperatureRepository.save(
 			Temperature.builder()
 				.ttotiId(ttotiId)
@@ -38,5 +46,22 @@ public class TemperatureInsertServiceImpl implements TemperatureInsertService {
 				.currentTemperature(currentTemperature)
 				.build()
 		);
+	}
+
+	@Transactional
+	public void insertTemperatureForQuizAnswer(QuizAnswer quizAnswer, Integer roomPeriod) {
+
+		Ttoti ttoti = ttotiRepository.findByTtotiId(quizAnswer.getTtotiId());
+
+		if (quizAnswer.getIsManittoAnswered()) {
+			calculateTemperatureIncrease(quizAnswer.getTtotiId(), ttoti.getTtotiTemperature(),
+				TemperatureChangeReason.QUIZ_ANSWER, roomPeriod);
+		}
+
+		if (quizAnswer.getManittoAnswer() != null && quizAnswer.getManittoAnswer()
+			.equals(quizAnswer.getManitiAnswer())) {
+			calculateTemperatureIncrease(quizAnswer.getTtotiId(), ttoti.getTtotiTemperature(),
+				TemperatureChangeReason.QUIZ_ANSWER_CORRECT, roomPeriod);
+		}
 	}
 }

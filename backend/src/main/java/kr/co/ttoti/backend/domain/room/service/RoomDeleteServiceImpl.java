@@ -41,17 +41,12 @@ public class RoomDeleteServiceImpl implements RoomDeleteService {
 
 		RoomMember roomMember = validator.validateMemberRoomAuthorization(room, member);
 		roomMember.deleteRoomMember();
-		roomMemberRepository.saveAndFlush(roomMember);
 		return false;
 	}
 
 	private void deleteAllRoomMembersAndRoom(Room room) {
 		roomMemberRepository.findByRoomAndRoomMemberIsDeletedFalse(room)
-			.forEach(roomMember -> {
-				roomMember.deleteRoomMember();
-				roomMemberRepository.saveAndFlush(roomMember);
-			});
+			.forEach(RoomMember::deleteRoomMember);
 		room.deleteRoom();
-		roomRepository.saveAndFlush(room);
 	}
 }

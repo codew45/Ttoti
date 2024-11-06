@@ -23,6 +23,7 @@ import kr.co.ttoti.backend.domain.room.dto.TtotiMatchDto;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
+import kr.co.ttoti.backend.domain.room.repository.RoomRepository;
 import kr.co.ttoti.backend.domain.ttoti.entity.AnimalPersonality;
 import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
 import kr.co.ttoti.backend.domain.ttoti.repository.TtotiRepository;
@@ -38,6 +39,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 	private final QuizServiceUtils quizServiceUtils;
 	private final Validator validator;
 	private final QuizAnswerRepository quizAnswerRepository;
+	private final RoomRepository roomRepository;
 
 	@Transactional
 	public Integer createTtoti(Room room, List<RoomMember> roomMemberList, RoomMember roomMember) {
@@ -85,11 +87,11 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 
 		roomMember.updateAnimal(animal);
 		roomMember.updateRoomMemberIsReady(true);
-		roomMemberRepository.saveAndFlush(roomMember);
 
 		return animal.toDto();
 	}
 
+	@Transactional
 	public RoomStartDto startRoom(Room room, List<RoomMember> readyRoomMemberList, RoomMember roomMember, Member member) {
 
 		room.startRoom();

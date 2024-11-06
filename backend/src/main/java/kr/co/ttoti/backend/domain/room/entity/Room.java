@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
 
+@ToString
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -99,5 +100,9 @@ public class Room extends BaseEntity {
 	public void deleteRoom(){
 		this.roomIsDeleted = true;
 		this.roomDeletedAt = LocalDateTime.now();
+	}
+
+	public void finishRoom(){
+		this.roomIsFinished = true;
 	}
 }

@@ -52,6 +52,7 @@ public enum ErrorCode {
     UNANSWERED_QUIZ_NOT_FOUND(404, "새롭게 낼 퀴즈가 존재하지 않습니다"),
     QUIZ_NOT_FOUND(404, "퀴즈가 존재하지 않거나, 사용할 수 없는 퀴즈입니다"),
     QUIZ_ANSWER_NOT_FOUND(404, "응답할 수 있는 퀴즈가 아닙니다"),
+    QUIZ_EXPIRED(400, "기간이 지난 퀴즈에는 응답할 수 없습니다"),
 
     //ttoti
     TTOTI_NOT_FOUND(404, "또띠관계가 존재하지 않습니다."),

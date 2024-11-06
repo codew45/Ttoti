@@ -20,4 +20,6 @@ public interface QuizAnswerRepository extends JpaRepository<QuizAnswer, Integer>
 	QuizAnswer findByTtotiIdAndQuizDate(Integer ttotiId, LocalDate quizDate);
 
 	Optional<QuizAnswer> findByTtotiIdAndQuiz(Integer ttotiId, Quiz quiz);
+
+	List<QuizAnswer> findByRoomIdAndQuizDate(Integer roomId, LocalDate today);
 }
