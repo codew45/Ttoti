@@ -6,6 +6,8 @@ import RoomCarousel from '@components/room-list/RoomCarousel';
 import NotificationModal from '@components/common/modals/NotificationModal';
 import EnterCodeModal from '@components/common/modals/EnterCodeModal';
 
+import RowLogo from '@assets/icons/logo/row_logo.svg?react';
+
 const RoomCreateWrapper = styled.div`
 	position: relative;
 	width: 100vw;
@@ -26,6 +28,14 @@ const ModalBackground = styled.div`
 	z-index: 1;
 `;
 
+const LogoDiv = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	position: absolute;
+	top: 70px;
+`;
 // 임시 데이터로 테스트
 const exampleData: RoomData[] = [
 	{
@@ -75,6 +85,9 @@ const RoomListPage = () => {
 	};
 	return (
 		<RoomCreateWrapper>
+			<LogoDiv>
+				<RowLogo />
+			</LogoDiv>
 			{isModalOpen && (
 				<ModalBackground onClick={closeModal}>
 					<NotificationModal onClose={closeModal} />

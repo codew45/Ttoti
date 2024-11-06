@@ -10,7 +10,7 @@ const LoginWrapper = styled.div`
 	align-items: center;
 	gap: 10px;
 	position: absolute;
-	top: 340px;
+	bottom: 340px;
 `;
 const LoginText = styled.div`
 	width: 240px;

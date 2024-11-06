@@ -10,7 +10,7 @@ const MainWrapper = styled.div`
 	align-items: center;
 	gap: 10px;
 	position: absolute;
-	top: 340px;
+	bottom: 300px;
 `;
 const MainColumn = styled.div`
 	display: flex;
