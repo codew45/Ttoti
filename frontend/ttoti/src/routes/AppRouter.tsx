@@ -51,12 +51,19 @@ const AppRouter = () => {
 		undefined,
 	);
 
+	const [loggedIn, setLoggedIn] = useState(
+		!!localStorage.getItem('accessToken'),
+	);
+
 	const location = useLocation();
-	const loggedIn = !!localStorage.getItem('accessToken ');
 
 	const RequireAuth = ({ children }: { children: JSX.Element }) => {
-		const loggedIn = !!localStorage.getItem('accessToken');
-		return loggedIn ? children : <Navigate replace to="/login" />;
+		const isLoggedIn = !!localStorage.getItem('accessToken');
+		if (!isLoggedIn) {
+			setLoggedIn(false);
+			return <Navigate replace to="/login" />;
+		}
+		return children;
 	};
 
 	useEffect(() => {
@@ -82,7 +89,11 @@ const AppRouter = () => {
 				{/* 메인 라우트 */}
 				<Route
 					path="/"
-					element={loggedIn ? <MainPage /> : <Navigate replace to="/login" />}
+					element={
+						<RequireAuth>
+							<MainPage />
+						</RequireAuth>
+					}
 				/>
 				<Route
 					path="/login"
