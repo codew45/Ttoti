@@ -64,8 +64,16 @@ public class Ttoti extends BaseEntity {
 	@Column(name = "ttoti_chat_is_finished")
 	private Boolean ttotiChatIsFinished;
 
-	public void updateTittoId(Integer ttotiId){
+	public void updateTittoId(Integer ttotiId) {
 		this.tittoId = ttotiId;
+	}
+
+	public void updateTtotiChatIsFinished(Boolean ttotiChatIsFinished) {
+		this.ttotiChatIsFinished = ttotiChatIsFinished;
+	}
+
+	public void updateTtotiTemperature(Float ttotiTemperature) {
+		this.ttotiTemperature = ttotiTemperature;
 	}
 
 }

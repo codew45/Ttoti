@@ -1,5 +1,6 @@
 package kr.co.ttoti.backend.domain.ttoti.service;
 
+import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
 import kr.co.ttoti.backend.domain.ttoti.entity.Temperature;
 import kr.co.ttoti.backend.domain.ttoti.entity.TemperatureChangeReason;
 
@@ -15,4 +16,6 @@ public interface TemperatureInsertService {
 	 */
 	Temperature calculateTemperatureIncrease(Integer ttotiId, Float prevTemperature,
 		TemperatureChangeReason temperatureChangeReason, int roomPeriod);
+
+	void insertTemperatureForQuizAnswer(QuizAnswer quizAnswer, Integer roomPeriod);
 }

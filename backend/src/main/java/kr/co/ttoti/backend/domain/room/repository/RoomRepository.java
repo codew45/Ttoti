@@ -1,5 +1,8 @@
 package kr.co.ttoti.backend.domain.room.repository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +20,8 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
 	Optional<Room> findByRoomIdAndRoomIsDeletedFalse(Integer roomId);
 
 	Optional<Room> findByRoomIdAndRoomIsStartedFalse(Integer roomId);
+
+	List<Room> findByRoomIsDeletedFalseAndRoomIsStartedTrueAndRoomIsFinishedFalse();
+
+	List<Room> findByRoomIsDeletedFalseAndRoomIsStartedTrueAndRoomIsFinishedFalseAndRoomFinishDateLessThanEqualAndRoomFinishTimeLessThanEqual(LocalDate roomFinishDate, LocalTime roomFinishTime);
 }

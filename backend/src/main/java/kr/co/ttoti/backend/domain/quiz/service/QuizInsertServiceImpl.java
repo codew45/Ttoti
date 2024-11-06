@@ -15,7 +15,6 @@ import kr.co.ttoti.backend.domain.quiz.repository.QuizRepository;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
 import kr.co.ttoti.backend.domain.ttoti.repository.TtotiRepository;
-import kr.co.ttoti.backend.global.exception.CustomException;
 import kr.co.ttoti.backend.global.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
 
@@ -40,13 +39,20 @@ public class QuizInsertServiceImpl implements QuizInsertService {
 
 		List<Quiz> unAnsweredQuizList = quizRepository.findByQuizIdNotIn(answeredQuizIdList);
 		if (unAnsweredQuizList.isEmpty()) {
-			throw new CustomException(ErrorCode.UNANSWERED_QUIZ_NOT_FOUND);
+			// throw new CustomException(ErrorCode.UNANSWERED_QUIZ_NOT_FOUND);
+			// 나중에 퀴즈 데이터 다 추가하면 그때 예외처리로 바꾸겠음
+			System.out.println(roomId + ErrorCode.UNANSWERED_QUIZ_NOT_FOUND.getMessage());
 		}
 
 		return getRandomQuizFromList(unAnsweredQuizList);
 	}
 
 	private QuizDto getRandomQuizFromList(List<Quiz> quizList) {
+		if(quizList.isEmpty()){
+			System.out.println(ErrorCode.UNANSWERED_QUIZ_NOT_FOUND.getMessage());
+			return null;
+		}
+
 		Quiz quiz = quizList.get(new java.util.Random().nextInt(quizList.size()));
 
 		return quiz.toDto();
