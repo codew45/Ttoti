@@ -68,18 +68,19 @@ public class SecurityConfig {
                 .csrf(CsrfConfigurer::disable)
                 .logout(LogoutConfigurer::disable)
                 .headers(HeadersConfigurer::disable)
-                .cors(CorsConfigurer::disable)
-//                .cors(corsConfigurer -> {
-//                    CorsConfigurationSource source = request -> {
-//                        CorsConfiguration config = new CorsConfiguration();
-//                        config.setAllowCredentials(true);
-//                        config.setAllowedOrigins(CORS_ALLOWED_ORIGIN);
-//                        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-//                        config.addAllowedHeader("*");
-//                        return config;
-//                    };
-//                    corsConfigurer.configurationSource(source);
-//                })
+
+//                .cors(CorsConfigurer::disable)
+                .cors(corsConfigurer -> {
+                    CorsConfigurationSource source = request -> {
+                        CorsConfiguration config = new CorsConfiguration();
+                        config.setAllowCredentials(true);
+                        config.setAllowedOrigins(CORS_ALLOWED_ORIGIN);
+                        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+                        config.addAllowedHeader("*");
+                        return config;
+                    };
+                    corsConfigurer.configurationSource(source);
+                })
 
                 .authorizeHttpRequests(requestRegistry -> requestRegistry
                         .requestMatchers(
