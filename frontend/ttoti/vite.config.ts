@@ -10,8 +10,9 @@ export default defineConfig({
 		svgr(),
 		VitePWA({
 			registerType: 'autoUpdate',
+			injectRegister: false, // 서비스 워커 비활성화
 			manifest: {
-				name: 'ttoti Projcet',
+				name: 'ttoti Project',
 				short_name: 'ttoti',
 				"theme_color": "#ffffff",
 				// 파일 세팅 초기화
