@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
+import fetchUserInfo from '@hooks/fetchUserInfo';
+import { selectMemberId } from '@stores/slices/userSlice';
+import { useAppdispatch } from '@stores/index';
 // 배경화면 import
 import LoginBackground from '@assets/images/login.gif';
 import MainBackground from '@assets/images/main.gif';
@@ -58,10 +62,25 @@ const AppRouter = () => {
 	const location = useLocation();
 
 	const RequireAuth = ({ children }: { children: JSX.Element }) => {
+		const dispatch = useAppdispatch();
+		const memberId = useSelector(selectMemberId); // Redux에서 사용자 ID 확인
+
 		const isLoggedIn = !!localStorage.getItem('accessToken');
+
+		// member 정보 조회
+		useEffect(() => {
+			// 로그인된 유저의 멤버 아이디가 저장되어있지 않았다면
+			if (isLoggedIn && !memberId) {
+				// 로그인 상태지만 사용자 정보가 없을 때 fetchUserInfo 호출
+				dispatch(fetchUserInfo());
+			}
+		}, [isLoggedIn, memberId, dispatch]);
+
 		if (!isLoggedIn) {
 			setLoggedIn(false);
 			return <Navigate replace to="/login" />;
+		} else {
+			fetchUserInfo();
 		}
 		return children;
 	};
