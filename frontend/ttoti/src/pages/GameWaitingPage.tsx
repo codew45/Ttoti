@@ -1,8 +1,8 @@
 // GameWaitingPage.tsx
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import styled from 'styled-components';
-// import { useNavigate, useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import getRoomData, { RoomMember, RoomData } from '@services/game-waiting-page/waitingRoomInfo'; // 파일 위치에 맞게 변경
 import profile1 from '@assets/profiles/profile1.png';
 import profile2 from '@assets/profiles/profile2.png';
 import profile3 from '@assets/profiles/profile3.png';
@@ -19,13 +19,31 @@ import InviteModal from '@components/common/modals/InviteModal';
 import RoomInfoModal from '@components/common/modals/RoomInfoModal';
 
 const GameWaitingPage: React.FC = () => {
-  // const { id } = useParams();
+  console.log('GameWaitingPage Mounted')
+  const { id: roomId } = useParams<{ id: string }>();
+  const [roomData, setRoomData] = useState<RoomData | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOverflow, setIsOverflow] = useState(false);
   const [showNextButton, setShowNextButton] = useState(true);
   const [$isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [$isRoomInfoModalOpen, setRoomInfoModalOpen] = useState(false);
   const navigate = useNavigate();
+
+  const fetchRoomData = useCallback(async () => {
+    if (!roomId) return;
+    try {
+      const data = await getRoomData(roomId);
+      setRoomData(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      console.log('fetchRoomData fine');
+    }
+  }, [roomId]);
+
+  useEffect(() => {
+    fetchRoomData();
+  }, [fetchRoomData]);
 
   const participants = useMemo(() => [
     { name: '정진영', imgSrc: profile1, $ready: true },
@@ -45,28 +63,12 @@ const GameWaitingPage: React.FC = () => {
     { label: '진행 기간', value: '7일' },
   ];
 
-  const openModal = () => {
-    setRoomInfoModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setRoomInfoModalOpen(false);
-  };
-
+  const openModal = () => setRoomInfoModalOpen(true);
+  const closeModal = () => setRoomInfoModalOpen(false);
   const openInviteModal = () => setInviteModalOpen(true);
-  const closeInviteModal = () => {
-    if ($isInviteModalOpen) {
-      setInviteModalOpen(false);
-    }
-  };
-
-  const handleNextButtonClick = () => {
-    setShowNextButton(false);
-  };
-
-  const handleRetryButtonClick = () => {
-    navigate('/character-select');
-  };
+  const closeInviteModal = () => setInviteModalOpen(false);
+  const handleNextButtonClick = () => setShowNextButton(false);
+  const handleRetryButtonClick = () => navigate('/character-select');
 
   useEffect(() => {
     const handleResize = () => {
@@ -90,8 +92,8 @@ const GameWaitingPage: React.FC = () => {
           <HeaderContent>
             <ProfileContainer size="70px" src={profile1} ready={false} />
             <HeaderText>
-              <HostName>정진영님의</HostName>
-              <RoomName>99NULL</RoomName>
+              <HostName>{roomData?.hostName ?? "방장 정보 없음"}님의</HostName>
+              <RoomName>{roomData?.roomName ?? "방 이름 없음"}</RoomName>
             </HeaderText>
           </HeaderContent>
           <RoomInfo onClick={openModal}>i</RoomInfo>
@@ -105,14 +107,14 @@ const GameWaitingPage: React.FC = () => {
           </MemberToolContainer>
         </ParticipantToolbar>
         <ParticipantsContainer ref={containerRef} $isOverflow={isOverflow}>
-          <ParticipantBlank></ParticipantBlank>
-          {participants.map((participant, index) => (
-            <Participant key={index}>
-              <ProfileContainer size="70px" src={participant.imgSrc} ready={participant.$ready} />
-              <ParticipantName>{participant.name}</ParticipantName>
+          <ParticipantBlank />
+          {roomData?.roomMemberInfo.roomMemberList?.map((member: RoomMember) => (
+            <Participant key={member.name}>
+              <ProfileContainer size="70px" src={member.profileImageUrl} ready={member.isReady} />
+              <ParticipantName>{member.name}</ParticipantName>
             </Participant>
           ))}
-          <ParticipantBlank></ParticipantBlank>
+          <ParticipantBlank />
         </ParticipantsContainer>
         <FooterContainer>
           {showNextButton ? (
