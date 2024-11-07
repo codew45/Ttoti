@@ -1,6 +1,7 @@
 // GameWaitingPage.tsx
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import styled from 'styled-components';
+// import { useNavigate, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import profile1 from '@assets/profiles/profile1.png';
 import profile2 from '@assets/profiles/profile2.png';
@@ -18,6 +19,7 @@ import InviteModal from '@components/common/modals/InviteModal';
 import RoomInfoModal from '@components/common/modals/RoomInfoModal';
 
 const GameWaitingPage: React.FC = () => {
+  // const { id } = useParams();
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOverflow, setIsOverflow] = useState(false);
   const [showNextButton, setShowNextButton] = useState(true);

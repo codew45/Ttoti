@@ -65,13 +65,13 @@ interface RoomCardWithModalProps extends RoomCardProps {
 }
 const RoomCard = ({ room, onNotificationClick }: RoomCardWithModalProps) => {
 	// 디버깅을 위한 콘솔 작성
-	console.log(room);
 	const navigate = useNavigate();
-	const handleEnter = (status: boolean) => {
+	const handleEnter = (status: boolean, id: number) => {
+		console.log('handleEnter called');
 		if (status) {
 			navigate('/game');
 		} else {
-			navigate('/game-waiting');
+			navigate(`/game-waiting/${id}`);
 		}
 	};
 	return (
@@ -93,7 +93,7 @@ const RoomCard = ({ room, onNotificationClick }: RoomCardWithModalProps) => {
 			/>
 			<GoButton
 				color="success"
-				onClick={() => handleEnter(room.isRoomInProgress)}
+				onClick={() => handleEnter(room.isRoomInProgress, room.roomId)}
 			>
 				입장
 			</GoButton>

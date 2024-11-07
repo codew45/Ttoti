@@ -135,7 +135,7 @@ const AppRouter = () => {
 					}
 				/>
 				<Route
-					path="/game-waiting"
+					path="/game-waiting/:id"
 					element={
 						<RequireAuth>
 							<GameWaitingPage />
