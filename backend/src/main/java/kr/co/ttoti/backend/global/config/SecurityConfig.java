@@ -1,6 +1,7 @@
 package kr.co.ttoti.backend.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.netty.handler.codec.http.HttpHeaderValues;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,6 +11,7 @@ import kr.co.ttoti.backend.global.dto.ResponseDto;
 import kr.co.ttoti.backend.global.filter.ExceptionHandlerFilter;
 import kr.co.ttoti.backend.global.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -38,100 +40,112 @@ import static kr.co.ttoti.backend.global.status.ErrorCode.UNAUTHORIZED;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final ExceptionHandlerFilter exceptionHandlerFilter;
-    private final ObjectMapper objectMapper;
-    private final CustomOAuth2UserService customOAuth2UserService;
-    private final CustomOAuth2MemberSuccessHandler oAuth2MemberSuccessHandler;
+	private final JwtAuthenticationFilter jwtAuthenticationFilter;
+	private final ExceptionHandlerFilter exceptionHandlerFilter;
+	private final ObjectMapper objectMapper;
+	private final CustomOAuth2UserService customOAuth2UserService;
+	private final CustomOAuth2MemberSuccessHandler oAuth2MemberSuccessHandler;
 
-    private static final List<String> CORS_ALLOWED_ORIGIN = List.of(
-            "http://localhost:5173",
-            "http://localhost:8080",
-            "https://ttoti.co.kr",
-            "http://ttoti.co.kr:8080"
-    );
+	private static final List<String> CORS_ALLOWED_ORIGIN = List.of(
+		"http://localhost:5173",
+		"http://127.0.0.1:5500",
+		"http://localhost:8080",
+		"https://ttoti.co.kr",
+		"http://ttoti.co.kr:8080"
+	);
 
-    private static final String[] PERMIT_PATTERNS = {
-            "/api/v1/ttoti/oauth",
-            "/api/v1/ttoti/auth/reissue",
-            "/swagger-ui/**",
-            "/static/**",
-            "/v3/api-docs/**",
-            "/favicon.ico",
-    };
+	private static final String[] PERMIT_PATTERNS = {
+		"/api/v1/ttoti/oauth",
+		"/api/v1/ttoti/auth/reissue",
+		"/api/v1/ttoti/chats/**",
+		"/chat/**",
+		"/swagger-ui/**",
+		"/static/**",
+		"/v3/api-docs/**",
+		"/favicon.ico",
+	};
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .httpBasic(HttpBasicConfigurer::disable)
-                .formLogin(FormLoginConfigurer::disable)
-                .csrf(CsrfConfigurer::disable)
-                .logout(LogoutConfigurer::disable)
-                .headers(HeadersConfigurer::disable)
+	private static final List<String> PERMIT_METHODS = List.of(
+		"GET",
+		"POST",
+		"PUT",
+		"DELETE",
+		"PATCH",
+		"OPTIONS"
+	);
 
-//                .cors(CorsConfigurer::disable)
-                .cors(corsConfigurer -> {
-                    CorsConfigurationSource source = request -> {
-                        CorsConfiguration config = new CorsConfiguration();
-                        config.setAllowCredentials(true);
-                        config.setAllowedOrigins(CORS_ALLOWED_ORIGIN);
-                        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-                        config.addAllowedHeader("*");
-                        return config;
-                    };
-                    corsConfigurer.configurationSource(source);
-                })
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		return http
+			.httpBasic(HttpBasicConfigurer::disable)
+			.formLogin(FormLoginConfigurer::disable)
+			.csrf(CsrfConfigurer::disable)
+			.logout(LogoutConfigurer::disable)
+			.headers(HeadersConfigurer::disable)
 
-                .authorizeHttpRequests(requestRegistry -> requestRegistry
-                        .requestMatchers(
-                                Arrays.stream(PERMIT_PATTERNS)
-                                        .map(AntPathRequestMatcher::antMatcher)
-                                        .toArray(AntPathRequestMatcher[]::new)).permitAll()
-                        .anyRequest().authenticated()
-                )
+			//                .cors(CorsConfigurer::disable)
+			.cors(corsConfigurer -> {
+				CorsConfigurationSource source = request -> {
+					CorsConfiguration config = new CorsConfiguration();
+					config.setAllowCredentials(true);
+					config.setAllowedOrigins(CORS_ALLOWED_ORIGIN);
+					config.setAllowedMethods(PERMIT_METHODS);
+					config.addAllowedHeader("*");
+					return config;
+				};
+				corsConfigurer.configurationSource(source);
+			})
 
-                .oauth2Login(oAuth2Conf -> oAuth2Conf
-                        .authorizationEndpoint(conf -> conf.baseUri("/api/v1/ttoti/oauth"))
-                        .loginProcessingUrl("/api/v1/ttoti/login/oauth/*")
-                        .userInfoEndpoint(conf -> conf.userService(customOAuth2UserService))
-                        .successHandler(oAuth2MemberSuccessHandler)
-                        .failureHandler(this::entryPoint))
+			.authorizeHttpRequests(requestRegistry -> requestRegistry
+				.requestMatchers(
+					Arrays.stream(PERMIT_PATTERNS)
+						.map(AntPathRequestMatcher::antMatcher)
+						.toArray(AntPathRequestMatcher[]::new)).permitAll()
+				.anyRequest().authenticated()
+			)
 
-                .exceptionHandling(exception ->
-                        exception.authenticationEntryPoint(this::entryPoint)
-                                .accessDeniedHandler(this::accessDeniedHandler))
+			.oauth2Login(oAuth2Conf -> oAuth2Conf
+				.authorizationEndpoint(conf -> conf.baseUri("/api/v1/ttoti/oauth"))
+				.loginProcessingUrl("/api/v1/ttoti/login/oauth/*")
+				.userInfoEndpoint(conf -> conf.userService(customOAuth2UserService))
+				.successHandler(oAuth2MemberSuccessHandler)
+				.failureHandler(this::entryPoint))
 
-                .sessionManagement(sessionConfigurer -> sessionConfigurer
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+			.exceptionHandling(exception ->
+				exception.authenticationEntryPoint(this::entryPoint)
+					.accessDeniedHandler(this::accessDeniedHandler))
 
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(exceptionHandlerFilter, JwtAuthenticationFilter.class)
-                .build();
-    }
+			.sessionManagement(sessionConfigurer -> sessionConfigurer
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-    private void entryPoint(HttpServletRequest request, HttpServletResponse response,
-                            RuntimeException e) throws IOException {
-        ResponseDto<Object> dto = ResponseDto.fail(UNAUTHORIZED);
-        writeResponse(response, dto);
-    }
+			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(exceptionHandlerFilter, JwtAuthenticationFilter.class)
+			.build();
+	}
 
-    private void accessDeniedHandler(HttpServletRequest request, HttpServletResponse response,
-                                     RuntimeException e) throws IOException {
-        ResponseDto<?> dto = ResponseDto.fail(ACCESS_DENIED);
-        writeResponse(response, dto);
-    }
+	private void entryPoint(HttpServletRequest request, HttpServletResponse response,
+		RuntimeException e) throws IOException {
+		ResponseDto<Object> dto = ResponseDto.fail(UNAUTHORIZED);
+		writeResponse(response, dto);
+	}
 
-    private void writeResponse(HttpServletResponse response, ResponseDto<?> dto) throws IOException {
-        response.setStatus(400);
-        response.setContentType(HttpHeaderValues.APPLICATION_JSON.toString());
-        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+	private void accessDeniedHandler(HttpServletRequest request, HttpServletResponse response,
+		RuntimeException e) throws IOException {
+		ResponseDto<?> dto = ResponseDto.fail(ACCESS_DENIED);
+		writeResponse(response, dto);
+	}
 
-        String responseBody = objectMapper.writeValueAsString(dto);
-        response.getWriter().write(responseBody);
-    }
+	private void writeResponse(HttpServletResponse response, ResponseDto<?> dto) throws IOException {
+		response.setStatus(400);
+		response.setContentType(HttpHeaderValues.APPLICATION_JSON.toString());
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+		String responseBody = objectMapper.writeValueAsString(dto);
+		response.getWriter().write(responseBody);
+	}
+
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 }

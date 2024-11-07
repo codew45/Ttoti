@@ -16,19 +16,19 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 public class StompConfig implements WebSocketMessageBrokerConfigurer {
 
-	private static final List<String> CORS_ALLOWED_ORIGIN = List.of(
+	private static final String [] CORS_ALLOWED_ORIGIN = {
 		"http://localhost:5173",
+		"http://127.0.0.1:5500",
 		"http://localhost:8080",
-		"https://ttoti.co.kr",
 		"http://ttoti.co.kr:8080",
-		"wss://ttoti.co.kr",       // 보안 WebSocket 프로토콜을 사용하는 서버
-		"ws://ttoti.co.kr:8080"
-	);
+		"https://ttoti.co.kr"
+	};
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/chat") // STOMP endpoint 설정
-			.setAllowedOriginPatterns(String.valueOf(CORS_ALLOWED_ORIGIN))
+			.setAllowedOrigins(CORS_ALLOWED_ORIGIN)
+			.setAllowedOriginPatterns("/chat/**")
 			.withSockJS();
 	}
 
