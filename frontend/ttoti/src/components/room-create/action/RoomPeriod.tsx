@@ -96,8 +96,8 @@ const CustomedSlider = styled(Slider)`
 `;
 
 interface RoomPeriodProps {
-	formData: { RoomPeriod: number };
-	onInputChange: (name: 'RoomPeriod', value: number) => void;
+	formData: { period: number };
+	onInputChange: (name: 'period', value: number) => void;
 }
 
 const PeriodSlider = ({
@@ -125,11 +125,11 @@ const PeriodSlider = ({
 };
 
 const RoomPeriod = ({ formData, onInputChange }: RoomPeriodProps) => {
-	const [period, setPeriod] = useState(formData.RoomPeriod || 7);
+	const [period, setPeriod] = useState(formData.period || 7);
 
 	// period가 변경될 때마다 업데이트
 	useEffect(() => {
-		onInputChange('RoomPeriod', period);
+		onInputChange('period', period);
 	}, [period, onInputChange]);
 
 	const handleChange: SliderProps['onChange'] = (_, newValue) => {

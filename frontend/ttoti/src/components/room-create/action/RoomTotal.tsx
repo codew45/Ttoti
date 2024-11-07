@@ -8,6 +8,8 @@ import {
 } from '@components/room-create/action/RoomInputCard';
 
 import GameButtons from '@components/common/buttons/GameButtons';
+import postRoomCreate from '@services/apiRoomClient';
+import { useNavigate } from 'react-router-dom';
 
 const RoomData = styled(RoomInputTitle)`
 	width: 65px;
@@ -38,22 +40,32 @@ const ButtonContainer = styled.div`
 
 interface RoomTotalProps {
 	formData: {
-		roomName: string;
-		RoomParticipants: number;
-		RoomPeriod: number;
-		RoomTime: string;
+		name: string;
+		participants: number;
+		period: number;
+		finishTime: string;
 	};
 }
+
 const RoomTotal = ({ formData }: RoomTotalProps) => {
 	// 최종 입력 데이터 확인용 콘솔
 	console.log('Room-Input TotalData: ', formData);
+	const navigate = useNavigate();
 	const totalData = [
-		{ title: '방 이름', value: formData.roomName },
-		{ title: '참여 인원', value: formData.RoomParticipants },
-		{ title: '진행 기간', value: formData.RoomPeriod },
-		{ title: '종료 시간', value: formData.RoomTime },
+		{ title: '방 이름', value: formData.name },
+		{ title: '참여 인원', value: formData.participants },
+		{ title: '진행 기간', value: formData.period },
+		{ title: '종료 시간', value: formData.finishTime },
 	];
 
+	const postCreateAPI = async () => {
+		console.log('click');
+		const process = await postRoomCreate({ formData });
+		if (process === 'complete') {
+			// 임시로 메인 페이지 이동
+			navigate('/');
+		}
+	};
 	return (
 		<RoomInputContainer>
 			<RoomInputColumn>
@@ -65,7 +77,9 @@ const RoomTotal = ({ formData }: RoomTotalProps) => {
 				))}
 			</RoomInputColumn>
 			<ButtonContainer>
-				<GameButtons color="main">확인</GameButtons>
+				<GameButtons color="main" onClick={postCreateAPI}>
+					확인
+				</GameButtons>
 			</ButtonContainer>
 		</RoomInputContainer>
 	);
