@@ -13,7 +13,9 @@ public enum SuccessCode {
     LOGOUT_SUCCESS(204, "로그아웃 성공"),
     REISSUE_SUCCESS(201, "토큰 재발급 성공"),
 
-    MEMBER_DETAIL_SUCCESS(200, "유저 정보 조회 성공"),
+    MEMBER_DETAIL_SUCCESS(200, "사용자 정보 조회 성공"),
+    MEMBER_NAME_UPDATE_SUCCESS(200, "사용자 이름 수정 성공"),
+
     ROOM_CREATE_SUCCESS(200, "방 생성 성공"),
     ANIMAL_SELECT_SUCCESS(200, "동물 선택 성공"),
     ROOM_START_SUCCESS(200, "방 시작 성공"),
