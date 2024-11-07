@@ -1,5 +1,7 @@
 package kr.co.ttoti.backend.global.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -14,10 +16,17 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 public class StompConfig implements WebSocketMessageBrokerConfigurer {
 
+	private static final List<String> CORS_ALLOWED_ORIGIN = List.of(
+		"http://localhost:5173",
+		"http://localhost:8080",
+		"https://ttoti.co.kr",
+		"http://ttoti.co.kr:8080"
+	);
+
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/chat") // STOMP endpoint 설정
-			.setAllowedOriginPatterns("*")
+			.setAllowedOriginPatterns(String.valueOf(CORS_ALLOWED_ORIGIN))
 			.withSockJS();
 	}
 
