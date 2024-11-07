@@ -17,9 +17,10 @@ const postRoomCreate = async ({ formData }: RoomTotalProps) => {
 			},
 		});
 		if (res.status === 200) {
-			// 임시 콘솔 및 메인 페이징 ㅣ동
+			// 임시 콘솔
 			console.log('방 생성 완료!');
-			return 'complete';
+			console.log(res.data);
+			return res.data.body;
 		}
 	} catch (error) {
 		console.log('postRoomCreate Error : ', error);

@@ -60,10 +60,10 @@ const RoomTotal = ({ formData }: RoomTotalProps) => {
 
 	const postCreateAPI = async () => {
 		console.log('click');
-		const process = await postRoomCreate({ formData });
-		if (process === 'complete') {
+		const result = await postRoomCreate({ formData });
+		if (result) {
 			// 임시로 메인 페이지 이동
-			navigate('/');
+			navigate(`/game-waiting/${result}`);
 		}
 	};
 	return (
