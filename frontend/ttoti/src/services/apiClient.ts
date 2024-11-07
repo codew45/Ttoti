@@ -51,10 +51,10 @@ export const getApiClient = () => {
 				);
 				return Promise.reject(new Error('Unauthorized, please log in again.'));
 			}
+			originalRequest._retry = true;
 			// 401 에러코드 인증되지 않은 사용자 오류
 			if (error.response?.data.httpStatus === 401 && !originalRequest._retry) {
 				console.log('토큰 만료');
-				originalRequest._retry = true;
 
 				try {
 					// refreshToken 이 있을 경우
