@@ -49,4 +49,5 @@ public class ChatMessage {
 
 	@Column(name = "message_read_at")
 	private LocalDateTime messageReadAt;
+
 }

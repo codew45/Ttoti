@@ -1,10 +1,8 @@
 package kr.co.ttoti.backend.domain.chat.dto;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
-@Builder
+@Data
 public class ChatMessageRequest {
 
 	Integer senderId;
