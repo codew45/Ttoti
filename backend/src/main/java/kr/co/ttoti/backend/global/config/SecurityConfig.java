@@ -54,9 +54,9 @@ public class SecurityConfig {
     private static final String[] PERMIT_PATTERNS = {
             "/api/v1/ttoti/oauth",
             "/api/v1/ttoti/auth/reissue",
-            "/swagger-ui",
+            "/swagger-ui/**",
             "/static/**",
-            "/api-docs/**",
+            "/v3/api-docs/**",
             "/favicon.ico",
     };
 

@@ -23,6 +23,10 @@ jwt:
   refresh-expiration: ${REFRESH_EXPIRATION}
   secret-key: ${SECRET_KEY}
 
+springdoc:
+  swagger-ui:
+    groups-order: DESC
+
 --- # 로컬 설정
 spring:
   config:
