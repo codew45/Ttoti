@@ -69,7 +69,7 @@ const RoomCard = ({ room, onNotificationClick }: RoomCardWithModalProps) => {
 	const handleEnter = (status: boolean, id: number) => {
 		console.log('handleEnter called');
 		if (status) {
-			navigate('/game');
+			navigate(`/game/${id}`);
 		} else {
 			navigate(`/game-waiting/${id}`);
 		}
