@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
-import static kr.co.ttoti.backend.global.status.ErrorCode.MEMBER_NOT_FOUND;
+import static kr.co.ttoti.backend.global.status.ErrorCode.TOO_LONG_NAME;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +53,17 @@ public class MemberServiceImpl implements MemberService {
                 .memberName(member.getMemberName())
                 .memberProfileImageUrl(member.getMemberProfileImageUrl())
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public void updateMemberName(Integer memberId, String newName) {
+        if (newName.length() > 10){
+            throw new CustomException(TOO_LONG_NAME);
+        }
+
+        Member member = validator.validateMember(memberId);
+        member.changeMemberName(newName);
     }
 
 }

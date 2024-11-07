@@ -12,4 +12,6 @@ public interface MemberService {
     public Optional<Member> getMemberIdByProviderId(Long id);
 
     public MemberDetailResponse getMemberDetail(Integer memberId);
+
+    public void updateMemberName(Integer memberId, String newName);
 }

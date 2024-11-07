@@ -33,6 +33,7 @@ public enum ErrorCode {
 
     // member
     MEMBER_NOT_FOUND(404, "존재하지 않는 회원입니다"),
+    TOO_LONG_NAME(404, "10 글자가 넘는 이름은 등록할 수 없습니다."),
 
     // room
     ROOM_NOT_FOUND(404, "존재하지 않는 방입니다"),

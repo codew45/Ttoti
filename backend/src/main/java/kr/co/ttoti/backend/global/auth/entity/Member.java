@@ -55,4 +55,8 @@ public class Member extends BaseEntity {
 
     @Column(name = "member_deleted_at")
     private LocalDateTime memberDeletedAt;
+
+    public void changeMemberName(String memberName){
+        this.memberName = memberName;
+    }
 }
