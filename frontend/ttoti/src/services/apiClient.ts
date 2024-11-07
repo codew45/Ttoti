@@ -31,6 +31,13 @@ export const isLoggedIn = () => !!getAccessToken();
 
 // API 클라이언트 가져오기
 
+const redirectToLogin = () => {
+	const currentURL = window.location.href;
+	window.location.href = currentURL.includes('localhost')
+		? 'http://localhost:5173/login'
+		: 'https://ttoti.co.kr/login';
+};
+
 export const getApiClient = () => {
 	const accessToken = getAccessToken();
 	const refreshToken = getRefreshToken();
@@ -43,71 +50,62 @@ export const getApiClient = () => {
 		},
 		async (error) => {
 			const originalRequest = error.config;
-			// ._retry : 재시도 여부 확인
+
+			// 이미 재시도한 요청인지 확인
 			if (originalRequest._retry) {
-				// 재시도를 멈추고 에러를 처리
 				console.error(
 					'Refresh token request failed again, stopping further requests.',
 				);
 				return Promise.reject(new Error('Unauthorized, please log in again.'));
 			}
-			originalRequest._retry = true;
-			// 401 에러코드 인증되지 않은 사용자 오류
-			if (error.response?.data.httpStatus === 401 && !originalRequest._retry) {
-				console.log('토큰 만료');
 
-				try {
-					// refreshToken 이 있을 경우
-					if (refreshToken) {
-						// refeshToken으로 토큰 재발급 요청
-						// 경로 반영 예정
+			// 401 에러 발생 시 재발급 시도
+			if (error.response?.status === 401 && !originalRequest._retry) {
+				// 재시도 요청 true
+				originalRequest._retry = true;
+
+				if (refreshToken) {
+					try {
+						// Refresh token으로 access token 재발급 요청
 						const res = await apiClient.patch('/auth/reissue', {
 							refreshToken: refreshToken,
 						});
-						console.log(res);
-						if (res.status == 200) {
-							// 다시 localStorage에 토큰 저장
+
+						if (res.status === 200) {
+							// 새 토큰을 localStorage에 저장
 							setAccessToken(res.data.body.accessToken);
 							setRefreshToken(res.data.body.refreshToken);
-							// 재발급한 토큰으로 실패한 객체 다시 요청
-							originalRequest.headers['Authorization'] =
-								`Bearer ${getAccessToken()}`;
+
+							// 실패한 요청에 새 토큰으로 Authorization 헤더 업데이트 후 재시도
+							originalRequest.headers = {
+								...originalRequest.headers, // 기존 헤더 유지
+								Authorization: `Bearer ${getAccessToken()}`, // 새로운 Authorization 헤더 설정
+							};
+
 							return apiClient(originalRequest);
 						} else {
+							console.log('refreshToken으로 재요청 실패');
 							return Promise.reject(
 								new Error('Token reissue failed, logging out.'),
 							);
 						}
+					} catch (refreshError) {
+						console.error('Token reissue failed:', refreshError);
+						// refreshToken 실패 시 로컬 스토리지를 초기화하고 로그인 페이지로 리다이렉트
+						clearAccessToken();
+						clearRefreshToken();
+						redirectToLogin();
+						return Promise.reject(refreshError);
 					}
-				} catch (err) {
-					// refresh Token으로 접근하지 못했을 경우
-					return Promise.reject(err);
-				}
-			} else {
-				console.log(
-					`error status: ${error.response.status}, httpStatus: ${error.response.data.httpStatus}`,
-				);
-				// refresh Token 처리 후 토큰 재발급 실패 -> 메인 화면으로 돌아가기
-				if (error.response.data.httpStatus == 401) {
+				} else {
+					// refreshToken이 없는 경우도 초기화 및 리다이렉트
 					clearAccessToken();
 					clearRefreshToken();
-					const currentURL = window.location.href;
-					if (currentURL.includes('localhost')) {
-						window.location.href = 'http://localhost:5173/login';
-					} else {
-						window.location.href = `https://ttoti.co.kr/login`;
-					}
+					redirectToLogin();
 				}
+			} else {
+				console.error(`error status: ${error.response.status}`);
 				return Promise.reject(new Error('잘못된 axios 요청'));
-			}
-			// 400 에러 코드 : Bad Request
-			if (error.response?.status == 400) {
-				console.error('Bad Request (400):', error.response.data);
-				return Promise.reject(
-					new Error(
-						'Request failed with status 400, stopping further requests.',
-					),
-				);
 			}
 
 			return Promise.reject(error);
