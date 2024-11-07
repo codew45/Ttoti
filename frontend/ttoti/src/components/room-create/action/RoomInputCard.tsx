@@ -26,5 +26,5 @@ export const RoomInputTitle = styled.div`
 export const RoomInputExplain = styled.div`
 	font-family: 'LINESeed';
 	font-weight: normal;
-	font-size: 12px;
+	font-size: 13px;
 `;

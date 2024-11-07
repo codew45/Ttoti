@@ -14,10 +14,10 @@ const NotificationTop = styled.div`
 const ListColumn = styled.div`
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	gap: 5px;
 	width: 100%;
 `;
+
 const ListRow = styled.div`
 	display: flex;
 	flex-direction: row;
@@ -25,6 +25,14 @@ const ListRow = styled.div`
 	align-items: flex-end;
 	width: 100%;
 `;
+
+const ListContent = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	height: 25px;
+`
+
 const ListText = styled.div`
 	font-family: 'LINESeed';
 	font-weight: normal;
@@ -34,15 +42,15 @@ const ListText = styled.div`
 	padding-top: 3px;
 	margin-left: 5px;
 `;
+
 const NotificationDivider = styled.div`
 	margin-top: 8px;
-	width: 260px;
-	height: 1px;
-	// 해당 컴포넌트에서만 사용되는 색상
+	height: 0.5px;
 	background-color: #928f8f;
 `;
 
 const Delete = styled.button`
+	width: 80px;
 	font-family: 'LINESeed';
 	font-weight: normal;
 	font-size: 14px;
@@ -63,9 +71,13 @@ const NotificationList = ({ title, content }: NotificationProps) => {
 		<ListColumn>
 			<ListRow>
 				<ListBox size="small" ListText={title} />
-				<Delete>삭제하기</Delete>
 			</ListRow>
-			<ListText>{content}</ListText>
+			<ListContent>
+				<ListText>
+					{content}
+				</ListText>
+				<Delete>삭제하기</Delete>
+			</ListContent>
 			<NotificationDivider />
 		</ListColumn>
 	);
@@ -80,10 +92,10 @@ const NotificationModal = ({ onClose }: NotificationModalProps) => {
 	const titleText = '읽지 않은 알림을 확인해주세요!';
 
 	return (
-		<Modal>
+		<Modal onClick={(e) => e.stopPropagation()}>
 			<NotificationTop>
 				<ModalTitle titleText={titleText} subtitleText={subtitleText} />
-				<CloseIcon onClick={onClose} />
+				<CloseIcon onClick={onClose} style={{ cursor: 'pointer' }}/>
 			</NotificationTop>
 			<NotificationList
 				title="게임 시작"

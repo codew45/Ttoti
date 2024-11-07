@@ -21,25 +21,24 @@ const ContentContainer = styled.div`
 
 const CountContainer = styled.div`
 	display: flex;
-	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 40px;
-	height: 40px;
-	padding: 10px;
-	gap: 10px;
+	width: 50px;
+	height: 45px;
+	padding-top: 5px;
 	background-color: ${({ theme }) => theme.colors['background']};
 	border-radius: 100%;
 	font-family: 'LINESeed';
 	font-weight: 400;
 	font-size: 24px;
+	line-height: 0px;
 `;
 
 const AlertMessage = styled.div`
 	width: 215px;
 	color: ${({ theme }) => theme.colors['danger']};
 	font-family: 'LINESeed';
-	font-size: 12px;
+	font-size: 14px;
 	text-align: center;
 `;
 
@@ -48,7 +47,7 @@ const PlusButton = ({
 }: {
 	onClick: React.MouseEventHandler<SVGSVGElement>;
 }) => {
-	return <PlusIcon onClick={onClick} />;
+	return <PlusIcon onClick={onClick} style={{ cursor: 'pointer' }}/>;
 };
 
 const MinusButton = ({
@@ -56,7 +55,7 @@ const MinusButton = ({
 }: {
 	onClick: React.MouseEventHandler<SVGSVGElement>;
 }) => {
-	return <MinusIcon onClick={onClick} />;
+	return <MinusIcon onClick={onClick} style={{ cursor: 'pointer' }}/>;
 };
 
 interface RoomParticipantsProps {

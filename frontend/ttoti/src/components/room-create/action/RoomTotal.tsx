@@ -77,7 +77,7 @@ const RoomTotal = ({ formData }: RoomTotalProps) => {
 				))}
 			</RoomInputColumn>
 			<ButtonContainer>
-				<GameButtons color="main" onClick={postCreateAPI}>
+				<GameButtons color="info" onClick={postCreateAPI}>
 					확인
 				</GameButtons>
 			</ButtonContainer>

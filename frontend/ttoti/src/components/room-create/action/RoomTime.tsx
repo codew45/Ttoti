@@ -30,6 +30,7 @@ const ColumnContainer = styled.div`
 	gap: 10px;
 	width: 40px;
 `;
+
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -50,7 +51,7 @@ const AlertMessage = styled.div`
 	width: 215px;
 	color: ${({ theme }) => theme.colors['info']};
 	font-family: 'LINESeed';
-	font-size: 12px;
+	font-size: 14px;
 	text-align: center;
 `;
 
@@ -64,7 +65,7 @@ const PlusButton = ({
 }: {
 	onClick: React.MouseEventHandler<SVGSVGElement>;
 }) => {
-	return <TimeAccountIcon onClick={onClick} />;
+	return <TimeAccountIcon onClick={onClick} style={{ cursor: 'pointer' }}/>;
 };
 
 const MinusButton = ({
@@ -72,7 +73,7 @@ const MinusButton = ({
 }: {
 	onClick: React.MouseEventHandler<SVGSVGElement>;
 }) => {
-	return <ReversedIcon onClick={onClick} />;
+	return <ReversedIcon onClick={onClick} style={{ cursor: 'pointer' }}/>;
 };
 
 interface RoomTimeProps {
