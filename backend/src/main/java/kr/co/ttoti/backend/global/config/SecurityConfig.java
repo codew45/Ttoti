@@ -57,8 +57,9 @@ public class SecurityConfig {
 	private static final String[] PERMIT_PATTERNS = {
 		"/api/v1/ttoti/oauth",
 		"/api/v1/ttoti/auth/reissue",
-		"/api/v1/ttoti/chats/**",
 		"/api/chat/**",
+		"/api/pub",
+		"/api/sub",
 		"/swagger-ui/**",
 		"/static/**",
 		"/v3/api-docs/**",
@@ -72,6 +73,7 @@ public class SecurityConfig {
 		"DELETE",
 		"PATCH",
 		"OPTIONS",
+		"CONNECT",
 		"MESSAGE"
 	);
 

@@ -2,12 +2,10 @@ package kr.co.ttoti.backend.domain.chat.controller;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,23 +28,23 @@ public class ChatController {
 
 	// /pub 생략
 	@MessageMapping("/manitto/{ttoti-id}")
-	@SendTo("/sub/sub-{ttoti-id")
+	@SendTo("/sub/sub-{ttoti-id}")
 	public MessageDto sendMessageByManitto(@DestinationVariable("ttoti-id") Integer ttotiId,
 		@Payload ChatMessageRequest chatMessageRequest) throws Exception {
 		return chatService.sendMessageByManitto(
-			ttotiId, chatMessageRequest.getSenderId(), chatMessageRequest.getMessage());
+			ttotiId, chatMessageRequest.getMessage());
 	}
 
 	// /pub 생략
 	@MessageMapping("/maniti/{titto-id}")
 	@SendTo("/sub/sub-{titto-id}")
-	public MessageDto sendMessageByManiti(@DestinationVariable("ttoti-id") Integer tittoId,
+	public MessageDto sendMessageByManiti(@DestinationVariable("titto-id") Integer tittoId,
 		@Payload ChatMessageRequest chatMessageRequest) {
 		return chatService.sendMessageByManiti(
-			tittoId, chatMessageRequest.getSenderId(), chatMessageRequest.getMessage());
+			tittoId, chatMessageRequest.getMessage());
 	}
 
-	@GetMapping("/manitto/{titto-id}")
+	@GetMapping("/manitto/{ttoti-id}")
 	public ResponseDto<List<MessageDto>> getMessagesByManitto(@MemberId Integer memberId,
 		@PathVariable("ttoti-id") Integer ttotiId) {
 		return ResponseDto.success(SuccessCode.OK, chatService.getMessageByManitto(memberId, ttotiId));
