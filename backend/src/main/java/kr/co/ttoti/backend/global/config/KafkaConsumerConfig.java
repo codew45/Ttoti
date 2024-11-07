@@ -44,7 +44,6 @@ public class KafkaConsumerConfig {
 		try (AdminClient adminClient = AdminClient.create(configs)) {
 			NewTopic newTopic = new NewTopic(topicName, 1, (short) 1);
 			adminClient.createTopics(Collections.singleton(newTopic)).all().get();
-			System.out.println("토픽 생성 완료: " + topicName);
 		} catch (InterruptedException | ExecutionException e) {
 			System.err.println("토픽 생성 중 오류 발생: " + e.getMessage());
 		}

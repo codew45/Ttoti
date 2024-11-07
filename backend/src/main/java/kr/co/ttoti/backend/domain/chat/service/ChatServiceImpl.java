@@ -35,17 +35,15 @@ public class ChatServiceImpl implements ChatService {
 
 	@Transactional
 	@Override
-	public MessageDto sendMessageByManitto(Integer ttotiId, Integer senderId, String message) {
-		Member member = validator.validateMember(senderId);
-
+	public MessageDto sendMessageByManitto(Integer ttotiId, String message) {
 		Ttoti ttoti = validator.validateTtoti(ttotiId);
 
-		if (!ttoti.getMember().equals(member)) {
-			throw new CustomException(ErrorCode.AUTHENTICATION_REQUIRED);
-		}
+		Member member = validator.validateMember(ttoti.getMember().getMemberId());
 
-		ChatMessage chatMessage = chatMessageRepository.save(ChatMessage.builder().ttotiId(ttotiId)
-			.senderId(ttotiId)
+		ChatMessage chatMessage = chatMessageRepository.save(ChatMessage.builder()
+			.ttotiId(ttotiId)
+			.senderRole("manitto")
+			.senderId(member.getMemberId())
 			.messageSendAt(LocalDateTime.now())
 			.messageContent(convertToAnimalSpeak(ttoti.getAnimal(), message))
 			.messageIsRead(Boolean.FALSE)
@@ -62,18 +60,15 @@ public class ChatServiceImpl implements ChatService {
 
 	@Transactional
 	@Override
-	public MessageDto sendMessageByManiti(Integer tittoId, Integer senderId, String message) {
-		// 해당 멤버가 존재하는지 확인
-		Member member = validator.validateMember(senderId);
-		// 해당 멤버가 해당 또띠의 마니띠인지 확인
+	public MessageDto sendMessageByManiti(Integer tittoId, String message) {
 		Ttoti ttoti = validator.validateTtoti(tittoId);
 
-		if (!ttoti.getManitiId().equals(senderId)) {
-			throw new CustomException(ErrorCode.AUTHENTICATION_REQUIRED);
-		}
+		Member member = validator.validateMember(ttoti.getManitiId());
 
-		ChatMessage chatMessage = chatMessageRepository.save(ChatMessage.builder().ttotiId(tittoId)
-			.senderId(tittoId)
+		ChatMessage chatMessage = chatMessageRepository.save(ChatMessage.builder()
+			.ttotiId(tittoId)
+			.senderRole("manitti")
+			.senderId(member.getMemberId())
 			.messageSendAt(LocalDateTime.now())
 			.messageContent(message)
 			.messageIsRead(Boolean.FALSE)
@@ -101,7 +96,7 @@ public class ChatServiceImpl implements ChatService {
 		return chatMessageRepository.findByTtotiIdOrderByMessageSendAt(ttotiId)
 			.stream()
 			.map(chatMessage -> MessageDto.builder()
-				.role(ttoti.getMember().equals(member) ? "manitto" : "maniti")
+				.role(chatMessage.getSenderRole())
 				.sendTime(chatMessage.getMessageSendAt())
 				.message(chatMessage.getMessageContent())
 				.build()).toList();
@@ -121,7 +116,7 @@ public class ChatServiceImpl implements ChatService {
 		return chatMessageRepository.findByTtotiIdOrderByMessageSendAt(tittoId)
 			.stream()
 			.map(chatMessage -> MessageDto.builder()
-				.role(ttoti.getManitiId().equals(memberId) ? "maniti" : "manitto")
+				.role(chatMessage.getSenderRole())
 				.sendTime(chatMessage.getMessageSendAt())
 				.message(chatMessage.getMessageContent())
 				.build()).toList();

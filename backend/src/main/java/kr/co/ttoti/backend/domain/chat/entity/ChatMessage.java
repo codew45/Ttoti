@@ -32,6 +32,10 @@ public class ChatMessage {
 	private Integer ttotiId;
 
 	@NotNull
+	@Column(name="sender_role")
+	private String senderRole;
+
+	@NotNull
 	@Column(name="sender_id")
 	private Integer senderId;
 
