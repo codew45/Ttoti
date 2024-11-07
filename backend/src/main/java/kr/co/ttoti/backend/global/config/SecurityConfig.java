@@ -58,7 +58,7 @@ public class SecurityConfig {
 		"/api/v1/ttoti/oauth",
 		"/api/v1/ttoti/auth/reissue",
 		"/api/v1/ttoti/chats/**",
-		"/chat/**",
+		"/api/chat/**",
 		"/swagger-ui/**",
 		"/static/**",
 		"/v3/api-docs/**",
@@ -71,7 +71,8 @@ public class SecurityConfig {
 		"PUT",
 		"DELETE",
 		"PATCH",
-		"OPTIONS"
+		"OPTIONS",
+		"MESSAGE"
 	);
 
 	@Bean
