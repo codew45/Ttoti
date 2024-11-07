@@ -143,7 +143,7 @@ const AppRouter = () => {
 					}
 				/>
 				<Route
-					path="/game"
+					path="/game/:id"
 					element={
 						<RequireAuth>
 							<GamePage />

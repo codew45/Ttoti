@@ -40,7 +40,7 @@ const LogoDiv = styled.div`
 const exampleData: RoomData[] = [
 	{
 		roomId: 1,
-		isRoomInProgress: false,
+		isRoomInProgress: true,
 		finishedAt: '2024/11/19 20:00',
 		isMemberReady: false,
 		memberProfileImageUrl:
