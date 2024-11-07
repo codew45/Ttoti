@@ -101,10 +101,10 @@ const CreateCard = () => {
 	// 입력 데이터 초기화
 
 	const [formData, setFormData] = useState<FormData>({
-		roomName: '',
-		RoomParticipants: 5,
-		RoomPeriod: 7,
-		RoomTime: '18:30:00',
+		name: '',
+		participants: 5,
+		period: 7,
+		finishTime: '18:30:00',
 	});
 
 	const handleInputChange = useCallback(
@@ -120,10 +120,10 @@ const CreateCard = () => {
 	// 경고 알림창 업데이트
 
 	useEffect(() => {
-		if (formData.roomName) {
+		if (formData.name) {
 			setError(' ');
 		}
-	}, [formData.roomName]);
+	}, [formData.name]);
 
 	// 페이지 이동 이동 함수 작성
 	const handlePrevious = () => {
@@ -131,7 +131,7 @@ const CreateCard = () => {
 	};
 
 	const handleNext = () => {
-		if (currentIndex === 0 && formData.roomName === '') {
+		if (currentIndex === 0 && formData.name === '') {
 			setError('방 이름을 입력해주세요.');
 			return;
 		}

@@ -112,4 +112,6 @@ export const getApiClient = () => {
 			return Promise.reject(error);
 		},
 	);
+
+	return apiClient;
 };

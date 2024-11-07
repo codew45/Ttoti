@@ -76,15 +76,15 @@ const MinusButton = ({
 };
 
 interface RoomTimeProps {
-	formData: { RoomTime: string };
-	onInputChange: (name: 'RoomTime', value: string) => void;
+	formData: { finishTime: string };
+	onInputChange: (name: 'finishTime', value: string) => void;
 }
 const RoomTime = ({ formData, onInputChange }: RoomTimeProps) => {
-	const initialHour = formData.RoomTime
-		? parseInt(formData.RoomTime.split(':')[0])
+	const initialHour = formData.finishTime
+		? parseInt(formData.finishTime.split(':')[0])
 		: 18;
-	const initialMinute = formData.RoomTime
-		? parseInt(formData.RoomTime.split(':')[1])
+	const initialMinute = formData.finishTime
+		? parseInt(formData.finishTime.split(':')[1])
 		: 30;
 
 	const [hour, setHour] = useState(initialHour);
@@ -93,7 +93,7 @@ const RoomTime = ({ formData, onInputChange }: RoomTimeProps) => {
 	// 데이터 형식 'hh:mm:ss' 로 맞추기 위한 선언
 	const formattedTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`;
 	useEffect(() => {
-		onInputChange('RoomTime', formattedTime);
+		onInputChange('finishTime', formattedTime);
 	}, [hour, minute, onInputChange, formattedTime]);
 
 	const incrementHour = () => setHour((prev) => (prev + 1) % 24);
