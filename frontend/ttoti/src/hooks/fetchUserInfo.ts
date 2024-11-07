@@ -6,8 +6,10 @@ const fetchUserInfo = createAsyncThunk('user/fetchUserInfo', async () => {
 
 	try {
 		const res = await apiClient.get('/members/detail');
+		console.log(res)
 
 		if (res.status === 200) {
+			console.log(res.data.body)
 			const memberId = res.data.body.memberId;
 			const memberName = res.data.body.memberName;
 			const memberProfileImageUrl = res.data.body.memberProfileImageUrl;
