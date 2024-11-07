@@ -11,11 +11,7 @@ interface RoomTotalProps {
 const postRoomCreate = async ({ formData }: RoomTotalProps) => {
 	const apiClient = getApiClient();
 	try {
-		const res = await apiClient.post('/rooms', formData, {
-			headers: {
-				'Content-Type': 'application/json; charset=utf8',
-			},
-		});
+		const res = await apiClient.post('/rooms', formData);
 		if (res.status === 200) {
 			// 임시 콘솔
 			console.log('방 생성 완료!');

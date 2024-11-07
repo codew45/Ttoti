@@ -11,6 +11,7 @@ export const createApiClient = (accessToken: string | null) => {
 		baseURL: API_URL,
 		headers: {
 			Authorization: `Bearer ${accessToken}`,
+			'Content-Type': 'application/json; charset=utf8',
 		},
 	});
 };
