@@ -24,12 +24,12 @@ public class RoomCreateController {
 	private final RoomMemberCreateService roomMemberCreateService;
 
 	@PostMapping()
-	public ResponseDto<Void> createRoom(@MemberId Integer memberId,
+	public ResponseDto<Integer> createRoom(@MemberId Integer memberId,
 		@Valid @RequestBody RoomCreateRequest roomCreateRequest) {
 
 		Integer roomId = roomCreateService.createRoom(memberId, roomCreateRequest);
 		roomMemberCreateService.createRoomMember(memberId, roomId);
 
-		return ResponseDto.success(SuccessCode.ROOM_CREATE_SUCCESS);
+		return ResponseDto.success(SuccessCode.ROOM_CREATE_SUCCESS, roomId);
 	}
 }

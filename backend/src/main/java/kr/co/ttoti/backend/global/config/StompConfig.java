@@ -20,7 +20,9 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
 		"http://localhost:5173",
 		"http://localhost:8080",
 		"https://ttoti.co.kr",
-		"http://ttoti.co.kr:8080"
+		"http://ttoti.co.kr:8080",
+		"wss://ttoti.co.kr",       // 보안 WebSocket 프로토콜을 사용하는 서버
+		"ws://ttoti.co.kr:8080"
 	);
 
 	@Override
