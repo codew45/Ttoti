@@ -26,9 +26,8 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/chat") // STOMP endpoint 설정
+		registry.addEndpoint("/api/chat") // STOMP endpoint 설정
 			.setAllowedOrigins(CORS_ALLOWED_ORIGIN)
-			.setAllowedOriginPatterns("/chat/**")
 			.withSockJS();
 	}
 
