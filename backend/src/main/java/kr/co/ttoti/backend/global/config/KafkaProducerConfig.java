@@ -1,7 +1,6 @@
 package kr.co.ttoti.backend.global.config;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
-
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,14 +27,14 @@ public class KafkaProducerConfig {
 		return new DefaultKafkaProducerFactory<>(this.producerFactory());
 	}
 
+	// message가 String 이므로 value의 직렬화를 StringSerializer 사용
 	@Bean
 	public Map<String, Object> producerFactory() {
 		Map<String, Object> producerConfigurations = new HashMap<>();
 		producerConfigurations.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
 		producerConfigurations.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-		producerConfigurations.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-
+		producerConfigurations.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+		producerConfigurations.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
 		return producerConfigurations;
 	}
-
 }

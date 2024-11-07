@@ -16,14 +16,15 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/chat") // STOMP 엔드포인트 설정
+		registry.addEndpoint("/chat") // STOMP endpoint 설정
 			.setAllowedOriginPatterns("*")
 			.withSockJS();
 	}
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
-		registry.setApplicationDestinationPrefixes("/chat"); //
+		registry.enableSimpleBroker("/sub"); // /sub를 구독하고 있는 모든 클라이언트에게 메세지를 보냄
+		registry.setApplicationDestinationPrefixes("/pub"); // 클라이언트가 /pub로 메세지를 보내면
 	}
 
 	@Override

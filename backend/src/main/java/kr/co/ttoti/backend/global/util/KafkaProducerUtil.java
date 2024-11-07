@@ -11,7 +11,7 @@ public class KafkaProducerUtil {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public void sendMessage(String Topic, String message) {
-        this.kafkaTemplate.send(Topic, message);
+    public void sendMessage(String ttotiId, String message) {
+        kafkaTemplate.send("sub-" + ttotiId, message);
     }
 }
