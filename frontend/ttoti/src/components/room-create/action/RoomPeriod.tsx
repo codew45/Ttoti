@@ -23,15 +23,16 @@ const CountContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 30px;
-	height: 30px;
-	padding: 10px;
+	width: 50px;
+	height: 45px;
+	padding-top: 5px;
 	gap: 10px;
 	background-color: ${({ theme }) => theme.colors['background']};
 	border-radius: 100%;
 	font-family: 'LINESeed';
 	font-weight: 400;
 	font-size: 24px;
+	line-height: 0px;
 `;
 const PeriodText = styled.div`
 	font-family: 'LINESeed';

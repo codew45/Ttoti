@@ -54,7 +54,7 @@ const RotatedActive = styled(ToggleActiveIcon)`
 
 const ErrorMessage = styled.div`
 	font-family: 'LINESeed';
-	font-size: 12px;
+	font-size: 14px;
 	color: ${({ theme }) => theme.colors['danger']};
 `;
 

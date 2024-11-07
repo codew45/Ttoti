@@ -22,14 +22,9 @@ const RoomInfoWrapper = styled.div`
 `;
 
 const NotificationBox = styled.div`
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
-	align-items: center;
-	padding: 0px;
-	gap: 10px;
-	width: 220px;
 	height: 30px;
+	margin-left: 200px;
+	cursor: pointer;
 `;
 
 const DateBox = styled.div<{ color: string }>`

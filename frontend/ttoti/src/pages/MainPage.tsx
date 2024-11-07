@@ -25,7 +25,6 @@ const CloudsImage = styled.img`
 	top: 100px;
 	left: 50%;
 	transform: translateX(-50%);
-	width: 360px;
 	object-fit: cover;
 	z-index: -1;
 `;
