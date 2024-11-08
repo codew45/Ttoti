@@ -1,13 +1,19 @@
-// TabContent.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import styled, { useTheme } from 'styled-components';
+
 import QuizContent from './QuizContent';
 import ChatContent from './ChatContent';
-import { QuizData } from "src/types/QuizTypes"; // QuizData 타입 import
+
+import SockJS from 'sockjs-client';
+import { Client } from '@stomp/stompjs';
+
+import { QuizData } from "src/types/QuizTypes";
+import { RoomInfo } from 'src/types/RoomInfo';
 
 interface TabContentProps {
   activeTab: string;
   quizData: QuizData | null;
+  roomInfo: RoomInfo;
 }
 
 const ContentContainer = styled.div<{ $backgroundColor: string }>`
@@ -23,10 +29,13 @@ const ContentContainer = styled.div<{ $backgroundColor: string }>`
   color: white;
 `;
 
+export const WebSocketContext = createContext<Client | null>(null);
 
-const TabContent: React.FC<TabContentProps> = ({ activeTab, quizData }) => {
+const TabContent: React.FC<TabContentProps> = ({ activeTab, quizData, roomInfo }) => {
   const theme = useTheme();
-  const [page, setPage] = useState(0); // 상태를 TabContent에서 관리
+
+  const [page, setPage] = useState(0);
+  const [stompClient, setStompClient] = useState<Client | null>(null);
 
   let backgroundColor;
 
@@ -34,7 +43,7 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, quizData }) => {
     case 'quiz':
       backgroundColor = theme.colors.quiz;
       break;
-    case 'manito':
+    case 'manitto':
       backgroundColor = theme.colors.manitoChat;
       break;
     case 'maniti':
@@ -44,17 +53,33 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, quizData }) => {
       backgroundColor = '#FFFFFF';
   }
 
-  // 페이지 변경 함수
   const togglePage = (direction: 'next' | 'prev') => {
-    setPage((prevPage) => (direction === 'next' ? Math.min(prevPage + 1, 1) : Math.max(prevPage - 1, 0))); // 0: 마니또, 1: 마니띠
+    setPage((prevPage) => (direction === 'next' ? Math.min(prevPage + 1, 1) : Math.max(prevPage - 1, 0)));
   };
 
+  useEffect(() => {
+    const client = new Client({
+      webSocketFactory: () => new SockJS('https://ttoti.co.kr/chat'),
+      onConnect: () => console.log("Connected to WebSocket"),
+      onDisconnect: () => console.log("Disconnected from WebSocket"),
+    });
+
+    client.activate();
+    setStompClient(client);
+  
+    return () => {
+      client.deactivate();
+    };
+  }, []);
+
   return (
-    <ContentContainer $backgroundColor={backgroundColor}>
-      {activeTab === 'quiz' && <QuizContent page={page} togglePage={togglePage} quizData={quizData} />} {/* props로 상태 전달 */}
-      {activeTab === 'manito' && <ChatContent target="manito" />}
-      {activeTab === 'maniti' && <ChatContent target="maniti" />}
-    </ContentContainer>
+    <WebSocketContext.Provider value={stompClient}>
+      <ContentContainer $backgroundColor={backgroundColor}>
+        {activeTab === 'quiz' && <QuizContent page={page} togglePage={togglePage} quizData={quizData} />}
+        {activeTab === 'manitto' && <ChatContent target="manitto" roomInfo={roomInfo}/>}
+        {activeTab === 'maniti' && <ChatContent target="maniti" roomInfo={roomInfo}/>}
+      </ContentContainer>
+    </WebSocketContext.Provider>
   );
 };
 

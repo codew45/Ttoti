@@ -61,15 +61,15 @@ const Tabs: React.FC<TabsProps> = ({ activeTab, onChangeTab }) => {
   // 탭 데이터 정의
   const tabData = [
     { key: 'quiz', label: '퀴즈', color: theme.colors.quiz, image: PorcupineGif },
-    { key: 'manito', label: '마니또', color: theme.colors.manitoChat, image: RabbitGif },
+    { key: 'manitto', label: '마니또', color: theme.colors.manitoChat, image: RabbitGif },
     { key: 'maniti', label: '마니띠', color: theme.colors.manitiChat, image: OwlGif },
   ];
 
   // 각 탭의 선택에 따른 이미지 이동 설정
   const getIsShifted = (tabKey: string, currentKey: string) => {
-    if (tabKey === 'quiz') return currentKey === 'manito' || currentKey === 'maniti';
-    if (tabKey === 'manito') return currentKey === 'quiz' || currentKey === 'maniti';
-    if (tabKey === 'maniti') return currentKey === 'quiz' || currentKey === 'manito';
+    if (tabKey === 'quiz') return currentKey === 'manitto' || currentKey === 'maniti';
+    if (tabKey === 'manitto') return currentKey === 'quiz' || currentKey === 'maniti';
+    if (tabKey === 'maniti') return currentKey === 'quiz' || currentKey === 'manitto';
     return false;
   };
 

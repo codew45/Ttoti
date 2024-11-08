@@ -4,6 +4,7 @@ import TabContent from '@components/GamePage/GameBody/TabContent';
 import { ThemeProvider } from 'styled-components';
 import theme from '@styles/theme'; // 테마를 실제 경로에서 가져옵니다
 import { QuizData } from 'src/types/QuizTypes'; // QuizData 타입 import
+import { RoomInfo } from 'src/types/RoomInfo';
 
 // Mock data for quizData
 const mockQuizData: QuizData = {
@@ -117,6 +118,17 @@ const mockQuizData: QuizData = {
   }
 };
 
+const mockRoomInfo: RoomInfo = {
+  "roomHostMemberName": "정진영",
+  "roomName": "99NULL",
+  "ttotiMatchInfo": {
+    "myTtotiId": 1,
+    "myTittoId": 2,
+    "myManittoAnimalName": "금붕어",
+    "myManittoAnimalImageUrl": "http://sample.com",
+    "myName": "정진영",
+  }
+}
 
 const meta: Meta<typeof TabContent> = {
   title: 'Game/TabContent',
@@ -126,7 +138,7 @@ const meta: Meta<typeof TabContent> = {
 export default meta;
 
 // 스토리 1: Quiz 탭
-const Template: StoryFn<{ activeTab: string; quizData: QuizData | null }> = (args) => (
+const Template: StoryFn<{ activeTab: string; quizData: QuizData | null; roomInfo: RoomInfo}> = (args) => (
   <ThemeProvider theme={theme}>
     <TabContent {...args} />
   </ThemeProvider>
@@ -137,6 +149,7 @@ export const QuizTab = Template.bind({});
 QuizTab.args = {
   activeTab: 'quiz',
   quizData: mockQuizData, // quizData props 추가
+  roomInfo: mockRoomInfo,
 };
 
 // Manito 탭 예시
@@ -144,6 +157,7 @@ export const ManitoTab = Template.bind({});
 ManitoTab.args = {
   activeTab: 'manito',
   quizData: mockQuizData, // quizData props 추가
+  roomInfo: mockRoomInfo,
 };
 
 // Maniti 탭 예시
@@ -151,4 +165,5 @@ export const ManitiTab = Template.bind({});
 ManitiTab.args = {
   activeTab: 'maniti',
   quizData: mockQuizData, // quizData props 추가
+  roomInfo: mockRoomInfo,
 };

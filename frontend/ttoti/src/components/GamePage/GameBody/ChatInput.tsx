@@ -1,6 +1,7 @@
 // ChatInput.tsx
 import React, { useState } from 'react';
 import styled, { useTheme } from 'styled-components';
+import SendMessage from '@assets/icons/send_message.svg?react'
 
 const InputContainer = styled.div<{ $backgroundColor: string }>`
   width: 378px;
@@ -55,7 +56,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
         onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
       />
       <SendButton onClick={handleSendMessage}>
-        <img src="src/assets/icons/send_message.svg" alt="Send" />
+        <SendMessage />
       </SendButton>
     </InputContainer>
   );  

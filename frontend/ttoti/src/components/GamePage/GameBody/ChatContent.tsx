@@ -1,22 +1,62 @@
 // ChatContent.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ChatMessages from './ChatMessages';
 import ChatInput from './ChatInput';
 
+import { WebSocketContext } from './TabContent';  // WebSocket 클라이언트를 관리하는 Context
+
+import { RoomInfo } from 'src/types/RoomInfo';
+
 interface ChatContentProps {
-  target: 'manito' | 'maniti';
+  target: 'manitto' | 'maniti';
+  roomInfo: RoomInfo;
 }
 
 interface Message {
-  sender: 'manito' | 'maniti';
+  senderId: 'manitto' | 'maniti';
   content: string;
 }
 
-const ChatContent: React.FC<ChatContentProps> = ({ target }) => {
+const ChatContent: React.FC<ChatContentProps> = ({ target, roomInfo }) => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const stompClient = useContext(WebSocketContext);  // WebSocket 클라이언트
 
-  const handleSendMessage = (message: string) => {
-    setMessages([...messages, { sender: target, content: message }]);
+  const chatId = target === 'manitto'
+    ? `${roomInfo.ttotiMatchInfo.myTittoId}`
+    : `${roomInfo.ttotiMatchInfo.myTtotiId}`;
+
+  useEffect(() => {
+    if (stompClient) {
+      // 구독 경로 설정
+  
+      // 메시지 구독
+      const subscription = stompClient.subscribe(`/sub/sub-${chatId}`, (message) => {
+        const newMessage = JSON.parse(message.body);
+        console.log('Received message:', newMessage);
+        setMessages((prevMessages) => [...prevMessages,  {
+          senderId: newMessage.role,       // role을 senderId로 매핑
+          content: newMessage.message,     // message를 content로 매핑
+        }]);
+      });
+  
+      // 컴포넌트 언마운트 시 구독 해제
+      return () => {
+        console.log(`Unsubscribing from: /sub/sub-${chatId}`);
+        subscription.unsubscribe();
+      };
+    }
+  }, [stompClient, target, roomInfo, chatId]);
+  
+
+  const sendMessage = (message: string) => {
+    if (stompClient) {
+      const role = target === 'manitto' ? 'maniti' : 'manitto';
+      console.log(`Sending message to /pub/${role}/${chatId}:`, message);
+      stompClient.publish({
+        destination: `/pub/${role}/${chatId}`,
+        body: JSON.stringify({ message: message }),
+      });
+    }
   };
 
   return (
@@ -25,7 +65,7 @@ const ChatContent: React.FC<ChatContentProps> = ({ target }) => {
       <ChatMessages target={target} messages={messages} />
 
       {/* 채팅 입력 필드 */}
-      <ChatInput onSendMessage={handleSendMessage} />
+      <ChatInput onSendMessage={sendMessage}/>
     </div>
   );
 };
