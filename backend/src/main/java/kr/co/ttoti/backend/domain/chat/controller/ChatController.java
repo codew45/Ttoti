@@ -2,6 +2,8 @@ package kr.co.ttoti.backend.domain.chat.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -45,14 +47,14 @@ public class ChatController {
 	}
 
 	@GetMapping("/manitto/{ttoti-id}")
-	public ResponseDto<List<MessageDto>> getMessagesByManitto(@MemberId Integer memberId,
+	public ResponseEntity<ResponseDto<List<MessageDto>>> getMessagesByManitto(@MemberId Integer memberId,
 		@PathVariable("ttoti-id") Integer ttotiId) {
-		return ResponseDto.success(SuccessCode.OK, chatService.getMessageByManitto(memberId, ttotiId));
+		return ResponseEntity.ok(ResponseDto.success(SuccessCode.OK, chatService.getMessageByManitto(memberId, ttotiId)));
 	}
 
 	@GetMapping("/maniti/{titto-id}")
-	public ResponseDto<List<MessageDto>> getMessagesByManiti(@MemberId Integer memberId,
+	public ResponseEntity<ResponseDto<List<MessageDto>>> getMessagesByManiti(@MemberId Integer memberId,
 		@PathVariable("titto-id") Integer tittoId) {
-		return ResponseDto.success(SuccessCode.OK, chatService.getMessageByManiti(memberId, tittoId));
+		return ResponseEntity.ok(ResponseDto.success(SuccessCode.OK, chatService.getMessageByManiti(memberId, tittoId)));
 	}
 }
