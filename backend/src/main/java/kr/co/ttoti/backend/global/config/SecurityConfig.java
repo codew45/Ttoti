@@ -54,12 +54,12 @@ public class SecurityConfig {
 		"http://ttoti.co.kr:8080"
 	);
 
-	private static final String[] PERMIT_PATTERNS = {
+	private static final String[] PERMIT_PATTERNS = new String[] {
 		"/api/v1/ttoti/oauth",
 		"/api/v1/ttoti/auth/reissue",
-		"/api/chat/**",
-		"/api/pub",
-		"/api/sub",
+		"/chat/**",
+		"/pub/**",
+		"/sub/**",
 		"/swagger-ui/**",
 		"/static/**",
 		"/v3/api-docs/**",
