@@ -11,4 +11,5 @@ public class AnimalDto {
 	String animalName;
 	String animalImageUrl;
 	String animalDescription;
+	String animalSpeakInstruction;
 }

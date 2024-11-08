@@ -33,12 +33,17 @@ public class Animal {
     @Column(name = "animal_is_available")
     private Boolean animalIsAvailable;
 
+    @NotNull
+    @Column(name = "animal_speak_instruction", columnDefinition = "TEXT")
+    private String animalSpeakInstruction;
+
     public AnimalDto toDto(){
         return AnimalDto.builder()
             .animalId(this.animalId)
             .animalName(this.animalName)
             .animalImageUrl(this.animalImageUrl)
             .animalDescription(this.animalDescription)
+            .animalSpeakInstruction(this.animalSpeakInstruction)
             .build();
     }
 }
