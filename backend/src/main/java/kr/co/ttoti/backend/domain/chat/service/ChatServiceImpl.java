@@ -3,6 +3,7 @@ package kr.co.ttoti.backend.domain.chat.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import kr.co.ttoti.backend.domain.chat.dto.OpenaiRequest;
 import org.springframework.beans.factory.annotation.Value;
