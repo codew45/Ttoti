@@ -5,15 +5,12 @@ import kr.co.ttoti.backend.domain.member.dto.MemberDetailResponse;
 import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.global.auth.repository.MemberRepository;
 import kr.co.ttoti.backend.global.auth.security.CustomOAuth2User;
-import kr.co.ttoti.backend.global.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
-
-import static kr.co.ttoti.backend.global.status.ErrorCode.TOO_LONG_NAME;
 
 @Service
 @RequiredArgsConstructor
@@ -53,17 +50,6 @@ public class MemberServiceImpl implements MemberService {
                 .memberName(member.getMemberName())
                 .memberProfileImageUrl(member.getMemberProfileImageUrl())
                 .build();
-    }
-
-    @Override
-    @Transactional
-    public void updateMemberName(Integer memberId, String newName) {
-        if (newName.length() > 10){
-            throw new CustomException(TOO_LONG_NAME);
-        }
-
-        Member member = validator.validateMember(memberId);
-        member.changeMemberName(newName);
     }
 
 }

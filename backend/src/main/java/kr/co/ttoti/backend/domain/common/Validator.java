@@ -37,6 +37,11 @@ public class Validator {
 			.orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 	}
 
+	public Member validateMember(String memberUUID) {
+		return memberRepository.findByMemberUuid(memberUUID)
+				.orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+	}
+
 	public Room validateRoom(Integer roomId) {
 		return roomRepository.findByRoomIdAndRoomIsDeletedFalse(roomId).orElseThrow(
 			() -> new CustomException(ErrorCode.ROOM_NOT_FOUND)

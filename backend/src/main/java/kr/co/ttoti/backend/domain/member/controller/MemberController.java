@@ -26,13 +26,4 @@ public class MemberController {
         return ResponseEntity.ok(ResponseDto.success(MEMBER_DETAIL_SUCCESS, memberDetailResponse));
     }
 
-    @PatchMapping("name")
-    public ResponseEntity<ResponseDto<Void>> updateMemberName(@MemberId Integer memberId,
-                                                              @RequestBody MemberNameRequest memberNameRequest) {
-
-        memberService.updateMemberName(memberId, memberNameRequest.getMemberName());
-
-        return ResponseEntity.ok(ResponseDto.success(MEMBER_NAME_UPDATE_SUCCESS));
-    }
-
 }
