@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { RoomData } from 'src/types/RoomData';
@@ -7,6 +7,7 @@ import NotificationModal from '@components/common/modals/NotificationModal';
 import EnterCodeModal from '@components/common/modals/EnterCodeModal';
 
 import RowLogo from '@assets/icons/logo/row_logo.svg?react';
+import { getApiClient } from '@services/apiClient';
 
 const RoomCreateWrapper = styled.div`
 	position: relative;
@@ -36,37 +37,31 @@ const LogoDiv = styled.div`
 	position: absolute;
 	top: 70px;
 `;
-// 임시 데이터로 테스트
-const exampleData: RoomData[] = [
-	{
-		roomId: 1,
-		isRoomInProgress: true,
-		finishedAt: '2024/11/19 20:00',
-		isMemberReady: false,
-		memberProfileImageUrl:
-			'https://lab.ssafy.com/uploads/-/system/user/avatar/17580/avatar.png?width=800',
-		hostName: '정진영',
-		roomName: '쭌돌맨사랑해',
-		currentParticipants: 8,
-		hasUnreadNotifications: true,
-	},
-	{
-		roomId: 2,
-		isRoomInProgress: true,
-		finishedAt: null,
-		isMemberReady: false,
-		memberProfileImageUrl:
-			'https://lab.ssafy.com/uploads/-/system/user/avatar/17581/avatar.png?width=800',
-		hostName: '김호진',
-		roomName: '또띠또띠또',
-		currentParticipants: 4,
-		hasUnreadNotifications: false,
-	},
-];
+
 const RoomListPage = () => {
 	// Modal status 초기화
+	const [rooms, setRooms] = useState<RoomData[]>([]);
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [enterModalOpen, setEnterModalOpen] = useState(false);
+
+	useEffect(() => {
+		const fetchRoomData = async () => {
+			const apiClient = getApiClient();
+			try {
+				const res = await apiClient.get('/rooms/my');
+				if (res.status === 200) {
+					console.log(res.data.body);
+					setRooms(res.data.body);
+				} else {
+					console.log('get failed');
+				}
+			} catch (error) {
+				console.error('API 요청 오류:', error);
+			}
+		};
+		fetchRoomData();
+	}, []);
 
 	const openModal = () => {
 		setIsModalOpen(true);
@@ -95,12 +90,11 @@ const RoomListPage = () => {
 			)}
 			{enterModalOpen && (
 				<ModalBackground>
-					{/* onClose 아직 전달 안함 */}
 					<EnterCodeModal onClose={closeEnterModal} />
 				</ModalBackground>
 			)}
 			<RoomCarousel
-				rooms={exampleData}
+				rooms={rooms}
 				handleModal={openModal}
 				handleEnter={openEnterModal}
 			/>
