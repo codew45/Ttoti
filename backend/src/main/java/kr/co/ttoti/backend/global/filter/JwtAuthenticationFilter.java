@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String accessToken = jwtProvider.getAccessTokenFromRequest(request);
 
         try {
-            if (request.getRequestURI().startsWith("/api/chat")) {
+            if (request.getRequestURI().startsWith("/chat")) {
                 filterChain.doFilter(request, response);
                 return;
             }
