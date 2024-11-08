@@ -23,6 +23,16 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    set('springCloudVersion', "2023.0.3")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
 dependencies {
 
     // Web
@@ -60,6 +70,9 @@ dependencies {
     implementation 'org.apache.kafka:kafka-streams'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    // OpenFeign Client
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 }
 
 tasks.named('test') {
