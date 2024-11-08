@@ -3,6 +3,7 @@ package kr.co.ttoti.backend.domain.room.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.ttoti.backend.domain.room.dto.RoomIdDto;
 import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.global.auth.repository.MemberRepository;
 import kr.co.ttoti.backend.domain.room.entity.Room;
@@ -36,7 +37,7 @@ public class RoomMemberCreateServiceImpl implements RoomMemberCreateService {
 	}
 
 	@Override
-	public void createRoomMemberByRoomCode(Integer memberId, String roomCode) {
+	public RoomIdDto createRoomMemberByRoomCode(Integer memberId, String roomCode) {
 		Member member = memberRepository.findByMemberId(memberId)
 			.orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
@@ -50,5 +51,9 @@ public class RoomMemberCreateServiceImpl implements RoomMemberCreateService {
 		if (roomMemberRepository.findByMemberAndRoom(member, room).isEmpty()) {
 			roomMemberRepository.save(new RoomMember(room, member));
 		}
+
+		return RoomIdDto.builder()
+			.roomId(room.getRoomId())
+			.build();
 	}
 }

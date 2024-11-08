@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.ttoti.backend.domain.room.dto.RoomCreateRequest;
+import kr.co.ttoti.backend.domain.room.dto.RoomIdDto;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,9 @@ public class RoomCreateServiceImpl implements RoomCreateService {
 	private final RoomRepository roomRepository;
 
 	@Override
-	public Integer createRoom(Integer memberId, RoomCreateRequest roomCreateRequest) {
-		return roomRepository.save(new Room(memberId, roomCreateRequest)).getRoomId();
+	public RoomIdDto createRoom(Integer memberId, RoomCreateRequest roomCreateRequest) {
+		return RoomIdDto.builder()
+			.roomId(roomRepository.save(new Room(memberId, roomCreateRequest)).getRoomId())
+			.build();
 	}
 }

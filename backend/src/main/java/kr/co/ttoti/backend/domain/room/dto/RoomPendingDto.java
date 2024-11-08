@@ -11,6 +11,8 @@ public class RoomPendingDto {
 
 	String roomName;
 
+	String roomCode;
+
 	RoomMemberListPendingDto roomMemberInfo;
 
 	String profileImageUrl;

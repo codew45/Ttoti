@@ -1,6 +1,9 @@
 package kr.co.ttoti.backend.domain.room.controller;
 
+import kr.co.ttoti.backend.domain.room.dto.RoomIdDto;
 import kr.co.ttoti.backend.global.auth.annotation.MemberId;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +22,8 @@ public class RoomMemberCreateController {
 	private final RoomMemberCreateService roomMemberCreateService;
 
 	@GetMapping("/code/{room-code}")
-	public ResponseDto<Void> createRoomMemberByRoomCode(@MemberId Integer memberId, @PathVariable("room-code") String roomCode) {
-		roomMemberCreateService.createRoomMemberByRoomCode(memberId, roomCode);
-		return ResponseDto.success(SuccessCode.OK);
+	public ResponseEntity<ResponseDto<RoomIdDto>> createRoomMemberByRoomCode(@MemberId Integer memberId, @PathVariable("room-code") String roomCode) {
+		return ResponseEntity.ok(ResponseDto.success(SuccessCode.CREATE_ROOM_MEMBER_SUCCESS, roomMemberCreateService.createRoomMemberByRoomCode(memberId, roomCode)));
 	}
 
 }

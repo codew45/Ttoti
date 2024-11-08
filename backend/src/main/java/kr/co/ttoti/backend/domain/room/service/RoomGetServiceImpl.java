@@ -86,6 +86,7 @@ public class RoomGetServiceImpl implements RoomGetService {
 		return RoomPendingDto.builder()
 			.hostName(hostMember.getMemberName())
 			.roomName(room.getRoomName())
+			.roomCode(room.getRoomCode())
 			.roomMemberInfo(getRoomMembers(room))
 			.profileImageUrl(roomMember.getRoomMemberIsReady() ? roomMember.getAnimal().getAnimalImageUrl() :
 				member.getMemberProfileImageUrl())
