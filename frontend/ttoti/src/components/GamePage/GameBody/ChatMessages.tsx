@@ -3,8 +3,8 @@ import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 interface ChatMessagesProps {
-  target: 'manito' | 'maniti';
-  messages: { sender: 'manito' | 'maniti'; content: string }[];
+  target: 'manitto' | 'maniti';
+  messages: { senderId: 'manitto' | 'maniti'; content: string }[];
 }
 
 const MessageContainer = styled.div`
@@ -50,6 +50,7 @@ const MessageBubble = styled.div<{ $isOwnMessage: boolean }>`
 const ChatMessages: React.FC<ChatMessagesProps> = ({ target, messages }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  console.log(messages);
   useEffect(() => {
     // 메시지가 추가될 때마다 스크롤을 맨 아래로 이동
     if (containerRef.current) {
@@ -62,7 +63,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ target, messages }) => {
       {messages.map((message, index) => (
         <MessageBubble
           key={index}
-          $isOwnMessage={message.sender === target} /* target이 sender와 같을 때 오른쪽으로 정렬 */
+          $isOwnMessage={message.senderId !== target} /* target이 sender와 같을 때 오른쪽으로 정렬 */
         >
           {message.content}
         </MessageBubble>

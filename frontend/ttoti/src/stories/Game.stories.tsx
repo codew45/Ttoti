@@ -4,6 +4,7 @@ import Game from '@components/GamePage/Game';
 import { ThemeProvider } from 'styled-components';
 import theme from '@styles/theme';
 import { QuizData } from 'src/types/QuizTypes'; // QuizData 타입 import
+import { RoomInfo } from 'src/types/RoomInfo';
 
 const meta: Meta<typeof Game> = {
   title: 'Game/Game',
@@ -124,10 +125,22 @@ const mockQuizData: QuizData = {
   }
 };
 
+const mockRoomInfo: RoomInfo = {
+    "roomHostMemberName": "정진영",
+    "roomName": "99NULL",
+    "ttotiMatchInfo": {
+      "myTtotiId": 1,
+      "myTittoId": 2,
+      "myManittoAnimalName": "금붕어",
+      "myManittoAnimalImageUrl": "http://sample.com",
+      "myName": "정진영",
+    }
+  }
+
 // 스토리 1: 기본 게임 화면
 const Template: StoryFn<typeof Game> = () => (
   <ThemeProvider theme={theme}>
-    <Game quizData={mockQuizData} /> {/* quizData prop 전달 */}
+    <Game quizData={mockQuizData} roomInfo={mockRoomInfo}/> {/* quizData prop 전달 */}
   </ThemeProvider>
 );
 
