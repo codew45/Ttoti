@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import kr.co.ttoti.backend.global.auth.entity.Member;
@@ -25,4 +27,10 @@ public interface RoomMemberRepository extends JpaRepository<RoomMember, Integer>
 
 	List<RoomMember> findByRoomAndRoomMemberIsDeletedAndRoomMemberIsReady(Room room, Boolean roomMemberIsDeleted,
 		Boolean roomMemberIsReady);
+
+	@Query(value = "SELECT m.memberName " +
+			"FROM RoomMember rm " +
+			"JOIN rm.member m " +
+			"WHERE rm.room.roomId = :roomId")
+    List<String> getNamesByRoomId(@Param("roomId") Integer roomId);
 }

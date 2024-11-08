@@ -1,0 +1,48 @@
+package kr.co.ttoti.backend.domain.member.controller;
+
+import kr.co.ttoti.backend.domain.member.dto.ManittoGamesRequest;
+import kr.co.ttoti.backend.domain.member.dto.ManittoGameDto;
+import kr.co.ttoti.backend.domain.member.dto.MemberNameRequest;
+import kr.co.ttoti.backend.domain.member.service.MypageService;
+import kr.co.ttoti.backend.global.auth.annotation.MemberId;
+import kr.co.ttoti.backend.global.dto.ResponseDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static kr.co.ttoti.backend.global.status.SuccessCode.MEMBER_NAME_UPDATE_SUCCESS;
+import static kr.co.ttoti.backend.global.status.SuccessCode.OK;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/ttoti/members/mypage")
+public class MypageController {
+
+    private final MypageService mypageService;
+
+    @PatchMapping("/name")
+    public ResponseEntity<ResponseDto<Void>> updateMemberName(@MemberId Integer memberId,
+                                                              @RequestBody MemberNameRequest memberNameRequest) {
+
+        mypageService.updateMemberName(memberId, memberNameRequest.getMemberName());
+
+        return ResponseEntity.ok(ResponseDto.success(MEMBER_NAME_UPDATE_SUCCESS));
+    }
+
+    @GetMapping("/game")
+    public ResponseEntity<ResponseDto<List<ManittoGameDto>>> getManittoGameList(@MemberId Integer memberId,
+                                                                                @RequestBody ManittoGamesRequest manittoGamesRequest) {
+
+        List<ManittoGameDto> manittoGameDtoList = mypageService.getManittoGameList(memberId, manittoGamesRequest);
+
+        return ResponseEntity.ok(ResponseDto.success(OK, manittoGameDtoList));
+    }
+
+
+    //@GetMapping("/friend")
+
+
+
+}

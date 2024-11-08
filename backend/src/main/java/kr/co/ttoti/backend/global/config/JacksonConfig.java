@@ -26,7 +26,7 @@ public class JacksonConfig {
         JavaTimeModule javaTimeModule = new JavaTimeModule();
 
         // LocalDate yyyy/dd/MM 형식 설정
-        DateTimeFormatter localDateFormatter = DateTimeFormatter.ofPattern("yyyy/dd/MM");
+        DateTimeFormatter localDateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(localDateFormatter));
         javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(localDateFormatter));
 
@@ -36,7 +36,7 @@ public class JacksonConfig {
         javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(localTimeFormatter));
 
         // LocalDateTime yyyy/dd/MM HH:mm:ss 형식 설정
-        DateTimeFormatter localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/dd/MM HH:mm:ss");
+        DateTimeFormatter localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(localDateTimeFormatter));
         javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(localDateTimeFormatter));
 
