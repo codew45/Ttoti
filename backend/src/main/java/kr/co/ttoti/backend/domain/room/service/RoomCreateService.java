@@ -1,6 +1,7 @@
 package kr.co.ttoti.backend.domain.room.service;
 
 import kr.co.ttoti.backend.domain.room.dto.RoomCreateRequest;
+import kr.co.ttoti.backend.domain.room.dto.RoomIdDto;
 
 public interface RoomCreateService {
 
@@ -9,5 +10,5 @@ public interface RoomCreateService {
 	 * @param memberId
 	 * @param roomCreateRequest
 	 */
-	Integer createRoom(Integer memberId, RoomCreateRequest roomCreateRequest);
+	RoomIdDto createRoom(Integer memberId, RoomCreateRequest roomCreateRequest);
 }
