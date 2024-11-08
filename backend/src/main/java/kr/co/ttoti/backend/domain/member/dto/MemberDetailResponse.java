@@ -6,6 +6,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class MemberDetailResponse {
+
     private String memberId;
     private String memberName;
     private String memberProfileImageUrl;

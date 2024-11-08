@@ -48,6 +48,12 @@ public class Validator {
 		);
 	}
 
+	public Room validateFinishedRoom(Integer roomId) {
+		return roomRepository.findByRoomIdAndRoomIsStartedTrueAndRoomIsFinishedTrueAndRoomIsDeletedFalse(roomId).orElseThrow(
+			() -> new CustomException(ErrorCode.ROOM_NOT_FOUND)
+		);
+	}
+
 	public RoomMember validateMemberRoomAuthorization(Room room, Member member) {
 		return roomMemberRepository.findByRoomAndMemberAndRoomMemberIsDeleted(room, member, false)
 			.orElseThrow(

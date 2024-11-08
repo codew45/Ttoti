@@ -1,5 +1,6 @@
 package kr.co.ttoti.backend.domain.member.service;
 
+import kr.co.ttoti.backend.domain.member.dto.EndingDto;
 import kr.co.ttoti.backend.domain.member.dto.ManittoGamesRequest;
 import kr.co.ttoti.backend.domain.member.dto.ManittoGameDto;
 
@@ -10,4 +11,6 @@ public interface MypageService {
     public void updateMemberName(Integer memberId, String newName);
 
     public List<ManittoGameDto> getManittoGameList(Integer memberId, ManittoGamesRequest manittoGamesRequest);
+
+    EndingDto getEnding(Integer memberId, Integer gameId);
 }
