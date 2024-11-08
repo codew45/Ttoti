@@ -38,7 +38,7 @@ public class KafkaConsumerUtil {
             topicName,
             (MessageListener<String, String> ) record -> {
                 String message = record.value();
-                messageSending.convertAndSend("/sub/" + ttotiId, message);
+                messageSending.convertAndSend("/sub/" + topicName, message);
             }
         );
 

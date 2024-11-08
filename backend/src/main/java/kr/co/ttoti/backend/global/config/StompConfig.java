@@ -33,8 +33,8 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
-		registry.enableSimpleBroker("/api/sub"); // /sub를 구독하고 있는 모든 클라이언트에게 메세지를 보냄
-		registry.setApplicationDestinationPrefixes("/api/pub"); // 클라이언트가 /pub로 메세지를 보내면
+		registry.enableSimpleBroker("/pub", "/sub"); // /sub를 구독하고 있는 모든 클라이언트에게 메세지를 보냄
+		registry.setApplicationDestinationPrefixes("/pub"); // 클라이언트가 /pub로 메세지를 보내면
 	}
 
 	@Override

@@ -27,6 +27,10 @@ springdoc:
   swagger-ui:
     groups-order: DESC
 
+openai:
+  api:
+    key: ${OPEN_AI_API_KEY}
+
 --- # 로컬 설정
 spring:
   config:
