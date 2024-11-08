@@ -86,6 +86,9 @@ spring:
 
 callback: ${LOCAL_CALLBACK_URI}
 
+fcm:
+  secret-key-path: ${LOCAL_FCM_SECRET_KEY_PATH}
+
 --- # 개발 서버 설정
 spring:
   config:
@@ -132,3 +135,6 @@ spring:
       group-id: ${KAFKA_CONSUMER_GROUP_ID}
 
 callback: ${CALLBACK_URI}
+
+fcm:
+  secret-key-path: ${FCM_SECRET_KEY_PATH}
