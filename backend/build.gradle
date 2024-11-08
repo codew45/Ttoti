@@ -73,6 +73,9 @@ dependencies {
 
     // OpenFeign Client
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+    // FCM
+    implementation 'com.google.firebase:firebase-admin:9.4.1'
 }
 
 tasks.named('test') {

@@ -6,7 +6,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import kr.co.ttoti.backend.domain.common.Validator;
 import kr.co.ttoti.backend.domain.room.entity.Room;
+import kr.co.ttoti.backend.global.auth.entity.Member;
+import kr.co.ttoti.backend.domain.notification.dto.NotificationDeviceTokenCreateRequest;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -15,9 +18,14 @@ public class RedisUtil {
 
 	private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 	private final RedisTemplate<String, String> redisTemplate;
+	private final Validator validator;
 
 	private final String redisRoomLinkKey = "room_link:";
 	private final Long redisRoomLinkPeriod = 3L;
+
+	private final String redisFCMTokenKey = "fcm_token:";
+	private final Long redisFCMTokenPeriod = 3L;
+
 
 	public void setData(String key, String value, Long expiredTime){
 		redisTemplate.opsForValue().set(key, value, expiredTime, TimeUnit.MILLISECONDS);
@@ -50,4 +58,13 @@ public class RedisUtil {
 		System.out.println(roomLinkKey + " : " + roomLinkValue);
 		redisTemplate.opsForValue().set(roomLinkKey, roomLinkValue, redisRoomLinkPeriod, TimeUnit.DAYS);
 	}
+
+	public void setDeviceToken(NotificationDeviceTokenCreateRequest deviceTokenCreateRequst, Integer memberId){
+		Member member = validator.validateMember(memberId);
+		String fcmTokenKey = redisFCMTokenKey + memberId.toString();
+
+		redisTemplate.opsForValue()
+			.set(fcmTokenKey, deviceTokenCreateRequst.getDeviceToken(), redisFCMTokenPeriod, TimeUnit.DAYS);
+	}
+
 }
