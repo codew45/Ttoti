@@ -49,4 +49,6 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
 			"AND r.roomStartDate >= :startDate " +
 			"AND r.roomFinishDate <= :endDate")
 	List<Room> findRoomsByMemberIdAndDateAndFriendId(@Param("memberId") Integer memberId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate, @Param("friendId") Integer friendId);
+
+	Optional<Room> findByRoomIdAndRoomIsStartedTrueAndRoomIsFinishedTrueAndRoomIsDeletedFalse(Integer roomId);
 }

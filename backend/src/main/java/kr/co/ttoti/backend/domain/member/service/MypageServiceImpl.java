@@ -1,8 +1,11 @@
 package kr.co.ttoti.backend.domain.member.service;
 
 import kr.co.ttoti.backend.domain.common.Validator;
+import kr.co.ttoti.backend.domain.member.dto.EndingDto;
 import kr.co.ttoti.backend.domain.member.dto.ManittoGamesRequest;
 import kr.co.ttoti.backend.domain.member.dto.ManittoGameDto;
+import kr.co.ttoti.backend.domain.member.entity.Ending;
+import kr.co.ttoti.backend.domain.member.repository.EndingRepository;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
 import kr.co.ttoti.backend.domain.room.repository.RoomRepository;
@@ -24,6 +27,7 @@ public class MypageServiceImpl implements MypageService {
     private final Validator validator;
     private final RoomRepository roomRepository;
     private final RoomMemberRepository roomMemberRepository;
+    private final EndingRepository endingRepository;
 
     @Override
     @Transactional
@@ -52,8 +56,8 @@ public class MypageServiceImpl implements MypageService {
 
         for (Room room : roomList) {
             ManittoGameDto manittoGameDto = ManittoGameDto.builder()
-                    .gameId(room.getRoomId())
-                    .gameName(room.getRoomName())
+                    .roomId(room.getRoomId())
+                    .roomName(room.getRoomName())
                     .startDate(room.getRoomStartDate())
                     .endDate(room.getRoomFinishDate())
                     .membersName(roomMemberRepository.getNamesByRoomId(room.getRoomId()))
@@ -63,5 +67,15 @@ public class MypageServiceImpl implements MypageService {
         }
 
         return manittoGameDtoList;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public EndingDto getEnding(Integer memberId, Integer endingId) {
+        Member member = validator.validateMember(memberId);
+
+        Ending ending = endingRepository.findByEndingId(endingId);
+
+        return EndingDto.builder().build();
     }
 }

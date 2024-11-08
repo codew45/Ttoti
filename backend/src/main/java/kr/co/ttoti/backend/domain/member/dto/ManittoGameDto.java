@@ -9,8 +9,9 @@ import java.util.List;
 @Data
 @Builder
 public class ManittoGameDto {
-    private Integer gameId;
-    private String gameName;
+
+    private Integer roomId;
+    private String roomName;
     private List<String> membersName;
     private LocalDate startDate;
     private LocalDate endDate;

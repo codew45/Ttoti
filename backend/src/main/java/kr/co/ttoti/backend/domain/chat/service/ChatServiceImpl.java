@@ -93,7 +93,7 @@ public class ChatServiceImpl implements ChatService {
 
 		ChatMessage chatMessage = chatMessageRepository.save(ChatMessage.builder()
 			.ttotiId(tittoId)
-			.senderRole("manitti")
+			.senderRole("maniti")
 			.senderId(member.getMemberId())
 			.messageSendAt(LocalDateTime.now())
 			.messageContent(message)
