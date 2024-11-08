@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 
@@ -9,6 +8,7 @@ import {
 } from '@components/common/modals/ModalCard';
 import ListBox from '@components/common/box/ListBox';
 import { useState } from 'react';
+import { getApiClient } from '@services/apiClient';
 
 const EnterColumn = styled.div`
 	display: flex;
@@ -42,10 +42,7 @@ interface CodeInputProps {
 const CodeInputBox = ({ inputCode, onInputChange }: CodeInputProps) => {
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const newValue = event.target.value;
-		// 8글자 이하일 때만 상태 업데이트
-		if (newValue.length <= 8) {
-			onInputChange(newValue);
-		}
+		onInputChange(newValue);
 	};
 	return (
 		<StyledTextField
@@ -55,16 +52,15 @@ const CodeInputBox = ({ inputCode, onInputChange }: CodeInputProps) => {
 		/>
 	);
 };
-
-const EnterContents = () => {
-	const [inputCode, setInputCode] = useState('');
-	const handleInputChange = (value: string) => {
-		setInputCode(value);
-	};
+interface EnterContentsProps {
+	inputCode: string;
+	onInputChange: (value: string) => void;
+}
+const EnterContents = ({ inputCode, onInputChange }: EnterContentsProps) => {
 	return (
 		<EnterColumn>
 			<ListBox size="small" ListText="초대 코드" />
-			<CodeInputBox inputCode={inputCode} onInputChange={handleInputChange} />
+			<CodeInputBox inputCode={inputCode} onInputChange={onInputChange} />
 		</EnterColumn>
 	);
 };
@@ -74,6 +70,10 @@ interface EnterModalProps {
 }
 
 const EnterCodeModal = ({ onClose }: EnterModalProps) => {
+	const [inputCode, setInputCode] = useState('');
+	const handleInputChange = (value: string) => {
+		setInputCode(value);
+	};
 	const subtitleText = '초대 코드 입력';
 	const titleText = '코드를 입력하여 또띠를 시작해보세요!';
 	const explainText = '';
@@ -82,18 +82,30 @@ const EnterCodeModal = ({ onClose }: EnterModalProps) => {
 	const buttonColor2 = 'background';
 	const buttonText2 = '닫기';
 
-	const navigate = useNavigate();
-
-	// 코드 유효성 검사 아직 안함, 바로 게임 페이지로 진입으로 작성중
-	// API 연결 후 변경 예정
-	const handleEnter = () => {
-		navigate('/game');
+	const handleEnter = async () => {
+		const apiClient = getApiClient();
+		// 초대 코드 테스트 후 연결 예정
+		// 기본 구조 세팅 완료
+		try {
+			const res = await apiClient.get(`/rooms/code/${inputCode}`);
+			if (res.status === 200) {
+				if (res.data.body) {
+					console.log('true!');
+				} else {
+					console.log('false!');
+				}
+			} else {
+				console.log('코드 입장 api 요청 실패');
+			}
+		} catch (err) {
+			throw { err };
+		}
 	};
 
 	return (
 		<Modal>
 			<ModalTitle titleText={titleText} subtitleText={subtitleText} />
-			<EnterContents />
+			<EnterContents inputCode={inputCode} onInputChange={handleInputChange} />
 			<ButtonContainer
 				explainText={explainText}
 				buttonColor1={buttonColor1}

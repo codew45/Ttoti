@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { RoomInfoProps } from 'src/types/RoomData';
+import ColumnLogo from '@assets/icons/logo/column_logo.svg';
+import { useState } from 'react';
 
 const InfoRowContainer = styled.div`
 	display: flex;
@@ -26,6 +28,7 @@ const ProfileImage = styled.img`
 	width: 65px;
 	height: 65px;
 	object-fit: cover;
+	border-radius: 50%;
 `;
 
 const InfoColumnContainer = styled.div`
@@ -53,10 +56,16 @@ const RoomInfo = ({
 	currentParticipants,
 	imageURL,
 }: RoomInfoProps) => {
+	const [imgSrc, setImgSrc] = useState(imageURL);
+
+	const handleImageError = () => {
+		setImgSrc(ColumnLogo); // 이미지 로드 실패 시 기본 SVG로 대체
+	};
+
 	return (
 		<InfoRowContainer>
 			<ImageWrapper>
-				<ProfileImage src={imageURL} />
+				<ProfileImage src={imgSrc} onError={handleImageError} />
 			</ImageWrapper>
 			<InfoColumnContainer>
 				<InfoText $field="host">{hostName}님의</InfoText>
