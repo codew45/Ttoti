@@ -16,7 +16,7 @@ import jakarta.annotation.PostConstruct;
 @Configuration
 public class FcmConfig {
 
-	@Value("${fcm.secret-key-path}")
+	@Value("${secret-key-path}")
 	private String fcmSecretKeyPath;
 
 	@PostConstruct
