@@ -2,6 +2,7 @@ package kr.co.ttoti.backend.domain.member.controller;
 
 import kr.co.ttoti.backend.domain.member.dto.ManittoGamesRequest;
 import kr.co.ttoti.backend.domain.member.dto.ManittoGameDto;
+import kr.co.ttoti.backend.domain.member.dto.MemberDetailDto;
 import kr.co.ttoti.backend.domain.member.dto.MemberNameRequest;
 import kr.co.ttoti.backend.domain.member.service.MypageService;
 import kr.co.ttoti.backend.global.auth.annotation.MemberId;
@@ -21,35 +22,42 @@ import static kr.co.ttoti.backend.global.status.SuccessCode.OK;
 @RequestMapping("/api/v1/ttoti/members/mypage")
 public class MypageController {
 
-	private final MypageService mypageService;
+    private final MypageService mypageService;
 
-	@PatchMapping("/name")
-	public ResponseEntity<ResponseDto<Void>> updateMemberName(@MemberId Integer memberId,
-		@RequestBody MemberNameRequest memberNameRequest) {
+    @PatchMapping("/name")
+    public ResponseEntity<ResponseDto<Void>> updateMemberName(@MemberId Integer memberId,
+                                                              @RequestBody MemberNameRequest memberNameRequest) {
 
-		mypageService.updateMemberName(memberId, memberNameRequest.getMemberName());
+        mypageService.updateMemberName(memberId, memberNameRequest.getMemberName());
 
-		return ResponseEntity.ok(ResponseDto.success(MEMBER_NAME_UPDATE_SUCCESS));
-	}
+        return ResponseEntity.ok(ResponseDto.success(MEMBER_NAME_UPDATE_SUCCESS));
+    }
 
-	@GetMapping("/game")
-	public ResponseEntity<ResponseDto<List<ManittoGameDto>>> getManittoGameList(@MemberId Integer memberId,
-		@RequestBody ManittoGamesRequest manittoGamesRequest) {
+    @GetMapping("/game")
+    public ResponseEntity<ResponseDto<List<ManittoGameDto>>> getManittoGameList(@MemberId Integer memberId,
+                                                                                @RequestBody ManittoGamesRequest manittoGamesRequest) {
 
-		List<ManittoGameDto> manittoGameDtoList = mypageService.getManittoGameList(memberId, manittoGamesRequest);
+        List<ManittoGameDto> manittoGameDtoList = mypageService.getManittoGameList(memberId, manittoGamesRequest);
 
-		return ResponseEntity.ok(ResponseDto.success(OK, manittoGameDtoList));
-	}
+        return ResponseEntity.ok(ResponseDto.success(OK, manittoGameDtoList));
+    }
 
-	//@GetMapping("/friend")
 
-	@GetMapping("/{ending-id}")
-	public ResponseEntity<ResponseDto<?>> getEnding(@MemberId Integer memberId,
-		@PathVariable("ending-id") Integer endingId) {
+    @GetMapping("/friend")
+    public ResponseEntity<ResponseDto<List<MemberDetailDto>>> getManittoFriendList(@MemberId Integer memberId){
 
-		mypageService.getEnding(memberId, endingId);
+        List<MemberDetailDto> memberDetailDtoList = mypageService.getManittoFriendList(memberId);
 
-		return ResponseEntity.ok(ResponseDto.success(OK));
-	}
+        return ResponseEntity.ok(ResponseDto.success(OK, memberDetailDtoList));
+    }
+
+    @GetMapping("/{ending-id}")
+    public ResponseEntity<ResponseDto<?>> getEnding(@MemberId Integer memberId,
+                                                    @PathVariable("ending-id") Integer endingId) {
+
+        mypageService.getEnding(memberId, endingId);
+
+        return ResponseEntity.ok(ResponseDto.success(OK));
+    }
 
 }

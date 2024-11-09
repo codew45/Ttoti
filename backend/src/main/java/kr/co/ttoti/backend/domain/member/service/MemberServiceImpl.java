@@ -1,7 +1,7 @@
 package kr.co.ttoti.backend.domain.member.service;
 
 import kr.co.ttoti.backend.domain.common.Validator;
-import kr.co.ttoti.backend.domain.member.dto.MemberDetailResponse;
+import kr.co.ttoti.backend.domain.member.dto.MemberDetailDto;
 import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.global.auth.repository.MemberRepository;
 import kr.co.ttoti.backend.global.auth.security.CustomOAuth2User;
@@ -41,11 +41,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly = true)
-    public MemberDetailResponse getMemberDetail(Integer memberId) {
+    public MemberDetailDto getMemberDetail(Integer memberId) {
 
         Member member = validator.validateMember(memberId);
 
-        return MemberDetailResponse.builder()
+        return MemberDetailDto.builder()
                 .memberId(member.getMemberUuid())
                 .memberName(member.getMemberName())
                 .memberProfileImageUrl(member.getMemberProfileImageUrl())

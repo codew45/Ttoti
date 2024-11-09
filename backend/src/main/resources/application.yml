@@ -86,8 +86,7 @@ spring:
 
 callback: ${LOCAL_CALLBACK_URI}
 
-fcm:
-  secret-key-path: ${LOCAL_FCM_SECRET_KEY_PATH}
+secret-key-path: ${LOCAL_FCM_SECRET_KEY_PATH}
 
 --- # 개발 서버 설정
 spring:
@@ -136,5 +135,4 @@ spring:
 
 callback: ${CALLBACK_URI}
 
-fcm:
-  secret-key-path: ${FCM_SECRET_KEY_PATH}
+secret-key-path: ${FCM_SECRET_KEY_PATH}

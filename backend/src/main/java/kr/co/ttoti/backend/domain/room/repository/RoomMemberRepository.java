@@ -33,4 +33,14 @@ public interface RoomMemberRepository extends JpaRepository<RoomMember, Integer>
 			"JOIN rm.member m " +
 			"WHERE rm.room.roomId = :roomId")
     List<String> getNamesByRoomId(@Param("roomId") Integer roomId);
+
+	@Query("SELECT rm2.member " +
+			"FROM RoomMember rm " +
+			"JOIN rm.room r " +
+			"JOIN RoomMember rm2 ON rm2.room = r " +
+			"WHERE rm.member.memberId = :memberId " +
+			"AND rm2.member.memberId != :memberId " +
+			"AND r.roomIsDeleted = false " +
+			"AND r.roomIsFinished = true ")
+	List<Member> getFriendsByMemberId(Integer memberId);
 }

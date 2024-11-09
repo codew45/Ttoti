@@ -1,7 +1,6 @@
 package kr.co.ttoti.backend.domain.member.controller;
 
-import kr.co.ttoti.backend.domain.member.dto.MemberDetailResponse;
-import kr.co.ttoti.backend.domain.member.dto.MemberNameRequest;
+import kr.co.ttoti.backend.domain.member.dto.MemberDetailDto;
 import kr.co.ttoti.backend.domain.member.service.MemberService;
 import kr.co.ttoti.backend.global.auth.annotation.MemberId;
 import kr.co.ttoti.backend.global.dto.ResponseDto;
@@ -19,11 +18,11 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/detail")
-    public ResponseEntity<ResponseDto<MemberDetailResponse>> getMemberDetail(@MemberId Integer memberId) {
+    public ResponseEntity<ResponseDto<MemberDetailDto>> getMemberDetail(@MemberId Integer memberId) {
 
-        MemberDetailResponse memberDetailResponse = memberService.getMemberDetail(memberId);
+        MemberDetailDto memberDetailDto = memberService.getMemberDetail(memberId);
 
-        return ResponseEntity.ok(ResponseDto.success(MEMBER_DETAIL_SUCCESS, memberDetailResponse));
+        return ResponseEntity.ok(ResponseDto.success(MEMBER_DETAIL_SUCCESS, memberDetailDto));
     }
 
 }
