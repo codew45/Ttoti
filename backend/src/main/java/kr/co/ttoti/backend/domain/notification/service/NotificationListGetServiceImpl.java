@@ -30,8 +30,8 @@ public class NotificationListGetServiceImpl implements NotificationListGetServic
 		return notificationRepository.findByRoomIdAndMemberIdAndNotificationIsRead(
 				roomId, memberId, false).stream()
 			.map(notification -> {
-				notification.updateIsRead();
-				notification.updateDeletedAt();
+				// notification.updateIsRead();
+				// notification.updateDeletedAt();
 
 				return NotificationDto.builder()
 					.notificationReason(notification.getNotificationReason())
