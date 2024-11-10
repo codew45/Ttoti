@@ -21,7 +21,6 @@ public class FcmConfig {
 
 	@PostConstruct
 	public void init() {
-		System.out.println(fcmSecretKeyPath);
 		ClassPathResource resource = new ClassPathResource(fcmSecretKeyPath);
 
 		try (InputStream inputStream = resource.getInputStream()) {

@@ -7,9 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import kr.co.ttoti.backend.domain.common.Validator;
-import kr.co.ttoti.backend.domain.room.entity.Room;
-import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.domain.notification.dto.NotificationDeviceTokenCreateRequest;
+import kr.co.ttoti.backend.domain.room.entity.Room;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -24,10 +23,9 @@ public class RedisUtil {
 	private final Long redisRoomLinkPeriod = 3L;
 
 	private final String redisFCMTokenKey = "fcm_token:";
-	private final Long redisFCMTokenPeriod = 3L;
+	private final Long redisFCMTokenPeriod = 60L;
 
-
-	public void setData(String key, String value, Long expiredTime){
+	public void setData(String key, String value, Long expiredTime) {
 		redisTemplate.opsForValue().set(key, value, expiredTime, TimeUnit.MILLISECONDS);
 	}
 
@@ -36,7 +34,7 @@ public class RedisUtil {
 		return value != null ? value.toString() : null;  // 반환값을 String으로 변환
 	}
 
-	public void deleteData(String key){
+	public void deleteData(String key) {
 		redisTemplate.delete(key);
 	}
 
@@ -52,19 +50,19 @@ public class RedisUtil {
 		return roomLinkValue != null ? roomLinkValue.toString() : null;  // 반환값을 String으로 변환
 	}
 
-	public void setRoomLink(Room room){
+	public void setRoomLink(Room room) {
 		String roomLinkKey = redisRoomLinkKey + room.getRoomId().toString();
 		String roomLinkValue = createRoomLink(room);
 		System.out.println(roomLinkKey + " : " + roomLinkValue);
 		redisTemplate.opsForValue().set(roomLinkKey, roomLinkValue, redisRoomLinkPeriod, TimeUnit.DAYS);
 	}
 
-	public void setDeviceToken(NotificationDeviceTokenCreateRequest deviceTokenCreateRequst, Integer memberId){
-		Member member = validator.validateMember(memberId);
+	public void setDeviceToken(NotificationDeviceTokenCreateRequest deviceTokenCreateRequest, Integer memberId) {
+		validator.validateMember(memberId);
 		String fcmTokenKey = redisFCMTokenKey + memberId.toString();
 
 		redisTemplate.opsForValue()
-			.set(fcmTokenKey, deviceTokenCreateRequst.getDeviceToken(), redisFCMTokenPeriod, TimeUnit.DAYS);
+			.set(fcmTokenKey, deviceTokenCreateRequest.getDeviceToken(), redisFCMTokenPeriod, TimeUnit.DAYS);
 	}
 
 }
