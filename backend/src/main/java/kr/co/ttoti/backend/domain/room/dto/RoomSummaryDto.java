@@ -33,7 +33,7 @@ public class RoomSummaryDto {
 	Boolean hasUnreadNotifications;
 
 	@Builder
-	public RoomSummaryDto(RoomMember roomMember, Member hostMember, Integer roomCurrentParticipants){
+	public RoomSummaryDto(RoomMember roomMember, Member hostMember, Integer roomCurrentParticipants, Boolean hasUnreadNotifications){
 		Room room = roomMember.getRoom();
 		this.roomId = room.getRoomId();
 		this.isRoomInProgress = room.getRoomIsStarted();
@@ -44,6 +44,6 @@ public class RoomSummaryDto {
 		this.roomName = room.getRoomName();
 		this.currentParticipants = roomCurrentParticipants;
 		// 현재 알림이 존재하는지 확인
-		this.hasUnreadNotifications = false;
+		this.hasUnreadNotifications = hasUnreadNotifications;
 	}
 }
