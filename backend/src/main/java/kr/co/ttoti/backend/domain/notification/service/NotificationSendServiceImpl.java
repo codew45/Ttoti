@@ -15,16 +15,15 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class NotificationServiceImpl implements NotificationService {
+public class NotificationSendServiceImpl implements NotificationSendService {
 
 	private final RedisUtil redisUtil;
 	private final Validator validator;
 
 	private final String redisFCMTokenKey = "fcm_token:";
-	private final Long redisFCMTokenPeriod = 3L;
 
 	// FCM에게 알림 요청 사용자에게 푸시 알림 보내기
-	public void pushNotification(Integer memberId, String title, String content) throws
+	public void sendNotification(Integer memberId, String title, String content) throws
 		ExecutionException,
 		InterruptedException {
 
@@ -42,6 +41,6 @@ public class NotificationServiceImpl implements NotificationService {
 				.setNotification(new WebpushNotification(title, content))
 				.build())
 			.build();
-		String response = FirebaseMessaging.getInstance().sendAsync(message).get();
+		FirebaseMessaging.getInstance().sendAsync(message).get();
 	}
 }

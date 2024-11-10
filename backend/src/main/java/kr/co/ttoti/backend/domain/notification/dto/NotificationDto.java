@@ -7,6 +7,6 @@ import lombok.Getter;
 @Builder
 public class NotificationDto {
 
+	String notificationReason;
 	String title;
-	String content;
 }
