@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.co.ttoti.backend.domain.notification.entity.NotificationType;
 import kr.co.ttoti.backend.global.auth.annotation.MemberId;
 import kr.co.ttoti.backend.domain.notification.dto.NotificationDeviceTokenCreateRequest;
 import kr.co.ttoti.backend.domain.notification.service.NotificationSendServiceImpl;
@@ -27,7 +28,7 @@ public class NotificationSendController {
 	public ResponseEntity<Void> saveFcmToken(@RequestBody NotificationDeviceTokenCreateRequest deviceTokenCreateRequst,
 		@MemberId Integer memberId) throws ExecutionException, InterruptedException {
 		redisUtil.setDeviceToken(deviceTokenCreateRequst, memberId);
-		notificationService.sendNotification(memberId, "알림제목", "알림내용");
+		notificationService.sendNotification(memberId, NotificationType.FINAL_MANITTO_GUESS_OPENED);
 		return ResponseEntity.ok(null);
 	}
 }
