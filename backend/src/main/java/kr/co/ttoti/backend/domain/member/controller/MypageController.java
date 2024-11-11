@@ -33,7 +33,7 @@ public class MypageController {
         return ResponseEntity.ok(ResponseDto.success(MEMBER_NAME_UPDATE_SUCCESS));
     }
 
-    @GetMapping("/game")
+    @PostMapping("/game")
     public ResponseEntity<ResponseDto<List<ManittoGameDto>>> getManittoGameList(@MemberId Integer memberId,
                                                                                 @RequestBody ManittoGamesRequest manittoGamesRequest) {
 
