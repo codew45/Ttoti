@@ -41,6 +41,7 @@ public enum ErrorCode {
     ROOM_IN_PROGRESS(401, "이미 게임이 시작된 방입니다"),
 	ROOM_UNAUTHORIZED(401, "방에 접근할 권한이 없습니다"),
     ROOM_LINK_NOT_CREATED(500, "초대링크를 생성할 수 없습니다"),
+    ROOM_FULL(409, "인원이 가득 찬 방입니다"),
 
 	// room member
 	ROOM_HOST_MEMBER_NOT_FOUND(404, "방장이 존재하지 않습니다"),

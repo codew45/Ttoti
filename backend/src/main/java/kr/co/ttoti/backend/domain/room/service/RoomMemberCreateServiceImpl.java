@@ -3,6 +3,7 @@ package kr.co.ttoti.backend.domain.room.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.ttoti.backend.domain.common.Validator;
 import kr.co.ttoti.backend.domain.room.dto.RoomIdDto;
 import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.global.auth.repository.MemberRepository;
@@ -22,14 +23,13 @@ public class RoomMemberCreateServiceImpl implements RoomMemberCreateService {
 	private final MemberRepository memberRepository;
 	private final RoomRepository roomRepository;
 	private final RoomMemberRepository roomMemberRepository;
+	private final Validator validator;
 
 	@Override
 	public void createRoomMember(Integer memberId, Integer roomId) {
-		Member member = memberRepository.findByMemberId(memberId)
-			.orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+		Member member = validator.validateMember(memberId);
 
-		Room room = roomRepository.findByRoomId(roomId)
-			.orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+		Room room = validator.validateRoom(roomId);
 
 		if (roomMemberRepository.findByMemberAndRoom(member, room).isEmpty()) {
 			roomMemberRepository.save(new RoomMember(room, member));
@@ -38,11 +38,16 @@ public class RoomMemberCreateServiceImpl implements RoomMemberCreateService {
 
 	@Override
 	public RoomIdDto createRoomMemberByRoomCode(Integer memberId, String roomCode) {
-		Member member = memberRepository.findByMemberId(memberId)
-			.orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+		Member member = validator.validateMember(memberId);
 
 		Room room = roomRepository.findByRoomCode(roomCode)
 			.orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+
+		int currentParticipants = roomMemberRepository.countByRoomAndRoomMemberIsDeletedFalse(room);
+
+		if(currentParticipants==room.getRoomParticipants()){
+			throw new CustomException(ErrorCode.ROOM_FULL);
+		}
 
 		if(room.getRoomIsStarted()) {
 			throw new CustomException(ErrorCode.ROOM_IN_PROGRESS);
