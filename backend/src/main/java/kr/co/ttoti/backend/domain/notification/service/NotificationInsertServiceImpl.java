@@ -1,19 +1,19 @@
-package kr.co.ttoti.backend.domain.notification.service.common;
+package kr.co.ttoti.backend.domain.notification.service;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import kr.co.ttoti.backend.domain.notification.entity.Notification;
 import kr.co.ttoti.backend.domain.notification.entity.NotificationType;
 import kr.co.ttoti.backend.domain.notification.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class NotificationServiceUtils {
+public class NotificationInsertServiceImpl implements NotificationInsertService {
 
 	private final NotificationRepository notificationRepository;
 
-	public void sendNotificationToMemberInRoom(Integer memberId, Integer roomId, NotificationType notificationType) {
+	public void insertNotificationToMemberInRoom(Integer memberId, Integer roomId, NotificationType notificationType) {
 		notificationRepository.save(Notification.builder()
 			.memberId(memberId)
 			.roomId(roomId)
