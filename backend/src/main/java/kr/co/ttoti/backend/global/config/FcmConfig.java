@@ -25,6 +25,9 @@ public class FcmConfig {
 	@PostConstruct
 	public void init() {
 		Resource resource;
+
+		fcmSecretKeyPath = "/"+fcmSecretKeyPath;
+
 		if (new File(fcmSecretKeyPath).exists()) {
 			// 절대 경로가 존재할 때 FileSystemResource 사용
 			resource = new FileSystemResource(fcmSecretKeyPath);
