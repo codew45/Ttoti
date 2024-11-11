@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.ttoti.backend.domain.animal.dto.AnimalSelectDto;
-import kr.co.ttoti.backend.domain.notification.entity.NotificationMessage;
+import kr.co.ttoti.backend.domain.notification.entity.NotificationType;
+import kr.co.ttoti.backend.domain.notification.service.NotificationSendService;
 import kr.co.ttoti.backend.domain.room.dto.RoomMemberAnimalSelectRequest;
 import kr.co.ttoti.backend.domain.room.service.RoomMemberAnimalSelectionService;
 import kr.co.ttoti.backend.global.auth.annotation.MemberId;
 import kr.co.ttoti.backend.global.dto.ResponseDto;
-import kr.co.ttoti.backend.domain.notification.service.NotificationSendService;
 import kr.co.ttoti.backend.global.status.SuccessCode;
 import lombok.RequiredArgsConstructor;
 
@@ -39,8 +39,8 @@ public class RoomMemberAnimalSelectionController {
 			return ResponseEntity.ok(ResponseDto.success(SuccessCode.ANIMAL_SELECT_SUCCESS, result));
 		}
 
-		notificationSendService.sendNotification(memberId, NotificationMessage
-			.GAME_START.getTitle(), NotificationMessage.GAME_START.getContent());
+		notificationSendService.sendNotification(memberId, NotificationType
+			.GAME_START);
 		return ResponseEntity.ok(ResponseDto.success(SuccessCode.ROOM_START_SUCCESS, result));
 	}
 }

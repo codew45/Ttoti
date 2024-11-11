@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.ttoti.backend.domain.common.Validator;
 import kr.co.ttoti.backend.domain.notification.dto.NotificationDto;
+import kr.co.ttoti.backend.domain.notification.entity.NotificationType;
 import kr.co.ttoti.backend.domain.notification.repository.NotificationRepository;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.global.auth.entity.Member;
@@ -35,7 +36,7 @@ public class NotificationListGetServiceImpl implements NotificationListGetServic
 				// notification.updateDeletedAt();
 
 				return NotificationDto.builder()
-					.notificationReason(notification.getNotificationReason())
+					.notificationReason(NotificationType.valueOf(notification.getNotificationReason()).getReason())
 					.title(notification.getNotificationTitle())
 					.build();
 

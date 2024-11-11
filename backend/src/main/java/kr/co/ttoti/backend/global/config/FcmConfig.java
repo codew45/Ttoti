@@ -1,11 +1,14 @@
 package kr.co.ttoti.backend.global.config;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -21,7 +24,17 @@ public class FcmConfig {
 
 	@PostConstruct
 	public void init() {
-		ClassPathResource resource = new ClassPathResource(fcmSecretKeyPath);
+		Resource resource;
+		if (new File(fcmSecretKeyPath).exists()) {
+			// 절대 경로가 존재할 때 FileSystemResource 사용
+			resource = new FileSystemResource(fcmSecretKeyPath);
+		} else {
+			// 클래스패스 경로로 가져오기
+			resource = new ClassPathResource(fcmSecretKeyPath);
+		}
+
+		System.out.println("FCMSECRETKEYPATH "+fcmSecretKeyPath);
+		System.out.println("RESOUCE "+resource);
 
 		try (InputStream inputStream = resource.getInputStream()) {
 			FirebaseOptions options = FirebaseOptions.builder()
