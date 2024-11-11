@@ -4,6 +4,7 @@ import kr.co.ttoti.backend.global.auth.entity.Member;
 import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.ttoti.backend.domain.common.Validator;
 import kr.co.ttoti.backend.domain.quiz.dto.QuizAnswerUpdateRequest;
@@ -11,7 +12,6 @@ import kr.co.ttoti.backend.domain.quiz.entity.Quiz;
 import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
 import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
 import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
-import kr.co.ttoti.backend.global.exception.CustomException;
 import kr.co.ttoti.backend.global.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +23,7 @@ public class QuizAnswerUpdateServiceImpl implements QuizAnswerUpdateService {
 	private final QuizAnswerRepository quizAnswerRepository;
 
 	@Override
+	@Transactional
 	public void updateQuizAnswer(Integer memberId, Integer ttotiId, Integer quizId,
 		QuizAnswerUpdateRequest quizAnswerUpdateRequest) {
 
@@ -36,7 +37,7 @@ public class QuizAnswerUpdateServiceImpl implements QuizAnswerUpdateService {
 		QuizAnswer manitiQuizAnswer = validator.validateQuizAnswerByTtotiIdAndQuiz(titto.getTtotiId(), quiz);
 
 		if (manittoQuizAnswer.getQuizDate().isBefore(LocalDate.now())) {
-			throw new CustomException(ErrorCode.QUIZ_EXPIRED);
+			System.out.println(ErrorCode.QUIZ_EXPIRED.getMessage());
 		}
 
 		manittoQuizAnswer.updateManittoQuizAnswer(quizAnswerNumber);

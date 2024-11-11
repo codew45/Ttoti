@@ -76,4 +76,13 @@ public class RoomMember extends BaseEntity {
 		this.roomMemberIsDeleted = true;
 		this.roomMemberDeletedAt = LocalDateTime.now();
 	}
+
+	public void updateRoomMemberIsDeleted(Boolean roomMemberIsDeleted){
+		this.roomMemberIsDeleted = roomMemberIsDeleted;
+	}
+
+	public void updateRoomMemberDeletedAt(LocalDateTime roomMemberDeletedAt) {
+		this.roomMemberDeletedAt = roomMemberDeletedAt;
+	}
+
 }

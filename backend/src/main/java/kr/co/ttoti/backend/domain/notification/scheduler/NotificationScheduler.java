@@ -6,13 +6,17 @@ import java.util.List;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import kr.co.ttoti.backend.domain.notification.dto.UnAnsweredMemberDto;
+import kr.co.ttoti.backend.domain.notification.entity.NotificationType;
+import kr.co.ttoti.backend.domain.notification.repository.NotificationRepository;
 import kr.co.ttoti.backend.domain.notification.service.NotificationSendService;
-import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
+import kr.co.ttoti.backend.domain.notification.service.common.NotificationServiceUtils;
 import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
 import kr.co.ttoti.backend.domain.room.common.RoomServiceUtils;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
+import kr.co.ttoti.backend.domain.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -23,6 +27,9 @@ public class NotificationScheduler {
 	private final RoomServiceUtils roomServiceUtils;
 	private final QuizAnswerRepository quizAnswerRepository;
 	private final NotificationSendService notificationSendService;
+	private final RoomRepository roomRepository;
+	private final NotificationRepository notificationRepository;
+	private final NotificationServiceUtils notificationServiceUtils;
 
 	@Scheduled(cron = "0 0 10 * * ?")
 	public void sendMorningNotifications() {
@@ -36,14 +43,15 @@ public class NotificationScheduler {
 	}
 
 	@Scheduled(cron = "0 0 20 * * ?")
-	public void sendNightNotifications() {
-		List<Room> inProgressRoomList = roomServiceUtils.getInProgressRoomListByFinishDateAndTime();
+	// @Scheduled(fixedDelay = 10000)
+	public void sendQuizReminder() {
+		List<UnAnsweredMemberDto> unAnsweredMemberList = roomRepository.findMemberIdsWithUnansweredQuizzes(
+			LocalDate.now());
 
-		for (Room room : inProgressRoomList) {
-
-			List<QuizAnswer> todayQuizAnswerList = quizAnswerRepository.findByRoomIdAndQuizDate(room.getRoomId(),
-				LocalDate.now());
-
+		for (UnAnsweredMemberDto unAnsweredMemberDto : unAnsweredMemberList) {
+			notificationServiceUtils.sendNotificationToMemberInRoom(unAnsweredMemberDto.getMemberId(),
+				unAnsweredMemberDto.getRoomId(),
+				NotificationType.QUIZ_ANSWER_REMINDER);
 		}
 
 	}

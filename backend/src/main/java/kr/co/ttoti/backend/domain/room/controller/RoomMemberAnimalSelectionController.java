@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.ttoti.backend.domain.animal.dto.AnimalSelectDto;
-import kr.co.ttoti.backend.domain.notification.entity.NotificationType;
-import kr.co.ttoti.backend.domain.notification.service.NotificationSendService;
 import kr.co.ttoti.backend.domain.room.dto.RoomMemberAnimalSelectRequest;
 import kr.co.ttoti.backend.domain.room.service.RoomMemberAnimalSelectionService;
 import kr.co.ttoti.backend.global.auth.annotation.MemberId;
@@ -24,11 +22,9 @@ import lombok.RequiredArgsConstructor;
 public class RoomMemberAnimalSelectionController {
 
 	private final RoomMemberAnimalSelectionService roomMemberAnimalSelectService;
-	private final NotificationSendService notificationSendService;
 
 	@PostMapping("{room-id}/animals")
-	ResponseEntity<ResponseDto<?>> selectAnimal(@MemberId Integer memberId,
-		@PathVariable("room-id") Integer roomId,
+	ResponseEntity<ResponseDto<?>> selectAnimal(@MemberId Integer memberId, @PathVariable("room-id") Integer roomId,
 		@RequestBody RoomMemberAnimalSelectRequest roomMemberAnimalSelectRequest) throws
 		ExecutionException,
 		InterruptedException {
@@ -38,9 +34,6 @@ public class RoomMemberAnimalSelectionController {
 		if (result instanceof AnimalSelectDto) {
 			return ResponseEntity.ok(ResponseDto.success(SuccessCode.ANIMAL_SELECT_SUCCESS, result));
 		}
-
-		notificationSendService.sendNotification(memberId, NotificationType
-			.GAME_START);
 		return ResponseEntity.ok(ResponseDto.success(SuccessCode.ROOM_START_SUCCESS, result));
 	}
 }
