@@ -26,14 +26,23 @@ public class FcmConfig {
 	public void init() {
 		Resource resource;
 
-		fcmSecretKeyPath = "/"+fcmSecretKeyPath;
+		fcmSecretKeyPath = fcmSecretKeyPath;
+		File file = new File(fcmSecretKeyPath);
+		System.out.println("getAbsoluteFile 	"+file.getAbsoluteFile());
+		System.out.println("exists	 "+file.exists());
+		System.out.println("canRead 	"+file.canRead());
+		System.out.println("isFile 		"+file.isFile());
+		System.out.println("getAbsolutePath 	"+file.getAbsolutePath());
 
-		if (new File(fcmSecretKeyPath).exists()) {
+
+		if (file.exists()) {
 			// 절대 경로가 존재할 때 FileSystemResource 사용
 			resource = new FileSystemResource(fcmSecretKeyPath);
+			System.out.println("파일시스템쓰는중");
 		} else {
 			// 클래스패스 경로로 가져오기
 			resource = new ClassPathResource(fcmSecretKeyPath);
+			System.out.println("클래스패스쓰는중");
 		}
 
 		System.out.println("FCMSECRETKEYPATH "+fcmSecretKeyPath);
