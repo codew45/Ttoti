@@ -13,7 +13,8 @@ import kr.co.ttoti.backend.domain.animal.dto.AnimalSelectDto;
 import kr.co.ttoti.backend.domain.animal.entity.Animal;
 import kr.co.ttoti.backend.domain.common.Validator;
 import kr.co.ttoti.backend.domain.notification.entity.NotificationType;
-import kr.co.ttoti.backend.domain.notification.service.common.NotificationServiceUtils;
+import kr.co.ttoti.backend.domain.notification.service.NotificationInsertService;
+import kr.co.ttoti.backend.domain.notification.service.NotificationSendService;
 import kr.co.ttoti.backend.domain.quiz.dto.QuizHistoryDto;
 import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
 import kr.co.ttoti.backend.domain.quiz.service.QuizInsertService;
@@ -42,12 +43,13 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 	private final QuizServiceUtils quizServiceUtils;
 	private final Validator validator;
 	private final QuizAnswerRepository quizAnswerRepository;
-	private final NotificationServiceUtils notificationServiceUtils;
+	private final NotificationInsertService notificationInsertService;
+	private final NotificationSendService notificationSendService;
 
 	public void sendGameStartNotification(Integer roomId, List<Integer> readyMemberIdList) {
 
 		readyMemberIdList.forEach(
-			readyMemberId -> notificationServiceUtils.sendNotificationToMemberInRoom(readyMemberId, roomId,
+			readyMemberId -> notificationInsertService.insertNotificationToMemberInRoom(readyMemberId, roomId,
 				NotificationType.GAME_START));
 	}
 
@@ -132,7 +134,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 		QuizHistoryDto todayManitiQuiz = quizServiceUtils.mapToQuizHistoryDto(
 			quizAnswerRepository.findByTtotiIdAndQuizDate(titto.getTtotiId(), LocalDate.now()));
 
-		// notificationSendService.sendGameStartNotification(readyRoomMemberList);
+		notificationSendService.sendGameStartNotification(readyRoomMemberList);
 
 		List<Integer> readyMemberIdList = readyRoomMemberList.stream()
 			.map(readyRoomMember -> readyRoomMember.getMember().getMemberId()).toList();
