@@ -39,12 +39,12 @@ public class Notification extends SoftDeleteBaseEntity {
 	private String notificationTitle;
 
 	@NotNull
-	@Column(name="notification_is_read")
-	private Boolean notificationIsRead;
-
-	@NotNull
 	@Column(name="notification_reason")
 	private String notificationReason;
+
+	@NotNull
+	@Column(name="notification_is_read")
+	private Boolean notificationIsRead;
 
 	public void updateIsRead(){
 		if(!notificationIsRead){

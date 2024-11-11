@@ -5,12 +5,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.ttoti.backend.domain.common.Validator;
 import kr.co.ttoti.backend.domain.room.dto.RoomIdDto;
-import kr.co.ttoti.backend.global.auth.entity.Member;
-import kr.co.ttoti.backend.global.auth.repository.MemberRepository;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
 import kr.co.ttoti.backend.domain.room.repository.RoomRepository;
+import kr.co.ttoti.backend.global.auth.entity.Member;
+import kr.co.ttoti.backend.global.auth.repository.MemberRepository;
 import kr.co.ttoti.backend.global.exception.CustomException;
 import kr.co.ttoti.backend.global.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +37,7 @@ public class RoomMemberCreateServiceImpl implements RoomMemberCreateService {
 	}
 
 	@Override
+	@Transactional
 	public RoomIdDto createRoomMemberByRoomCode(Integer memberId, String roomCode) {
 		Member member = validator.validateMember(memberId);
 
@@ -45,16 +46,21 @@ public class RoomMemberCreateServiceImpl implements RoomMemberCreateService {
 
 		int currentParticipants = roomMemberRepository.countByRoomAndRoomMemberIsDeletedFalse(room);
 
-		if(currentParticipants==room.getRoomParticipants()){
+		if (currentParticipants == room.getRoomParticipants()) {
 			throw new CustomException(ErrorCode.ROOM_FULL);
 		}
 
-		if(room.getRoomIsStarted()) {
+		if (room.getRoomIsStarted()) {
 			throw new CustomException(ErrorCode.ROOM_IN_PROGRESS);
 		}
 
-		if (roomMemberRepository.findByMemberAndRoom(member, room).isEmpty()) {
+		RoomMember roomMember = roomMemberRepository.findByMemberAndRoom(member, room).orElse(null);
+
+		if (roomMember == null) {
 			roomMemberRepository.save(new RoomMember(room, member));
+		} else if (roomMember.getRoomMemberIsDeleted()) {
+			roomMember.updateRoomMemberIsDeleted(false);
+			roomMember.updateRoomMemberDeletedAt(null);
 		}
 
 		return RoomIdDto.builder()
