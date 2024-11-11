@@ -26,6 +26,8 @@ import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
 import kr.co.ttoti.backend.domain.ttoti.entity.AnimalPersonality;
 import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
 import kr.co.ttoti.backend.domain.ttoti.repository.TtotiRepository;
+import kr.co.ttoti.backend.global.exception.CustomException;
+import kr.co.ttoti.backend.global.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -135,6 +137,11 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 
 		Member member = validator.validateMember(memberId);
 		Room room = validator.validateRoom(roomId);
+
+		if(room.getRoomIsStarted()){
+			throw new CustomException(ErrorCode.ROOM_IN_PROGRESS);
+		}
+
 		RoomMember roomMember = validator.validateMemberRoomAuthorization(room, member);
 		AnimalDto animalDto = updateRoomMemberAnimal(room, member, roomMemberAnimalSelectRequest);
 
