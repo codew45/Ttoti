@@ -12,7 +12,8 @@ import kr.co.ttoti.backend.domain.animal.dto.AnimalDto;
 import kr.co.ttoti.backend.domain.animal.dto.AnimalSelectDto;
 import kr.co.ttoti.backend.domain.animal.entity.Animal;
 import kr.co.ttoti.backend.domain.common.Validator;
-import kr.co.ttoti.backend.global.auth.entity.Member;
+import kr.co.ttoti.backend.domain.notification.entity.NotificationType;
+import kr.co.ttoti.backend.domain.notification.service.common.NotificationServiceUtils;
 import kr.co.ttoti.backend.domain.quiz.dto.QuizHistoryDto;
 import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
 import kr.co.ttoti.backend.domain.quiz.service.QuizInsertService;
@@ -26,6 +27,7 @@ import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
 import kr.co.ttoti.backend.domain.ttoti.entity.AnimalPersonality;
 import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
 import kr.co.ttoti.backend.domain.ttoti.repository.TtotiRepository;
+import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.global.exception.CustomException;
 import kr.co.ttoti.backend.global.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +42,14 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 	private final QuizServiceUtils quizServiceUtils;
 	private final Validator validator;
 	private final QuizAnswerRepository quizAnswerRepository;
+	private final NotificationServiceUtils notificationServiceUtils;
+
+	public void sendGameStartNotification(Integer roomId, List<Integer> readyMemberIdList) {
+
+		readyMemberIdList.forEach(
+			readyMemberId -> notificationServiceUtils.sendNotificationToMemberInRoom(readyMemberId, roomId,
+				NotificationType.GAME_START));
+	}
 
 	@Transactional
 	public Integer createTtoti(Room room, List<RoomMember> roomMemberList, RoomMember roomMember) {
@@ -92,7 +102,8 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 	}
 
 	@Transactional
-	public RoomStartDto startRoom(Room room, List<RoomMember> readyRoomMemberList, RoomMember roomMember, Member member) {
+	public RoomStartDto startRoom(Room room, List<RoomMember> readyRoomMemberList, RoomMember roomMember,
+		Member member) {
 
 		room.startRoom();
 		Integer myTtotiId = createTtoti(room, readyRoomMemberList, roomMember);
@@ -123,6 +134,10 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 
 		// notificationSendService.sendGameStartNotification(readyRoomMemberList);
 
+		List<Integer> readyMemberIdList = readyRoomMemberList.stream()
+			.map(readyRoomMember -> readyRoomMember.getMember().getMemberId()).toList();
+		sendGameStartNotification(room.getRoomId(), readyMemberIdList);
+
 		return RoomStartDto.builder()
 			.ttotiMatchInfo(ttotiMatchDto)
 			.todayManittoQuiz(todayManittoQuiz)
@@ -138,7 +153,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 		Member member = validator.validateMember(memberId);
 		Room room = validator.validateRoom(roomId);
 
-		if(room.getRoomIsStarted()){
+		if (room.getRoomIsStarted()) {
 			throw new CustomException(ErrorCode.ROOM_IN_PROGRESS);
 		}
 
