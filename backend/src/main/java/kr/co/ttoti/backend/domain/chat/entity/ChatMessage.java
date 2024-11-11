@@ -44,7 +44,7 @@ public class ChatMessage {
 	private LocalDateTime messageSendAt;
 
 	@NotNull
-	@Column(name = "message_content")
+	@Column(name = "message_content", length = 3000)
 	private String messageContent;
 
 	@NotNull
