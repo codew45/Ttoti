@@ -1,6 +1,6 @@
 package kr.co.ttoti.backend.domain.member.service;
 
-import kr.co.ttoti.backend.domain.member.dto.EndingDto;
+import kr.co.ttoti.backend.domain.ttoti.dto.TtotiEndingDto;
 import kr.co.ttoti.backend.domain.member.dto.ManittoGamesRequest;
 import kr.co.ttoti.backend.domain.member.dto.ManittoGameDto;
 import kr.co.ttoti.backend.domain.member.dto.MemberDetailDto;
@@ -15,5 +15,5 @@ public interface MypageService {
 
     List<MemberDetailDto> getManittoFriendList(Integer memberId);
 
-    EndingDto getEnding(Integer memberId, Integer gameId);
+    TtotiEndingDto getEnding(Integer memberId, Integer roomId);
 }

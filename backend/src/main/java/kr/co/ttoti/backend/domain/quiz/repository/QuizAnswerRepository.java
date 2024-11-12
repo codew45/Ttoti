@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import kr.co.ttoti.backend.domain.quiz.entity.Quiz;
@@ -22,4 +24,9 @@ public interface QuizAnswerRepository extends JpaRepository<QuizAnswer, Integer>
 	Optional<QuizAnswer> findByTtotiIdAndQuiz(Integer ttotiId, Quiz quiz);
 
 	List<QuizAnswer> findByRoomIdAndQuizDate(Integer roomId, LocalDate today);
+
+	@Query("SELECT (SUM(CASE WHEN qa.quizAnswerIsCorrect = true THEN 1 ELSE 0 END) * 1.0 / COUNT(*)) * 100 " +
+			"FROM QuizAnswer qa " +
+			"WHERE qa.ttotiId = :ttotiId")
+	Float calculateScore(@Param("ttotiId") Integer ttotiId);
 }

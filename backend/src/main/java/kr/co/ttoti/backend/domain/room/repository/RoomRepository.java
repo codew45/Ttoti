@@ -24,8 +24,11 @@ public interface RoomRepository extends JpaRepository<Room, Integer> { ;
 
 	List<Room> findByRoomIsDeletedFalseAndRoomIsStartedTrueAndRoomIsFinishedFalse();
 
-	List<Room> findByRoomIsDeletedFalseAndRoomIsStartedTrueAndRoomIsFinishedFalseAndRoomFinishDateLessThanEqualAndRoomFinishTimeLessThanEqual(
-		LocalDate roomFinishDate, LocalTime roomFinishTime);
+	@Query("SELECT r " +
+			"FROM Room r " +
+			"WHERE r.roomIsDeleted = false AND r.roomIsStarted = true AND r.roomIsFinished = false " +
+			"AND (r.roomFinishDate < :currentDate OR (r.roomFinishDate = :currentDate AND r.roomFinishTime <= :currentTime))")
+	List<Room> findInProgressRooms(@Param("currentDate") LocalDate currentDate, @Param("currentTime") LocalTime currentTime);
 
 	@Query("SELECT r " +
 		"FROM RoomMember rm " +

@@ -5,6 +5,7 @@ import kr.co.ttoti.backend.domain.member.dto.ManittoGameDto;
 import kr.co.ttoti.backend.domain.member.dto.MemberDetailDto;
 import kr.co.ttoti.backend.domain.member.dto.MemberNameRequest;
 import kr.co.ttoti.backend.domain.member.service.MypageService;
+import kr.co.ttoti.backend.domain.ttoti.dto.TtotiEndingDto;
 import kr.co.ttoti.backend.global.auth.annotation.MemberId;
 import kr.co.ttoti.backend.global.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -51,13 +52,13 @@ public class MypageController {
         return ResponseEntity.ok(ResponseDto.success(OK, memberDetailDtoList));
     }
 
-    @GetMapping("/{ending-id}")
-    public ResponseEntity<ResponseDto<?>> getEnding(@MemberId Integer memberId,
-                                                    @PathVariable("ending-id") Integer endingId) {
+    @GetMapping("/{room-id}")
+    public ResponseEntity<ResponseDto<TtotiEndingDto>> getEnding(@MemberId Integer memberId,
+                                                                 @PathVariable("room-id") Integer roomId) {
 
-        mypageService.getEnding(memberId, endingId);
+        TtotiEndingDto ending = mypageService.getEnding(memberId, roomId);
 
-        return ResponseEntity.ok(ResponseDto.success(OK));
+        return ResponseEntity.ok(ResponseDto.success(OK, ending));
     }
 
 }
