@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/ttoti/notifications")
-public class NotificationSendController {
+public class FCMController {
 
 	private final RedisUtil redisUtil;
 	private final NotificationSendServiceImpl notificationService;
@@ -28,7 +28,8 @@ public class NotificationSendController {
 	public ResponseEntity<Void> saveFcmToken(@RequestBody NotificationDeviceTokenCreateRequest deviceTokenCreateRequst,
 		@MemberId Integer memberId) throws ExecutionException, InterruptedException {
 		redisUtil.setDeviceToken(deviceTokenCreateRequst, memberId);
-		notificationService.sendNotification(memberId, NotificationType.FINAL_MANITTO_GUESS_OPENED);
+		System.out.println(deviceTokenCreateRequst.getDeviceToken());
+		// notificationService.sendNotification(memberId, NotificationType.FINAL_MANITTO_GUESS_OPENED);
 		return ResponseEntity.ok(null);
 	}
 }
