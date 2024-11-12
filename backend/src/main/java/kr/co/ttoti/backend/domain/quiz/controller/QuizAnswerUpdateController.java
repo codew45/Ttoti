@@ -17,18 +17,29 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/ttoti/ttotis")
+@RequestMapping("/api/v1/ttoti/ttotis/")
 public class QuizAnswerUpdateController {
 
 	private final QuizAnswerUpdateService quizAnswerUpdateService;
 
-	@PatchMapping("/{ttoti-id}/quiz/{quiz-id}")
-	ResponseEntity<ResponseDto<?>> updateQuizAnswer(@MemberId Integer memberId,
+	@PatchMapping("maniti/{titto-id}/quiz/{quiz-id}")
+	ResponseEntity<ResponseDto<?>> updateManitiQuizAnswer(@MemberId Integer memberId,
+		@PathVariable(name = "titto-id") Integer tittoId,
+		@PathVariable(name = "quiz-id") Integer quizId,
+		@RequestBody QuizAnswerUpdateRequest quizAnswerUpdateRequest) {
+
+		quizAnswerUpdateService.updateManitiQuizAnswer(memberId, tittoId, quizId, quizAnswerUpdateRequest);
+
+		return ResponseEntity.ok(ResponseDto.success(SuccessCode.QUIZ_ANSWER_SUCCESS));
+	}
+
+	@PatchMapping("manitto/{ttoti-id}/quiz/{quiz-id}")
+	ResponseEntity<ResponseDto<?>> updateManittoQuizAnswer(@MemberId Integer memberId,
 		@PathVariable(name = "ttoti-id") Integer ttotiId,
 		@PathVariable(name = "quiz-id") Integer quizId,
 		@RequestBody QuizAnswerUpdateRequest quizAnswerUpdateRequest) {
 
-		quizAnswerUpdateService.updateQuizAnswer(memberId, ttotiId, quizId, quizAnswerUpdateRequest);
+		quizAnswerUpdateService.updateManittoQuizAnswer(memberId, ttotiId, quizId, quizAnswerUpdateRequest);
 
 		return ResponseEntity.ok(ResponseDto.success(SuccessCode.QUIZ_ANSWER_SUCCESS));
 	}

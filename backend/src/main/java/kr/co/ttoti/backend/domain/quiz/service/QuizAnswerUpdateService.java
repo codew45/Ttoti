@@ -4,5 +4,9 @@ import kr.co.ttoti.backend.domain.quiz.dto.QuizAnswerUpdateRequest;
 
 public interface QuizAnswerUpdateService {
 
-	void updateQuizAnswer(Integer memberId, Integer ttotiId, Integer quizId, QuizAnswerUpdateRequest quizAnswerUpdateRequest);
+	void updateManitiQuizAnswer(Integer memberId, Integer tittoId, Integer quizId,
+		QuizAnswerUpdateRequest quizAnswerUpdateRequest);
+
+	void updateManittoQuizAnswer(Integer memberId, Integer ttotiId, Integer quizId,
+		QuizAnswerUpdateRequest quizAnswerUpdateRequest);
 }
