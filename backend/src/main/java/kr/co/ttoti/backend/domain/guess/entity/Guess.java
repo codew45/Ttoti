@@ -52,7 +52,6 @@ public class Guess extends BaseEntity {
 	@Column(name = "guess_is_answered")
 	private Boolean guessIsAnswered;
 
-	@NotNull
 	@Column(name = "guess_answer_at")
 	private LocalDateTime guessAnswerAt;
 
