@@ -20,21 +20,39 @@ import lombok.RequiredArgsConstructor;
 public class QuizAnswerUpdateServiceImpl implements QuizAnswerUpdateService {
 
 	private final Validator validator;
-	private final QuizAnswerRepository quizAnswerRepository;
 
 	@Override
 	@Transactional
-	public void updateQuizAnswer(Integer memberId, Integer ttotiId, Integer quizId,
+	public void updateManitiQuizAnswer(Integer memberId, Integer tittoId, Integer quizId,
+		QuizAnswerUpdateRequest quizAnswerUpdateRequest) {
+
+		validator.validateMember(memberId);
+		validator.validateTtoti(tittoId);
+		Quiz quiz = validator.validateQuizAvailability(quizId, true);
+		Integer quizAnswerNumber = quizAnswerUpdateRequest.getQuizAnswerNumber();
+
+		QuizAnswer manitiQuizAnswer = validator.validateQuizAnswerByTtotiIdAndQuiz(tittoId, quiz);
+
+		if (manitiQuizAnswer.getQuizDate().isBefore(LocalDate.now())) {
+			System.out.println(ErrorCode.QUIZ_EXPIRED.getMessage());
+		}
+
+		manitiQuizAnswer.updateManitiQuizAnswer(quizAnswerNumber);
+
+		checkAnswerIsCorrect(manitiQuizAnswer);
+	}
+
+	@Override
+	@Transactional
+	public void updateManittoQuizAnswer(Integer memberId, Integer ttotiId, Integer quizId,
 		QuizAnswerUpdateRequest quizAnswerUpdateRequest) {
 
 		Member member = validator.validateMember(memberId);
-		Ttoti ttoti = validator.validateManittoByTtotiIdAndMember(ttotiId, member);
-		Ttoti titto = validator.validateTtoti(ttoti.getTittoId());
+		validator.validateManittoByTtotiIdAndMember(ttotiId, member);
 		Quiz quiz = validator.validateQuizAvailability(quizId, true);
 		Integer quizAnswerNumber = quizAnswerUpdateRequest.getQuizAnswerNumber();
 
 		QuizAnswer manittoQuizAnswer = validator.validateQuizAnswerByTtotiIdAndQuiz(ttotiId, quiz);
-		QuizAnswer manitiQuizAnswer = validator.validateQuizAnswerByTtotiIdAndQuiz(titto.getTtotiId(), quiz);
 
 		if (manittoQuizAnswer.getQuizDate().isBefore(LocalDate.now())) {
 			System.out.println(ErrorCode.QUIZ_EXPIRED.getMessage());
@@ -42,10 +60,7 @@ public class QuizAnswerUpdateServiceImpl implements QuizAnswerUpdateService {
 
 		manittoQuizAnswer.updateManittoQuizAnswer(quizAnswerNumber);
 
-		manitiQuizAnswer.updateManitiQuizAnswer(quizAnswerNumber);
-
 		checkAnswerIsCorrect(manittoQuizAnswer);
-		checkAnswerIsCorrect(manitiQuizAnswer);
 	}
 
 	private void checkAnswerIsCorrect(QuizAnswer quizAnswer) {
