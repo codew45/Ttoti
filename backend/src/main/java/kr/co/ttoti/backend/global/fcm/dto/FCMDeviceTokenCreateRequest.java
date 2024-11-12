@@ -1,4 +1,4 @@
-package kr.co.ttoti.backend.domain.notification.dto;
+package kr.co.ttoti.backend.global.fcm.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
-public class NotificationDeviceTokenCreateRequest {
+public class FCMDeviceTokenCreateRequest {
 
 	private String deviceToken;
 }
