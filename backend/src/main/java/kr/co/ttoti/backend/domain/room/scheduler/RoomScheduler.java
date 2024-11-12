@@ -24,12 +24,20 @@ public class RoomScheduler {
 	@Transactional
 	public void checkFinishedRooms() {
 
+		// 끝난 방 목록
 		roomServiceUtils.getInProgressRoomListByFinishDateAndTime().forEach(room -> {
+
 			ttotiScheduler.processRoomTemperatureChanges(room);
 
 			ttotiServiceUtils.finishTtotiChat(room);
 
 			roomServiceUtils.finishInProgressRooms(room);
+
+			// ttoti-ending에 개인 기록 저장
+			ttotiServiceUtils.calculateTtotiEnding(room);
+
+			// mongoDB에 room_ending에 1등 유저 목록, 마니또 마니띠 목록 저장
+			roomServiceUtils.calculateRoomEnding(room);
 
 			notificationInsertService.insertNotificationToAllMembersInRoom(room, NotificationType.GAME_END);
 		});

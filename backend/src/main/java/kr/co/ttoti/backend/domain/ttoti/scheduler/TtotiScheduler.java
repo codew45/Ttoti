@@ -11,6 +11,7 @@ import kr.co.ttoti.backend.domain.room.common.RoomServiceUtils;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.ttoti.service.TemperatureInsertService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -25,6 +26,7 @@ public class TtotiScheduler {
 		roomServiceUtils.getInProgressRoomList().forEach(this::processRoomTemperatureChanges);
 	}
 
+	@Transactional
 	public void processRoomTemperatureChanges(Room room) {
 		List<QuizAnswer> todayQuizAnswerList = quizServiceUtils.getTodayQuizAnswer(room.getRoomId());
 

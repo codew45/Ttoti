@@ -1,15 +1,23 @@
 package kr.co.ttoti.backend.domain.member.service;
 
 import kr.co.ttoti.backend.domain.common.Validator;
-import kr.co.ttoti.backend.domain.member.dto.EndingDto;
+import kr.co.ttoti.backend.domain.quiz.dto.QuizHistoryDto;
+import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
+import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
+import kr.co.ttoti.backend.domain.quiz.service.common.QuizServiceUtils;
+import kr.co.ttoti.backend.domain.room.repository.RoomEndingRepository;
+import kr.co.ttoti.backend.domain.ttoti.dto.TtotiEndingDto;
 import kr.co.ttoti.backend.domain.member.dto.ManittoGamesRequest;
 import kr.co.ttoti.backend.domain.member.dto.ManittoGameDto;
-import kr.co.ttoti.backend.domain.member.entity.Ending;
 import kr.co.ttoti.backend.domain.member.repository.EndingRepository;
 import kr.co.ttoti.backend.domain.member.dto.MemberDetailDto;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
 import kr.co.ttoti.backend.domain.room.repository.RoomRepository;
+import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
+import kr.co.ttoti.backend.domain.ttoti.entity.TtotiEnding;
+import kr.co.ttoti.backend.domain.ttoti.repository.TtotiEndingRepository;
+import kr.co.ttoti.backend.domain.ttoti.repository.TtotiRepository;
 import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.global.exception.CustomException;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
-import static kr.co.ttoti.backend.global.status.ErrorCode.MEMBER_NAME_FORBIDDEN;
+import static kr.co.ttoti.backend.global.status.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +38,11 @@ public class MypageServiceImpl implements MypageService {
     private final Validator validator;
     private final RoomRepository roomRepository;
     private final RoomMemberRepository roomMemberRepository;
-    private final EndingRepository endingRepository;
+    private final RoomEndingRepository roomEndingRepository;
+    private final TtotiEndingRepository ttotiEndingRepository;
+    private final TtotiRepository ttotiRepository;
+    private final QuizAnswerRepository quizAnswerRepository;
+    private final QuizServiceUtils quizServiceUtils;
 
     @Override
     @Transactional
@@ -100,11 +113,29 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     @Transactional(readOnly = true)
-    public EndingDto getEnding(Integer memberId, Integer endingId) {
-        Member member = validator.validateMember(memberId);
+    public TtotiEndingDto getEnding(Integer memberId, Integer roomId) {
+        Ttoti ttoti = ttotiRepository.findByRoom_RoomId(roomId).orElseThrow(() -> new CustomException(TTOTI_NOT_FOUND));
+        TtotiEnding ttotiEnding = ttotiEndingRepository.findByTtotiId(ttoti.getTtotiId()).orElseThrow(() -> new CustomException(TTOTI_ENDING_NOT_FOUND));
 
-        Ending ending = endingRepository.findByEndingId(endingId);
+        List<QuizAnswer> manittoQuizAnswerList = quizAnswerRepository.findByTtotiIdOrderByQuizDateDesc(ttoti.getTtotiId());
+        List<QuizAnswer> manitiQuizAnswerList = quizAnswerRepository.findByTtotiIdOrderByQuizDateDesc(ttoti.getTittoId());
 
-        return EndingDto.builder().build();
+        List<QuizHistoryDto> manittoQuizHistoryDtoList = new LinkedList<>(manittoQuizAnswerList.stream()
+                .map(quizServiceUtils::mapToQuizHistoryDto)
+                .toList());
+        List<QuizHistoryDto> manitiQuizHistoryDtoList = new LinkedList<>(manitiQuizAnswerList.stream()
+                .map(quizServiceUtils::mapToQuizHistoryDto)
+                .toList());
+
+        return TtotiEndingDto.builder()
+                .roomEnding(roomEndingRepository.findById(roomId).orElseThrow(() -> new CustomException(ROOM_ENDING_NOT_FOUND)))
+                .manittoQuizList(manittoQuizHistoryDtoList)
+                .manitiQuizList(manitiQuizHistoryDtoList)
+                // 내 추측 결과
+                // private List<GuessDto>
+                .endingCorrectScore(ttotiEnding.getEndingCorrectScore())
+                .endingChatCount(ttotiEnding.getEndingChatCount())
+                .endingFinalTemperature(ttotiEnding.getEndingFinalTemperature())
+                .build();
     }
 }

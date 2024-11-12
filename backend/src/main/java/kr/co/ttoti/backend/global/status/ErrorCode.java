@@ -59,9 +59,10 @@ public enum ErrorCode {
     //ttoti
     TTOTI_NOT_FOUND(404, "또띠관계가 존재하지 않습니다."),
     TTOTI_INVALID_MANITTO(400, "해당 또띠관계의 마니또가 아닙니다."),
-    TTOTI_INVALID_MANITI(400,"해당 또띠관계의 마니띠가 아닙니다.")
+    TTOTI_INVALID_MANITI(400,"해당 또띠관계의 마니띠가 아닙니다."),
 
-    ;
+    TTOTI_ENDING_NOT_FOUND(404, "또띠 엔딩이 존재하지 않습니다."),
+    ROOM_ENDING_NOT_FOUND(404, "방 엔딩이 존재하지 않습니다.");
 
     private final int httpStatus;
     private final String message;
