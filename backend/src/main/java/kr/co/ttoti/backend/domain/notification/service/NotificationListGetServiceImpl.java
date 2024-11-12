@@ -36,7 +36,7 @@ public class NotificationListGetServiceImpl implements NotificationListGetServic
 				// notification.updateDeletedAt();
 
 				return NotificationDto.builder()
-					.notificationReason(NotificationType.valueOf(notification.getNotificationReason()).getReason())
+					.notificationReason(notification.getNotificationReason())
 					.title(notification.getNotificationTitle())
 					.build();
 
