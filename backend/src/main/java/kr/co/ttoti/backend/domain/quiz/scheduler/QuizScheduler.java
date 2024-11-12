@@ -14,7 +14,7 @@ public class QuizScheduler {
 	private final QuizInsertService quizInsertService;
 	private final RoomServiceUtils roomServiceUtils;
 
-	@Scheduled(cron = "0 58 23 * * ?")
+	@Scheduled(cron = "0 5 0 * * ?")
 	public void insertQuizToInProgressTtoti() {
 		roomServiceUtils.getInProgressRoomList().forEach(room -> quizInsertService.insertQuiz(room.getRoomId()));
 	}

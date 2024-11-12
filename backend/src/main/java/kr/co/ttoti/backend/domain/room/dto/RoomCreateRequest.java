@@ -13,7 +13,7 @@ public class RoomCreateRequest {
 
 	@NotBlank
 	private String name;
-	@Min(3)
+	@Min(4)
 	@Max(8)
 	private Integer participants;
 	@Min(3)

@@ -37,7 +37,7 @@ public class Room extends BaseEntity {
 	private String roomName;
 
 	@NotNull
-	@Min(value = 3)
+	@Min(value = 4)
 	@Max(value = 8)
 	@Column(name = "room_participants")
 	private Integer roomParticipants;

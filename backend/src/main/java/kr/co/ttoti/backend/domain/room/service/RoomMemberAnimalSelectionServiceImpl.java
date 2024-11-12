@@ -14,7 +14,6 @@ import kr.co.ttoti.backend.domain.animal.entity.Animal;
 import kr.co.ttoti.backend.domain.common.Validator;
 import kr.co.ttoti.backend.domain.notification.entity.NotificationType;
 import kr.co.ttoti.backend.domain.notification.service.NotificationInsertService;
-import kr.co.ttoti.backend.domain.notification.service.NotificationSendService;
 import kr.co.ttoti.backend.domain.quiz.dto.QuizHistoryDto;
 import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
 import kr.co.ttoti.backend.domain.quiz.service.QuizInsertService;
@@ -44,14 +43,6 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 	private final Validator validator;
 	private final QuizAnswerRepository quizAnswerRepository;
 	private final NotificationInsertService notificationInsertService;
-	private final NotificationSendService notificationSendService;
-
-	public void sendGameStartNotification(Integer roomId, List<Integer> readyMemberIdList) {
-
-		readyMemberIdList.forEach(
-			readyMemberId -> notificationInsertService.insertNotificationToMemberInRoom(readyMemberId, roomId,
-				NotificationType.GAME_START));
-	}
 
 	@Transactional
 	public Integer createTtoti(Room room, List<RoomMember> roomMemberList, RoomMember roomMember) {
@@ -134,11 +125,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 		QuizHistoryDto todayManitiQuiz = quizServiceUtils.mapToQuizHistoryDto(
 			quizAnswerRepository.findByTtotiIdAndQuizDate(titto.getTtotiId(), LocalDate.now()));
 
-		notificationSendService.sendGameStartNotification(readyRoomMemberList);
-
-		List<Integer> readyMemberIdList = readyRoomMemberList.stream()
-			.map(readyRoomMember -> readyRoomMember.getMember().getMemberId()).toList();
-		sendGameStartNotification(room.getRoomId(), readyMemberIdList);
+		notificationInsertService.insertNotificationToAllMembersInRoom(room, NotificationType.GAME_START);
 
 		return RoomStartDto.builder()
 			.ttotiMatchInfo(ttotiMatchDto)
