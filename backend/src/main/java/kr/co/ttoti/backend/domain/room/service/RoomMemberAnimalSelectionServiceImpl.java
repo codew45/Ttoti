@@ -12,6 +12,7 @@ import kr.co.ttoti.backend.domain.animal.dto.AnimalDto;
 import kr.co.ttoti.backend.domain.animal.dto.AnimalSelectDto;
 import kr.co.ttoti.backend.domain.animal.entity.Animal;
 import kr.co.ttoti.backend.domain.common.Validator;
+import kr.co.ttoti.backend.domain.guess.service.GuessService;
 import kr.co.ttoti.backend.domain.notification.entity.NotificationType;
 import kr.co.ttoti.backend.domain.notification.service.NotificationInsertService;
 import kr.co.ttoti.backend.domain.quiz.dto.QuizHistoryDto;
@@ -36,13 +37,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSelectionService {
 
+	private final Validator validator;
+
 	private final RoomMemberRepository roomMemberRepository;
 	private final TtotiRepository ttotiRepository;
 	private final QuizInsertService quizInsertService;
-	private final QuizServiceUtils quizServiceUtils;
-	private final Validator validator;
-	private final QuizAnswerRepository quizAnswerRepository;
 	private final NotificationInsertService notificationInsertService;
+	private final GuessService guessService;
+
+	private final QuizServiceUtils quizServiceUtils;
+	private final QuizAnswerRepository quizAnswerRepository;
 
 	@Transactional
 	public Integer createTtoti(Room room, List<RoomMember> roomMemberList, RoomMember roomMember) {
@@ -99,6 +103,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 		Member member) {
 
 		room.startRoom();
+
 		Integer myTtotiId = createTtoti(room, readyRoomMemberList, roomMember);
 
 		Ttoti ttoti = validator.validateTtoti(myTtotiId);
@@ -106,6 +111,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 		Ttoti titto = validator.validateTtoti(ttoti.getTittoId());
 
 		quizInsertService.insertQuiz(room.getRoomId());
+		guessService.insertMidtermGuess(member, room);
 
 		TtotiMatchDto ttotiMatchDto = TtotiMatchDto.builder()
 			.myTtotiId(myTtotiId)

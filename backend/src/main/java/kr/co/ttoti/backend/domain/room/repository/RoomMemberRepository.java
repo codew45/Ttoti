@@ -15,6 +15,8 @@ import kr.co.ttoti.backend.global.auth.entity.Member;
 @Repository
 public interface RoomMemberRepository extends JpaRepository<RoomMember, Integer> {
 
+	List<RoomMember> findByRoom(Room room);
+
 	List<RoomMember> findByMemberAndRoomMemberIsDeletedFalse(Member member);
 
 	List<RoomMember> findByRoomAndRoomMemberIsDeletedFalse(Room room);
