@@ -51,11 +51,11 @@ public class MypageController {
         return ResponseEntity.ok(ResponseDto.success(OK, memberDetailDtoList));
     }
 
-    @GetMapping("/{ending-id}")
+    @GetMapping("/{room-id}")
     public ResponseEntity<ResponseDto<?>> getEnding(@MemberId Integer memberId,
-                                                    @PathVariable("ending-id") Integer endingId) {
+                                                    @PathVariable("room-id") Integer roomId) {
 
-        mypageService.getEnding(memberId, endingId);
+        mypageService.getEnding(memberId, roomId);
 
         return ResponseEntity.ok(ResponseDto.success(OK));
     }

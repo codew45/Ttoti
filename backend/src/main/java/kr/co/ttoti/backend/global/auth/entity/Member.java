@@ -45,10 +45,6 @@ public class Member extends BaseEntity {
     @Column(name = "member_profile_image_url")
     private String memberProfileImageUrl;
 
-//    @NotNull
-//    @Column(name = "refresh_token")
-//    private String refreshToken;
-
     @NotNull
     @Column(name = "member_is_deleted")
     private Boolean memberIsDeleted;

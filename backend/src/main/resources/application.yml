@@ -76,6 +76,8 @@ spring:
     redis:
       host: ${LOCAL_REDIS_HOST}
       port: ${LOCAL_REDIS_PORT}
+    mongodb:
+      uri: ${LOCAL_MONGO_URI}
 
   kafka:
     bootstrap-servers: ${LOCAL_KAFKA_BOOTSTRAP_SERVERS}
@@ -125,6 +127,8 @@ spring:
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
+    mongodb:
+      uri: ${MONGO_URI}
 
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
