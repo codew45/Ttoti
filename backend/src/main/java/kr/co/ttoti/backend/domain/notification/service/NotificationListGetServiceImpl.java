@@ -28,18 +28,13 @@ public class NotificationListGetServiceImpl implements NotificationListGetServic
 		Room room = validator.validateRoom(roomId);
 		validator.validateMemberRoomAuthorization(room, member);
 
-		return notificationRepository.
-			findByRoomIdAndMemberIdAndNotificationIsRead(
-				roomId, memberId, false).stream()
+		return notificationRepository.findByRoomIdAndMemberIdOrderByCreatedAtDesc(roomId, memberId).stream()
 			.map(notification -> {
-				// notification.updateIsRead();
-				// notification.updateDeletedAt();
-
+				notification.updateIsRead();
 				return NotificationDto.builder()
 					.notificationReason(notification.getNotificationReason())
 					.title(notification.getNotificationTitle())
 					.build();
-
 			}).toList();
 	}
 }
