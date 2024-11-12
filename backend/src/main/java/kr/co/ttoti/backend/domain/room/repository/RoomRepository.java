@@ -14,9 +14,7 @@ import kr.co.ttoti.backend.domain.notification.dto.UnAnsweredMemberDto;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 
 @Repository
-public interface RoomRepository extends JpaRepository<Room, Integer> {
-
-	Optional<Room> findByRoomId(Integer roomId);
+public interface RoomRepository extends JpaRepository<Room, Integer> { ;
 
 	Optional<Room> findByRoomCode(String roomCode);
 
@@ -64,5 +62,13 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
 		"AND qa.quizDate = :today " +
 		"AND qa.isManittoAnswered = false")
 	List<UnAnsweredMemberDto> findMemberIdsWithUnansweredQuizzes(@Param("today") LocalDate today);
+
+	@Query(value = "SELECT r "
+		+ "FROM Room r "
+		+ "WHERE r.roomIsStarted = true "
+		+ "AND r.roomIsFinished = false "
+		+ "AND r.roomIsDeleted = false "
+		+ "AND DATE_ADD(r.roomStartDate, INTERVAL DATEDIFF(r.roomFinishDate, r.roomStartDate) / 2 DAY) = :today", nativeQuery = true)
+	List<Room> getRoomByMidDate(@Param("today") LocalDate today);
 
 }
