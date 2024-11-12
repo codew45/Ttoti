@@ -12,7 +12,5 @@ public interface FCMSendService {
 		ExecutionException,
 		InterruptedException;
 
-	void sendGameStartToFCM(List<RoomMember> roomMemberList);
-
-	void sendTodayQuizOpenToFCM(List<RoomMember> roomMemberList);
+	void sendToRoomMembers(List<RoomMember> roomMemberList, NotificationType notificationType);
 }

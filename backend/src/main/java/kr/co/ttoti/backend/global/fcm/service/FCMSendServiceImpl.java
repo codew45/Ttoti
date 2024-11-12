@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.WebpushConfig;
-import com.google.firebase.messaging.WebpushFcmOptions;
 import com.google.firebase.messaging.WebpushNotification;
 
 import kr.co.ttoti.backend.domain.common.Validator;
@@ -41,33 +40,17 @@ public class FCMSendServiceImpl implements FCMSendService {
 			.setToken(token)
 			.setWebpushConfig(WebpushConfig.builder()
 				.setNotification(new WebpushNotification(notificationType.getTitle(), notificationType.getContent()))
-				.setFcmOptions(WebpushFcmOptions.withLink("www.naver.com"))
 				.build())
 			.build();
 		FirebaseMessaging.getInstance().sendAsync(message).get();
 	}
 
-	public void sendGameStartToFCM(List<RoomMember> roomMemberList) {
+	public void sendToRoomMembers(List<RoomMember> roomMemberList, NotificationType notificationType) {
 		roomMemberList.forEach(roomMember -> {
 			try {
 				sendToFCM(
 					roomMember.getMember().getMemberId(),
-					NotificationType.GAME_START
-				);
-			} catch (ExecutionException e) {
-				throw new RuntimeException(e);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-		});
-	}
-
-	public void sendTodayQuizOpenToFCM(List<RoomMember> roomMemberList) {
-		roomMemberList.forEach(roomMember -> {
-			try {
-				sendToFCM(
-					roomMember.getMember().getMemberId(),
-					NotificationType.TODAY_QUIZ_OPENED
+					notificationType
 				);
 			} catch (ExecutionException | InterruptedException e) {
 			}
