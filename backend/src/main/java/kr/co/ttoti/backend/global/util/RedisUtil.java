@@ -7,8 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import kr.co.ttoti.backend.domain.common.Validator;
-import kr.co.ttoti.backend.domain.notification.dto.NotificationDeviceTokenCreateRequest;
 import kr.co.ttoti.backend.domain.room.entity.Room;
+import kr.co.ttoti.backend.global.fcm.dto.FCMDeviceTokenCreateRequest;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -57,12 +57,12 @@ public class RedisUtil {
 		redisTemplate.opsForValue().set(roomLinkKey, roomLinkValue, redisRoomLinkPeriod, TimeUnit.DAYS);
 	}
 
-	public void setDeviceToken(NotificationDeviceTokenCreateRequest deviceTokenCreateRequest, Integer memberId) {
+	public void setDeviceToken(FCMDeviceTokenCreateRequest fcmDeviceTokenCreateRequest, Integer memberId) {
 		validator.validateMember(memberId);
 		String fcmTokenKey = redisFCMTokenKey + memberId.toString();
 
 		redisTemplate.opsForValue()
-			.set(fcmTokenKey, deviceTokenCreateRequest.getDeviceToken(), redisFCMTokenPeriod, TimeUnit.DAYS);
+			.set(fcmTokenKey, fcmDeviceTokenCreateRequest.getDeviceToken(), redisFCMTokenPeriod, TimeUnit.DAYS);
 	}
 
 }
