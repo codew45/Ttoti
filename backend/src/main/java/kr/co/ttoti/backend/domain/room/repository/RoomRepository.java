@@ -14,7 +14,7 @@ import kr.co.ttoti.backend.domain.notification.dto.UnAnsweredMemberDto;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 
 @Repository
-public interface RoomRepository extends JpaRepository<Room, Integer> { ;
+public interface RoomRepository extends JpaRepository<Room, Integer> {
 
 	Optional<Room> findByRoomCode(String roomCode);
 
@@ -25,10 +25,11 @@ public interface RoomRepository extends JpaRepository<Room, Integer> { ;
 	List<Room> findByRoomIsDeletedFalseAndRoomIsStartedTrueAndRoomIsFinishedFalse();
 
 	@Query("SELECT r " +
-			"FROM Room r " +
-			"WHERE r.roomIsDeleted = false AND r.roomIsStarted = true AND r.roomIsFinished = false " +
-			"AND (r.roomFinishDate < :currentDate OR (r.roomFinishDate = :currentDate AND r.roomFinishTime <= :currentTime))")
-	List<Room> findInProgressRooms(@Param("currentDate") LocalDate currentDate, @Param("currentTime") LocalTime currentTime);
+		"FROM Room r " +
+		"WHERE r.roomIsDeleted = false AND r.roomIsStarted = true AND r.roomIsFinished = false " +
+		"AND (r.roomFinishDate < :currentDate OR (r.roomFinishDate = :currentDate AND r.roomFinishTime <= :currentTime))")
+	List<Room> findInProgressRooms(@Param("currentDate") LocalDate currentDate,
+		@Param("currentTime") LocalTime currentTime);
 
 	@Query("SELECT r " +
 		"FROM RoomMember rm " +
@@ -57,11 +58,13 @@ public interface RoomRepository extends JpaRepository<Room, Integer> { ;
 
 	Optional<Room> findByRoomIdAndRoomIsStartedTrueAndRoomIsFinishedTrueAndRoomIsDeletedFalse(Integer roomId);
 
-	@Query("SELECT new kr.co.ttoti.backend.domain.notification.dto.UnAnsweredMemberDto(t.member.memberId, r.roomId) " +
+	@Query("SELECT new kr.co.ttoti.backend.domain.notification.dto.UnAnsweredMemberDto(t.member.memberId, r.roomId, r.roomName) " +
 		"FROM Room r " +
 		"JOIN QuizAnswer qa ON r.roomId = qa.roomId " +
 		"JOIN Ttoti t ON qa.ttotiId = t.ttotiId " +
-		"WHERE r.roomIsFinished = false " +
+		"WHERE r.roomIsStarted = true " +
+		"AND r.roomIsFinished = false " +
+		"AND r.roomIsDeleted = false " +
 		"AND qa.quizDate = :today " +
 		"AND qa.isManittoAnswered = false")
 	List<UnAnsweredMemberDto> findMemberIdsWithUnansweredQuizzes(@Param("today") LocalDate today);
@@ -71,7 +74,15 @@ public interface RoomRepository extends JpaRepository<Room, Integer> { ;
 		+ "WHERE r.roomIsStarted = true "
 		+ "AND r.roomIsFinished = false "
 		+ "AND r.roomIsDeleted = false "
-		+ "AND DATE_ADD(r.roomStartDate, INTERVAL DATEDIFF(r.roomFinishDate, r.roomStartDate) / 2 DAY) = :today", nativeQuery = true)
+		+ "AND r.roomMidDate = :today")
 	List<Room> getRoomByMidDate(@Param("today") LocalDate today);
+
+	@Query("SELECT DISTINCT rm.member.memberId " +
+		"FROM RoomMember rm " +
+		"JOIN rm.room r " +
+		"WHERE r.roomIsStarted = true " +
+		"AND r.roomIsFinished = false " +
+		"AND r.roomIsDeleted = false")
+	List<Integer> findMemberIdsWithActiveGames();
 
 }

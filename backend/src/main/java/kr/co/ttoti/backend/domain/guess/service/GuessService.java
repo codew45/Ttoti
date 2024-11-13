@@ -1,11 +1,11 @@
 package kr.co.ttoti.backend.domain.guess.service;
 
 import kr.co.ttoti.backend.domain.room.entity.Room;
-import kr.co.ttoti.backend.global.auth.entity.Member;
+import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 
 public interface GuessService {
 
-	void insertMidtermGuess(Member member, Room room);
+	void insertMidtermGuess(RoomMember member, Room room);
 
 	void insertFinalGuess();
 

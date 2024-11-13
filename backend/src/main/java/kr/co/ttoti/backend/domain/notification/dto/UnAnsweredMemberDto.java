@@ -9,4 +9,5 @@ public class UnAnsweredMemberDto {
 
 	Integer memberId;
 	Integer roomId;
+	String roomName;
 }
