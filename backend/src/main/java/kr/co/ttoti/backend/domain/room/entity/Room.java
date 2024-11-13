@@ -60,6 +60,9 @@ public class Room extends BaseEntity {
 	@Column(name = "room_start_time")
 	private LocalTime roomStartTime;
 
+	@Column(name = "room_mid_date")
+	private LocalDate roomMidDate;
+
 	@Column(name = "room_finish_date")
 	private LocalDate roomFinishDate;
 
@@ -94,6 +97,7 @@ public class Room extends BaseEntity {
 		this.roomIsStarted = true;
 		this.roomStartDate = LocalDate.now();
 		this.roomStartTime = LocalTime.now();
+		this.roomMidDate = LocalDate.now().plusDays(this.roomPeriod / 2);
 		this.roomFinishDate = LocalDate.now().plusDays(this.roomPeriod);
 	}
 

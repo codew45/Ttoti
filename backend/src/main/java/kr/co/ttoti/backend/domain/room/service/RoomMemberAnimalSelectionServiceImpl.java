@@ -76,6 +76,8 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 			if (manitto.equals(roomMember)) {
 				myTtotiId = savedTtoti.getTtotiId();
 			}
+
+			guessService.insertMidtermGuess(manitto, room);
 		}
 
 		List<Ttoti> ttotiList = ttotiRepository.findByRoom(room);
@@ -113,7 +115,6 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 		Ttoti titto = validator.validateTtoti(ttoti.getTittoId());
 
 		quizInsertService.insertQuiz(room.getRoomId());
-		guessService.insertMidtermGuess(member, room);
 
 		TtotiMatchDto ttotiMatchDto = TtotiMatchDto.builder()
 			.myTtotiId(myTtotiId)

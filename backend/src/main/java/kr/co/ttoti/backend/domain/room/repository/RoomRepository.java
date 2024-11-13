@@ -74,7 +74,7 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
 		+ "WHERE r.roomIsStarted = true "
 		+ "AND r.roomIsFinished = false "
 		+ "AND r.roomIsDeleted = false "
-		+ "AND DATE_ADD(r.roomStartDate, INTERVAL DATEDIFF(r.roomFinishDate, r.roomStartDate) / 2 DAY) = :today", nativeQuery = true)
+		+ "AND r.roomMidDate = :today")
 	List<Room> getRoomByMidDate(@Param("today") LocalDate today);
 
 	@Query("SELECT DISTINCT rm.member.memberId " +
