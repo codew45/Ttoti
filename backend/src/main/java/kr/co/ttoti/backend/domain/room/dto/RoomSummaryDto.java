@@ -33,7 +33,7 @@ public class RoomSummaryDto {
 
 	Boolean hasUnreadNotifications;
 
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/dd/MM HH:mm");
+	static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 
 	@Builder
 	public RoomSummaryDto(RoomMember roomMember, Member hostMember, Integer roomCurrentParticipants, Boolean hasUnreadNotifications){
