@@ -5,6 +5,8 @@ import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
 import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
 import kr.co.ttoti.backend.domain.ttoti.entity.TtotiEnding;
 import kr.co.ttoti.backend.domain.ttoti.repository.TtotiEndingRepository;
+import kr.co.ttoti.backend.global.exception.CustomException;
+import kr.co.ttoti.backend.global.status.ErrorCode;
 import org.springframework.stereotype.Component;
 
 import kr.co.ttoti.backend.domain.room.entity.Room;
