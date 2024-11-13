@@ -1,6 +1,5 @@
 package kr.co.ttoti.backend.domain.quiz.service;
 
-import kr.co.ttoti.backend.global.auth.entity.Member;
 import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
@@ -10,8 +9,8 @@ import kr.co.ttoti.backend.domain.common.Validator;
 import kr.co.ttoti.backend.domain.quiz.dto.QuizAnswerUpdateRequest;
 import kr.co.ttoti.backend.domain.quiz.entity.Quiz;
 import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
-import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
 import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
+import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.global.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
 

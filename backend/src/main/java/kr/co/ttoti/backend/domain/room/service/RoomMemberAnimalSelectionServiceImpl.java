@@ -30,6 +30,7 @@ import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
 import kr.co.ttoti.backend.domain.ttoti.repository.TtotiRepository;
 import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.global.exception.CustomException;
+import kr.co.ttoti.backend.global.fcm.service.FCMSendService;
 import kr.co.ttoti.backend.global.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
 
@@ -47,6 +48,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 
 	private final QuizServiceUtils quizServiceUtils;
 	private final QuizAnswerRepository quizAnswerRepository;
+	private final FCMSendService fcmSendService;
 
 	@Transactional
 	public Integer createTtoti(Room room, List<RoomMember> roomMemberList, RoomMember roomMember) {
@@ -132,6 +134,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 			quizAnswerRepository.findByTtotiIdAndQuizDate(titto.getTtotiId(), LocalDate.now()));
 
 		notificationInsertService.insertNotificationToAllMembersInRoom(room, NotificationType.GAME_START);
+		fcmSendService.sendToRoomMembers(room, NotificationType.GAME_START);
 
 		return RoomStartDto.builder()
 			.ttotiMatchInfo(ttotiMatchDto)

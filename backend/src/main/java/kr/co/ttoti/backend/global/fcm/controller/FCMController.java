@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.ttoti.backend.global.auth.annotation.MemberId;
 import kr.co.ttoti.backend.global.fcm.dto.FCMDeviceTokenCreateRequest;
-import kr.co.ttoti.backend.global.fcm.service.FCMSendService;
 import kr.co.ttoti.backend.global.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 public class FCMController {
 
 	private final RedisUtil redisUtil;
-	private final FCMSendService fcmSendService;
 
 	@PostMapping("/device-token")
 	public ResponseEntity<Void> saveFCMToken(@RequestBody FCMDeviceTokenCreateRequest fcmDeviceTokenCreateRequest,
