@@ -12,7 +12,7 @@ import kr.co.ttoti.backend.domain.animal.dto.AnimalDto;
 import kr.co.ttoti.backend.domain.animal.dto.AnimalSelectDto;
 import kr.co.ttoti.backend.domain.animal.entity.Animal;
 import kr.co.ttoti.backend.domain.common.Validator;
-import kr.co.ttoti.backend.domain.guess.service.GuessService;
+import kr.co.ttoti.backend.domain.guess.service.GuessCreateService;
 import kr.co.ttoti.backend.domain.notification.entity.NotificationType;
 import kr.co.ttoti.backend.domain.notification.service.NotificationInsertService;
 import kr.co.ttoti.backend.domain.quiz.dto.QuizHistoryDto;
@@ -44,7 +44,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 	private final TtotiRepository ttotiRepository;
 	private final QuizInsertService quizInsertService;
 	private final NotificationInsertService notificationInsertService;
-	private final GuessService guessService;
+	private final GuessCreateService guessService;
 
 	private final QuizServiceUtils quizServiceUtils;
 	private final QuizAnswerRepository quizAnswerRepository;
