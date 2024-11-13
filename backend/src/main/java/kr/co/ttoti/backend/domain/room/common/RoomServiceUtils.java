@@ -7,7 +7,7 @@ import java.util.List;
 
 import kr.co.ttoti.backend.domain.member.dto.MemberDetailDto;
 import kr.co.ttoti.backend.domain.room.document.RoomEnding;
-import kr.co.ttoti.backend.domain.room.repository.RoomEndingRepository;
+import kr.co.ttoti.backend.domain.room.mongo.repository.RoomEndingRepository;
 import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
 import kr.co.ttoti.backend.domain.ttoti.entity.TtotiEnding;
 import kr.co.ttoti.backend.domain.ttoti.repository.TtotiEndingRepository;
