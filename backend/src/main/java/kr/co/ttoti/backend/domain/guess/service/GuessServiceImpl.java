@@ -21,43 +21,44 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class GuessServiceImpl implements GuessService {
 
-	private final Validator validator;
-	private final GuessRepository guessRepository;
-	private final RoomRepository roomRepository;
-	private final RoomMemberRepository roomMemberRepository;
+    private final Validator validator;
+    private final GuessRepository guessRepository;
+    private final RoomRepository roomRepository;
+    private final RoomMemberRepository roomMemberRepository;
 
-	@Transactional
-	@Override
-	public void insertMidtermGuess(Member member, Room room) {
-		guessRepository.save(Guess.builder().memberId(member.getMemberId())
-			.roomId(room.getRoomId())
-			.guessIsCorrect(false)
-			.guessIsFinal(false)
-			.guessIsAnswered(false)
-			.build());
-	}
+    @Transactional
+    @Override
+    public void insertMidtermGuess(RoomMember member, Room room) {
+        guessRepository.save(Guess.builder().memberId(member.getMember().getMemberId())
+                .roomId(room.getRoomId())
+                .guessIsCorrect(false)
+                .guessIsFinal(false)
+                .guessIsAnswered(false)
+                .build());
+    }
 
-	@Transactional
-	@Override
-	@Scheduled(cron = "0 5 0 * * ?")
-	public void insertFinalGuess() {
-		roomRepository.getRoomByMidDate(LocalDate.now())
-			.stream()
-			.map(room ->
-				roomMemberRepository.findByRoom(room)
-					.stream()
-					.map(roomMember -> guessRepository.save(Guess.builder()
-						.memberId(roomMember.getMember().getMemberId())
-						.roomId(room.getRoomId())
-						.guessIsCorrect(false)
-						.guessIsFinal(false)
-						.guessIsAnswered(false)
-						.build())
-					)
-			);
-	}
+    @Transactional
+    @Override
+    @Scheduled(cron = "0 5 0 * * ?")
+    public void insertFinalGuess() {
+        System.out.println(LocalDate.now());
+        roomRepository.getRoomByMidDate(LocalDate.now())
+                .forEach(room ->
+                        roomMemberRepository.findByRoom(room)
+                                .forEach(roomMember ->
+                                        guessRepository.save(Guess.builder()
+                                                .memberId(roomMember.getMember().getMemberId())
+                                                .roomId(room.getRoomId())
+                                                .guessIsCorrect(false)
+                                                .guessIsFinal(true)
+                                                .guessIsAnswered(false)
+                                                .build())
+                                )
+                );
 
-	@Override
-	public void updateGuess(Integer memberId, Integer roomId, Integer guessMemberId) {
-	}
+    }
+
+    @Override
+    public void updateGuess(Integer memberId, Integer roomId, Integer guessMemberId) {
+    }
 }

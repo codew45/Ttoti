@@ -16,7 +16,7 @@ public class RoomCreateRequest {
 	@Min(4)
 	@Max(8)
 	private Integer participants;
-	@Min(3)
+	@Min(1)
 	@Max(14)
 	private Integer period;
 	// scheduling 시간과 겹치지 않도록, 30분 단위이도록
