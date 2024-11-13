@@ -1,6 +1,5 @@
 package kr.co.ttoti.backend.global.fcm.service;
 
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Service;
@@ -12,7 +11,8 @@ import com.google.firebase.messaging.WebpushNotification;
 
 import kr.co.ttoti.backend.domain.common.Validator;
 import kr.co.ttoti.backend.domain.notification.entity.NotificationType;
-import kr.co.ttoti.backend.domain.room.entity.RoomMember;
+import kr.co.ttoti.backend.domain.room.entity.Room;
+import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
 import kr.co.ttoti.backend.global.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +22,7 @@ public class FCMSendServiceImpl implements FCMSendService {
 
 	private final RedisUtil redisUtil;
 	private final Validator validator;
+	private final RoomMemberRepository roomMemberRepository;
 
 	private final String redisFCMTokenKey = "fcm_token:";
 
@@ -45,15 +46,54 @@ public class FCMSendServiceImpl implements FCMSendService {
 		FirebaseMessaging.getInstance().sendAsync(message).get();
 	}
 
-	public void sendToRoomMembers(List<RoomMember> roomMemberList, NotificationType notificationType) {
-		roomMemberList.forEach(roomMember -> {
-			try {
-				sendToFCM(
-					roomMember.getMember().getMemberId(),
-					notificationType
-				);
-			} catch (ExecutionException | InterruptedException e) {
-			}
-		});
+	public void sendToRoomMembers(Room room, NotificationType notificationType) {
+		roomMemberRepository.findMemberIdsByRoomAndIsDeletedFalse(room)
+			.forEach(roomMemberId -> {
+				try {
+					sendToFCM(
+						roomMemberId,
+						notificationType
+					);
+				} catch (ExecutionException | InterruptedException e) {
+					e.printStackTrace();
+				}
+			});
+	}
+
+	public void sendToFCMWithRoomName(Integer memberId, NotificationType notificationType, String roomName) throws
+		ExecutionException,
+		InterruptedException {
+
+		validator.validateMember(memberId);
+		String fcmTokenKey = redisFCMTokenKey + memberId.toString();
+		String token = redisUtil.getData(fcmTokenKey);
+
+		String prefix = "["+roomName+"] ";
+
+		if (token == null) {
+			return;
+		}
+		Message message = Message.builder()
+			.setToken(token)
+			.setWebpushConfig(WebpushConfig.builder()
+				.setNotification(new WebpushNotification(notificationType.getTitle(), prefix+notificationType.getContent()))
+				.build())
+			.build();
+		FirebaseMessaging.getInstance().sendAsync(message).get();
+	}
+
+	public void sendToRoomMembersWithRoomName(Room room, NotificationType notificationType, String roomName) {
+		roomMemberRepository.findMemberIdsByRoomAndIsDeletedFalse(room)
+			.forEach(roomMemberId -> {
+				try {
+					sendToFCMWithRoomName(
+						roomMemberId,
+						notificationType,
+						roomName
+					);
+				} catch (ExecutionException | InterruptedException e) {
+					e.printStackTrace();
+				}
+			});
 	}
 }

@@ -1,10 +1,9 @@
 package kr.co.ttoti.backend.global.fcm.service;
 
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import kr.co.ttoti.backend.domain.notification.entity.NotificationType;
-import kr.co.ttoti.backend.domain.room.entity.RoomMember;
+import kr.co.ttoti.backend.domain.room.entity.Room;
 
 public interface FCMSendService {
 
@@ -12,5 +11,11 @@ public interface FCMSendService {
 		ExecutionException,
 		InterruptedException;
 
-	void sendToRoomMembers(List<RoomMember> roomMemberList, NotificationType notificationType);
+	void sendToRoomMembers(Room room, NotificationType notificationType);
+
+	void sendToFCMWithRoomName(Integer memberId, NotificationType notificationType, String roomName) throws
+		ExecutionException,
+		InterruptedException;
+
+	void sendToRoomMembersWithRoomName(Room room, NotificationType notificationType, String roomName);
 }

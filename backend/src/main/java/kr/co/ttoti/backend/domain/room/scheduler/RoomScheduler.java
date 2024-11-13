@@ -9,6 +9,7 @@ import kr.co.ttoti.backend.domain.notification.service.NotificationInsertService
 import kr.co.ttoti.backend.domain.room.common.RoomServiceUtils;
 import kr.co.ttoti.backend.domain.ttoti.common.TtotiServiceUtils;
 import kr.co.ttoti.backend.domain.ttoti.scheduler.TtotiScheduler;
+import kr.co.ttoti.backend.global.fcm.service.FCMSendService;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -19,6 +20,7 @@ public class RoomScheduler {
 	private final RoomServiceUtils roomServiceUtils;
 	private final TtotiServiceUtils ttotiServiceUtils;
 	private final NotificationInsertService notificationInsertService;
+	private final FCMSendService fcmSendService;
 
 	@Scheduled(cron = "0 0/30 * * * ?")
 	@Transactional
@@ -40,6 +42,8 @@ public class RoomScheduler {
 			roomServiceUtils.calculateRoomEnding(room);
 
 			notificationInsertService.insertNotificationToAllMembersInRoom(room, NotificationType.GAME_END);
+
+			fcmSendService.sendToRoomMembersWithRoomName(room, NotificationType.GAME_END, room.getRoomName());
 		});
 	}
 }
