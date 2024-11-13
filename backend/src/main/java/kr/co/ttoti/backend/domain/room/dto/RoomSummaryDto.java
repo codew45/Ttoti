@@ -1,6 +1,7 @@
 package kr.co.ttoti.backend.domain.room.dto;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 import kr.co.ttoti.backend.global.auth.entity.Member;
@@ -18,7 +19,7 @@ public class RoomSummaryDto {
 
 	Boolean isRoomInProgress;
 
-	LocalDateTime finishedAt;
+	String finishedAt;
 
 	Boolean isMemberReady;
 
@@ -32,12 +33,14 @@ public class RoomSummaryDto {
 
 	Boolean hasUnreadNotifications;
 
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/dd/MM HH:mm");
+
 	@Builder
 	public RoomSummaryDto(RoomMember roomMember, Member hostMember, Integer roomCurrentParticipants, Boolean hasUnreadNotifications){
 		Room room = roomMember.getRoom();
 		this.roomId = room.getRoomId();
 		this.isRoomInProgress = room.getRoomIsStarted();
-		this.finishedAt = room.getRoomIsStarted() ? room.getRoomStartDate().plus(room.getRoomPeriod(), ChronoUnit.DAYS).atTime(room.getRoomStartTime())  : null;
+		this.finishedAt = room.getRoomIsStarted() ? room.getRoomFinishDate().atTime(room.getRoomFinishTime()).format(formatter)  : null;
 		this.isMemberReady = roomMember.getRoomMemberIsReady();
 		this.memberProfileImageUrl = this.isMemberReady ? roomMember.getAnimal().getAnimalImageUrl() : roomMember.getMember().getMemberProfileImageUrl();
 		this.hostName = hostMember.getMemberName();

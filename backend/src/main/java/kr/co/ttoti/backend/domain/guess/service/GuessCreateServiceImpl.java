@@ -1,27 +1,23 @@
 package kr.co.ttoti.backend.domain.guess.service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.co.ttoti.backend.domain.common.Validator;
 import kr.co.ttoti.backend.domain.guess.entity.Guess;
 import kr.co.ttoti.backend.domain.guess.repository.GuessRepository;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
 import kr.co.ttoti.backend.domain.room.repository.RoomRepository;
-import kr.co.ttoti.backend.global.auth.entity.Member;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class GuessServiceImpl implements GuessService {
+public class GuessCreateServiceImpl implements GuessCreateService {
 
-    private final Validator validator;
     private final GuessRepository guessRepository;
     private final RoomRepository roomRepository;
     private final RoomMemberRepository roomMemberRepository;
@@ -33,6 +29,7 @@ public class GuessServiceImpl implements GuessService {
                 .roomId(room.getRoomId())
                 .guessIsCorrect(false)
                 .guessIsFinal(false)
+                .guessDate(room.getRoomMidDate())
                 .guessIsAnswered(false)
                 .build());
     }
@@ -51,6 +48,7 @@ public class GuessServiceImpl implements GuessService {
                                                 .roomId(room.getRoomId())
                                                 .guessIsCorrect(false)
                                                 .guessIsFinal(true)
+                                                .guessDate(room.getRoomFinishDate().minusDays(1))
                                                 .guessIsAnswered(false)
                                                 .build())
                                 )
@@ -58,7 +56,4 @@ public class GuessServiceImpl implements GuessService {
 
     }
 
-    @Override
-    public void updateGuess(Integer memberId, Integer roomId, Integer guessMemberId) {
-    }
 }

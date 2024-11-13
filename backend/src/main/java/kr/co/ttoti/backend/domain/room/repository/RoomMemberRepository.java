@@ -53,4 +53,6 @@ public interface RoomMemberRepository extends JpaRepository<RoomMember, Integer>
 		"AND rm.roomMemberIsDeleted = false")
 	List<Integer> findMemberIdsByRoomAndIsDeletedFalse(@Param("room") Room room);
 
+	Optional<RoomMember> findByRoomMemberId(Integer roomMemberId);
+
 }

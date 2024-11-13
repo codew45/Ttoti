@@ -45,6 +45,8 @@ public enum ErrorCode {
 
 	// room member
 	ROOM_HOST_MEMBER_NOT_FOUND(404, "방장이 존재하지 않습니다"),
+    ROOM_MEMBER_NOT_FOUND(404, "존재하지 않는 방 회원 입니다"),
+    ROOM_MEMBER_NOT_IN_ROOM(404, "해당 방의 방 회원이 아닙니다"),
 
 	// animal
     ANIMAL_NOT_AVAILABLE(400, "사용 가능한 동물이 아닙니다."),
@@ -56,13 +58,19 @@ public enum ErrorCode {
     QUIZ_ANSWER_NOT_FOUND(404, "응답할 수 있는 퀴즈가 아닙니다"),
     QUIZ_EXPIRED(400, "기간이 지난 퀴즈에는 응답할 수 없습니다"),
 
-    //ttoti
+    // ttoti
     TTOTI_NOT_FOUND(404, "또띠관계가 존재하지 않습니다."),
     TTOTI_INVALID_MANITTO(400, "해당 또띠관계의 마니또가 아닙니다."),
     TTOTI_INVALID_MANITI(400,"해당 또띠관계의 마니띠가 아닙니다."),
 
+    // ending
     TTOTI_ENDING_NOT_FOUND(404, "또띠 엔딩이 존재하지 않습니다."),
-    ROOM_ENDING_NOT_FOUND(404, "방 엔딩이 존재하지 않습니다.");
+    ROOM_ENDING_NOT_FOUND(404, "방 엔딩이 존재하지 않습니다."),
+
+    // guess
+    GUESS_NOT_EXISTS(400, "추측하는 날이 아닙니다"),
+    GUESS_ALREADY_ANSWERED(400, "이미 추측을 완료했습니다"),
+    ;
 
     private final int httpStatus;
     private final String message;
