@@ -72,6 +72,7 @@ public class RoomDetailGetServiceImpl implements RoomDetailGetService {
 			.roomHostMemberName(hostMember.getMemberName())
 			.roomFinishTime(timeFormatt(room.getRoomFinishTime()))
 			.roomPeriod(room.getRoomPeriod())
+			.roomTotalParticipants(room.getRoomParticipants())
 			.build();
 	}
 
