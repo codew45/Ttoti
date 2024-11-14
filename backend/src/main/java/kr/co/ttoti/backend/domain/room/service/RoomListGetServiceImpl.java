@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.co.ttoti.backend.domain.notification.repository.NotificationRepository;
 import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.global.auth.repository.MemberRepository;
-import kr.co.ttoti.backend.domain.room.dto.RoomMemberDto;
+import kr.co.ttoti.backend.domain.room.dto.RoomMemberPendingDto;
 import kr.co.ttoti.backend.domain.room.dto.RoomSummaryDto;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
@@ -48,13 +48,13 @@ public class RoomListGetServiceImpl implements RoomListGetService {
 	}
 
 	@Override
-	public List<RoomMemberDto> getRoomMemberList(Integer roomId) {
+	public List<RoomMemberPendingDto> getRoomMemberList(Integer roomId) {
 		Room room = roomRepository.findByRoomIdAndRoomIsDeletedFalse(roomId)
 			.orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
 
 		return roomMemberRepository.findByRoomAndRoomMemberIsDeletedFalse(room)
 			.stream()
-			.map(roomMember -> new RoomMemberDto())
+			.map(roomMember -> new RoomMemberPendingDto())
 			.toList();
 	}
 
