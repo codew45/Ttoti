@@ -46,6 +46,7 @@ public class RoomServiceUtils {
 		room.finishRoom();
 	}
 
+	@Transactional
 	public void calculateRoomEnding(Room room) {
 
 		List<Ttoti> ttotiList = ttotiRepository.findByRoom(room);
@@ -66,7 +67,7 @@ public class RoomServiceUtils {
 							.memberProfileImageUrl(maniti.getMemberProfileImageUrl())
 							.build())
 					.build());
-			ttotiEndingList.add(ttotiEndingRepository.findById(ttoti.getTtotiId()).orElseThrow(() -> new CustomException(ErrorCode.TTOTI_ENDING_NOT_FOUND)));
+			ttotiEndingList.add(ttotiEndingRepository.findByTtotiId(ttoti.getTtotiId()).orElseThrow(() -> new CustomException(ErrorCode.TTOTI_ENDING_NOT_FOUND)));
 		}
 
 		float maxTtotiCorrectScore = 0.0F;

@@ -2,16 +2,14 @@ package kr.co.ttoti.backend.domain.room.dto;
 
 import java.time.LocalTime;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 
 @Getter
 public class RoomCreateRequest {
 
 	@NotBlank
+	@Size(min = 1, max = 8)
 	private String name;
 	@Min(4)
 	@Max(8)
@@ -19,6 +17,6 @@ public class RoomCreateRequest {
 	@Min(1)
 	@Max(14)
 	private Integer period;
-	// scheduling 시간과 겹치지 않도록, 30분 단위이도록
+	@NotNull
 	private LocalTime finishTime;
 }

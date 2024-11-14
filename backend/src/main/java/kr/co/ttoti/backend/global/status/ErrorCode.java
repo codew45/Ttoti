@@ -44,6 +44,7 @@ public enum ErrorCode {
     ROOM_FULL(409, "인원이 가득 찬 방입니다"),
     ROOM_UPDATE_UNAUTHORIZED(401, "방 정보는 방장만 수정할 수 있습니다"),
     ROOM_PARTICIPANTS_TOO_LOW(401, "현재 인원보다 적은 값으로는 수정할 수 없습니다"),
+    ROOM_FINISHED_TIME_IS_VALIDATION(400, "종료 시간이 이상적이지 않습니다"),
 
 	// room member
 	ROOM_HOST_MEMBER_NOT_FOUND(404, "방장이 존재하지 않습니다"),
