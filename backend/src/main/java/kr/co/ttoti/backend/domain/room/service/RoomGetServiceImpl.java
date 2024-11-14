@@ -139,6 +139,7 @@ public class RoomGetServiceImpl implements RoomGetService {
         if (!room.getRoomIsStarted()) {
             throw new CustomException(ErrorCode.ROOM_IS_PENDING);
         }
+
         validator.validateMemberRoomAuthorization(room, member);
 
         Member hostMember = validator.validateMember(room.getRoomHostMemberId());
