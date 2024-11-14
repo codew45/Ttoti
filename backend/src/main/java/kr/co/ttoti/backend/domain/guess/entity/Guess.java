@@ -1,5 +1,6 @@
 package kr.co.ttoti.backend.domain.guess.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.global.base.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -48,6 +50,9 @@ public class Guess extends BaseEntity {
 	@Column(name = "guess_is_final")
 	private Boolean guessIsFinal;
 
+	@Column(name = "guess_date")
+	private LocalDate guessDate;
+
 	@NotNull
 	@Column(name = "guess_is_answered")
 	private Boolean guessIsAnswered;
@@ -55,4 +60,11 @@ public class Guess extends BaseEntity {
 	@Column(name = "guess_answer_at")
 	private LocalDateTime guessAnswerAt;
 
+
+	public void updateAnswer(Member myManitto, Member guessMember){
+		this.guessMemberId = guessMember.getMemberId();
+		this.guessIsCorrect = myManitto.equals(guessMember);
+		this.guessIsAnswered = true;
+		this.guessAnswerAt = LocalDateTime.now();
+	}
 }

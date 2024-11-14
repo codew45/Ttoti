@@ -25,7 +25,7 @@ public interface QuizAnswerRepository extends JpaRepository<QuizAnswer, Integer>
 
 	List<QuizAnswer> findByRoomIdAndQuizDate(Integer roomId, LocalDate today);
 
-	@Query("SELECT (SUM(CASE WHEN qa.quizAnswerIsCorrect = true THEN 1 ELSE 0 END) * 1.0 / COUNT(*)) * 100 " +
+	@Query("SELECT (CASE WHEN COUNT(*) > 0 THEN (SUM(CASE WHEN qa.quizAnswerIsCorrect = true THEN 1 ELSE 0 END) * 1.0 / COUNT(*)) * 100 ELSE 0 END) " +
 			"FROM QuizAnswer qa " +
 			"WHERE qa.ttotiId = :ttotiId")
 	Float calculateScore(@Param("ttotiId") Integer ttotiId);

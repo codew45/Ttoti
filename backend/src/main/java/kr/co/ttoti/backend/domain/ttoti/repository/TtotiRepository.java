@@ -26,26 +26,26 @@ public interface TtotiRepository extends JpaRepository<Ttoti, Integer> {
 
 	Optional<Ttoti> findByRoomAndMember(Room room, Member member);
 
-	@Query("SELECT m.memberUuid, m.memberName, m.memberProfileImageUrl " +
+	@Query("SELECT new kr.co.ttoti.backend.domain.member.dto.MemberDetailDto(m.memberUuid, m.memberName, m.memberProfileImageUrl) " +
 			"FROM Ttoti t " +
 			"JOIN TtotiEnding te ON t.ttotiId = te.ttotiId " +
 			"JOIN Member m ON t.member.memberId = m.memberId " +
 			"where t.room.roomId = :roomId AND te.endingCorrectScore BETWEEN :minScore AND :maxScore")
 	List<MemberDetailDto> getBestCorrectMemberList(@Param("roomId") Integer roomId, @Param("minScore") float minScore, @Param("maxScore") float maxScore);
 
-	@Query("SELECT m.memberUuid, m.memberName, m.memberProfileImageUrl " +
+	@Query("SELECT new kr.co.ttoti.backend.domain.member.dto.MemberDetailDto(m.memberUuid, m.memberName, m.memberProfileImageUrl) " +
 			"FROM Ttoti t " +
 			"JOIN TtotiEnding te ON t.ttotiId = te.ttotiId " +
 			"JOIN Member m ON t.member.memberId = m.memberId " +
 			"where t.room.roomId = :roomId AND te.endingChatCount = :maxChatCount")
 	List<MemberDetailDto> getBestChatMemberList(@Param("roomId") Integer roomId, @Param("maxChatCount") int maxChatCount);
 
-	@Query("SELECT m.memberUuid, m.memberName, m.memberProfileImageUrl " +
+	@Query("SELECT new kr.co.ttoti.backend.domain.member.dto.MemberDetailDto(m.memberUuid, m.memberName, m.memberProfileImageUrl) " +
 			"FROM Ttoti t " +
 			"JOIN TtotiEnding te ON t.ttotiId = te.ttotiId " +
 			"JOIN Member m ON t.member.memberId = m.memberId " +
 			"where t.room.roomId = :roomId AND te.endingFinalTemperature BETWEEN :minTemp AND :maxTemp")
 	List<MemberDetailDto> getBestTemperatureMemberList(@Param("roomId") Integer roomId, @Param("minTemp") float minTemp, @Param("maxTemp") float maxTemp);
 
-	Optional<Ttoti> findByRoom_RoomId(Integer roomId);
+	Optional<Ttoti> findByMember_MemberIdAndRoom_RoomId(Integer memberId, Integer roomId);
 }

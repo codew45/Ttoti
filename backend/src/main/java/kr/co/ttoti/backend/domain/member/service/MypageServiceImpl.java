@@ -5,11 +5,10 @@ import kr.co.ttoti.backend.domain.quiz.dto.QuizHistoryDto;
 import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
 import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
 import kr.co.ttoti.backend.domain.quiz.service.common.QuizServiceUtils;
-import kr.co.ttoti.backend.domain.room.repository.RoomEndingRepository;
+import kr.co.ttoti.backend.domain.room.mongo.repository.RoomEndingRepository;
 import kr.co.ttoti.backend.domain.ttoti.dto.TtotiEndingDto;
 import kr.co.ttoti.backend.domain.member.dto.ManittoGamesRequest;
 import kr.co.ttoti.backend.domain.member.dto.ManittoGameDto;
-import kr.co.ttoti.backend.domain.member.repository.EndingRepository;
 import kr.co.ttoti.backend.domain.member.dto.MemberDetailDto;
 import kr.co.ttoti.backend.domain.room.entity.Room;
 import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
@@ -114,19 +113,16 @@ public class MypageServiceImpl implements MypageService {
     @Override
     @Transactional(readOnly = true)
     public TtotiEndingDto getEnding(Integer memberId, Integer roomId) {
-        Ttoti ttoti = ttotiRepository.findByRoom_RoomId(roomId).orElseThrow(() -> new CustomException(TTOTI_NOT_FOUND));
+        Ttoti ttoti = ttotiRepository.findByMember_MemberIdAndRoom_RoomId(memberId, roomId).orElseThrow(() -> new CustomException(TTOTI_NOT_FOUND));
         TtotiEnding ttotiEnding = ttotiEndingRepository.findByTtotiId(ttoti.getTtotiId()).orElseThrow(() -> new CustomException(TTOTI_ENDING_NOT_FOUND));
-
         List<QuizAnswer> manittoQuizAnswerList = quizAnswerRepository.findByTtotiIdOrderByQuizDateDesc(ttoti.getTtotiId());
         List<QuizAnswer> manitiQuizAnswerList = quizAnswerRepository.findByTtotiIdOrderByQuizDateDesc(ttoti.getTittoId());
-
         List<QuizHistoryDto> manittoQuizHistoryDtoList = new LinkedList<>(manittoQuizAnswerList.stream()
                 .map(quizServiceUtils::mapToQuizHistoryDto)
                 .toList());
         List<QuizHistoryDto> manitiQuizHistoryDtoList = new LinkedList<>(manitiQuizAnswerList.stream()
                 .map(quizServiceUtils::mapToQuizHistoryDto)
                 .toList());
-
         return TtotiEndingDto.builder()
                 .roomEnding(roomEndingRepository.findById(roomId).orElseThrow(() -> new CustomException(ROOM_ENDING_NOT_FOUND)))
                 .manittoQuizList(manittoQuizHistoryDtoList)
