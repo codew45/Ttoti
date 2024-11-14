@@ -24,8 +24,6 @@ public class RoomUpdateServiceImpl implements RoomUpdateService {
 	@Override
 	@Transactional
 	public void updateRoom(Integer memberId, Integer roomId, RoomUpdateRequest roomUpdateRequest) {
-		LocalTime time = roomUpdateRequest.getFinishTime();
-		if(time.getMinute() % 30 != 0) throw new CustomException(ErrorCode.ROOM_FINISHED_TIME_IS_VALIDATION);
 
 		Member member = validator.validateMember(memberId);
 		Room room = validator.validateRoom(roomId);

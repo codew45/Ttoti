@@ -115,6 +115,5 @@ public class Room extends BaseEntity {
 		this.roomName = roomUpdateRequest.getName();
 		this.roomParticipants = roomUpdateRequest.getParticipants();
 		this.roomPeriod = roomUpdateRequest.getPeriod();
-		this.roomFinishTime = roomUpdateRequest.getFinishTime();
 	}
 }
