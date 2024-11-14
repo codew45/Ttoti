@@ -6,7 +6,7 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 
 @Getter
-public class RoomCreateRequest {
+public class RoomUpdateRequest {
 
 	@NotBlank
 	@Size(min = 1, max = 8)

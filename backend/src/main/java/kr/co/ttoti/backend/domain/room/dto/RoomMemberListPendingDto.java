@@ -17,5 +17,5 @@ public class RoomMemberListPendingDto {
 
 	int totalParticipants;
 
-	List<RoomMemberDto> roomMemberList;
+	List<RoomMemberPendingDto> roomMemberList;
 }

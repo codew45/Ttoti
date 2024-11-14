@@ -26,7 +26,6 @@ public class RoomScheduler {
 	@Transactional
 	public void checkFinishedRooms() {
 
-		// 끝난 방 목록
 		roomServiceUtils.getInProgressRoomListByFinishDateAndTime().forEach(room -> {
 
 			ttotiScheduler.processRoomTemperatureChanges(room);
@@ -42,7 +41,6 @@ public class RoomScheduler {
 			roomServiceUtils.calculateRoomEnding(room);
 
 			notificationInsertService.insertNotificationToAllMembersInRoom(room, NotificationType.GAME_END);
-
 			fcmSendService.sendToRoomMembersWithRoomName(room, NotificationType.GAME_END, room.getRoomName());
 		});
 	}

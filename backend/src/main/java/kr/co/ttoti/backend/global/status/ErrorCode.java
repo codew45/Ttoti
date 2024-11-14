@@ -42,6 +42,9 @@ public enum ErrorCode {
 	ROOM_UNAUTHORIZED(401, "방에 접근할 권한이 없습니다"),
     ROOM_LINK_NOT_CREATED(500, "초대링크를 생성할 수 없습니다"),
     ROOM_FULL(409, "인원이 가득 찬 방입니다"),
+    ROOM_UPDATE_UNAUTHORIZED(401, "방 정보는 방장만 수정할 수 있습니다"),
+    ROOM_PARTICIPANTS_TOO_LOW(401, "현재 인원보다 적은 값으로는 수정할 수 없습니다"),
+    ROOM_FINISHED_TIME_IS_VALIDATION(400, "종료 시간이 이상적이지 않습니다"),
 
 	// room member
 	ROOM_HOST_MEMBER_NOT_FOUND(404, "방장이 존재하지 않습니다"),
@@ -70,6 +73,7 @@ public enum ErrorCode {
     // guess
     GUESS_NOT_EXISTS(400, "추측하는 날이 아닙니다"),
     GUESS_ALREADY_ANSWERED(400, "이미 추측을 완료했습니다"),
+    GUESS_NOT_INSERTED(500, "추측이 생성되지 않았습니다"),
     ;
 
     private final int httpStatus;
