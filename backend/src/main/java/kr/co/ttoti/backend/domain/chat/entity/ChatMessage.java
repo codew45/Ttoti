@@ -47,6 +47,12 @@ public class ChatMessage {
 	@Column(name = "message_content", length = 3000)
 	private String messageContent;
 
+	@Column(name = "message_original_content", length = 3000)
+	private String messageOriginalContent;
+
+	@Column(name = "message_similarity")
+	private Double messageSimilarity;
+
 	@NotNull
 	@Column(name = "message_is_read")
 	private Boolean messageIsRead;

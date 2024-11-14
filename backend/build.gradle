@@ -71,6 +71,7 @@ dependencies {
     implementation 'org.apache.kafka:kafka-streams'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.apache.commons:commons-text:1.9'
 
     // OpenFeign Client
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
