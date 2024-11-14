@@ -11,4 +11,5 @@ public class RoomPendingDetailGetDto {
 	private String roomHostMemberName;
 	private String roomFinishTime;
 	private Integer roomPeriod;
+	private Integer roomTotalParticipants;
 }
