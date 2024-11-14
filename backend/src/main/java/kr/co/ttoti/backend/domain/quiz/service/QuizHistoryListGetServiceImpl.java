@@ -25,12 +25,24 @@ public class QuizHistoryListGetServiceImpl implements QuizHistoryListGetService 
 	private final QuizServiceUtils quizServiceUtils;
 	private final Validator validator;
 
-	private QuizHistoryDto extractTodayQuiz(List<QuizHistoryDto> quizHistoryDtoList) {
+	private QuizHistoryDto extractTodayQuiz(List<QuizHistoryDto> quizHistoryDtoList, Boolean isManitto) {
 
 		QuizHistoryDto todayQuiz = quizHistoryDtoList.getFirst();
 		if (!todayQuiz.getQuizDate().isBefore(LocalDate.now())) {
-			quizHistoryDtoList.removeFirst();
-			return todayQuiz;
+			todayQuiz = quizHistoryDtoList.removeFirst();
+			return QuizHistoryDto.builder()
+				.ttotiId(todayQuiz.getTtotiId())
+				.quizId(todayQuiz.getQuizId())
+				.quizDate(todayQuiz.getQuizDate())
+				.quizChoiceContent(todayQuiz.getQuizChoiceContent())
+				.quizType(todayQuiz.getQuizType())
+				.quizChoiceMap(todayQuiz.getQuizChoiceMap())
+				.isManittoAnswered(todayQuiz.getIsManittoAnswered())
+				.manittoAnswer(isManitto ? todayQuiz.getManittoAnswer() : null)
+				.isManitiAnswered(todayQuiz.getIsManitiAnswered())
+				.manitiAnswer(isManitto ? null : todayQuiz.getManitiAnswer())
+				.quizAnswerIsCorrect(null)
+				.build();
 		}
 		return null;
 	}
@@ -57,8 +69,8 @@ public class QuizHistoryListGetServiceImpl implements QuizHistoryListGetService 
 			.map(quizServiceUtils::mapToQuizHistoryDto)
 			.toList());
 
-		QuizHistoryDto todayManittoQuiz = extractTodayQuiz(manittoQuizHistoryDtoList);
-		QuizHistoryDto todayManitiQuiz = extractTodayQuiz(manitiQuizHistoryDtoList);
+		QuizHistoryDto todayManittoQuiz = extractTodayQuiz(manittoQuizHistoryDtoList, true);
+		QuizHistoryDto todayManitiQuiz = extractTodayQuiz(manitiQuizHistoryDtoList, false);
 
 		return QuizHistoryListGetDto.builder()
 			.manittoQuizList(manittoQuizHistoryDtoList)
