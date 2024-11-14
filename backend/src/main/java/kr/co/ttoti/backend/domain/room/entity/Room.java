@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import kr.co.ttoti.backend.domain.room.dto.RoomCreateRequest;
+import kr.co.ttoti.backend.domain.room.dto.RoomUpdateRequest;
 import kr.co.ttoti.backend.global.base.BaseEntity;
 import lombok.*;
 
@@ -108,5 +109,12 @@ public class Room extends BaseEntity {
 
 	public void finishRoom(){
 		this.roomIsFinished = true;
+	}
+
+	public void updateRoom(RoomUpdateRequest roomUpdateRequest){
+		this.roomName = roomUpdateRequest.getName();
+		this.roomParticipants = roomUpdateRequest.getParticipants();
+		this.roomPeriod = roomUpdateRequest.getPeriod();
+		this.roomFinishTime = roomUpdateRequest.getFinishTime();
 	}
 }
