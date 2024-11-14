@@ -2,7 +2,7 @@ package kr.co.ttoti.backend.domain.room.service;
 
 import java.util.List;
 
-import kr.co.ttoti.backend.domain.room.dto.RoomMemberDto;
+import kr.co.ttoti.backend.domain.room.dto.RoomMemberPendingDto;
 import kr.co.ttoti.backend.domain.room.dto.RoomSummaryDto;
 
 public interface RoomListGetService {
@@ -19,7 +19,7 @@ public interface RoomListGetService {
 	 * @param roomId
 	 * @return
 	 */
-	List<RoomMemberDto> getRoomMemberList(Integer roomId);
+	List<RoomMemberPendingDto> getRoomMemberList(Integer roomId);
 
 	/**
 	 * 방ID로 방 회원 수를 조회할 수 있다
