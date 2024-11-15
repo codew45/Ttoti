@@ -32,12 +32,16 @@ public class Guess extends BaseEntity {
 	private Integer guessId;
 
 	@NotNull
+	@Column(name = "member_id")
+	private Integer memberId;
+
+	@NotNull
 	@Column(name = "room_id")
 	private Integer roomId;
 
 	@NotNull
-	@Column(name = "member_id")
-	private Integer memberId;
+	@Column(name = "titto_id")
+	private Integer tittoId;
 
 	@Column(name = "guess_member_id")
 	private Integer guessMemberId;

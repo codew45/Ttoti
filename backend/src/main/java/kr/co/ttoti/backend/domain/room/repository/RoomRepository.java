@@ -85,4 +85,11 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
 		"AND r.roomIsDeleted = false")
 	List<Integer> findMemberIdsWithActiveGames();
 
+	@Query("SELECT r " +
+			"FROM Room r " +
+			"WHERE r.roomIsStarted = true AND r.roomIsFinished = false AND r.roomIsDeleted = false " +
+			"AND (r.roomMidDate = :dateMid OR r.roomFinishDate = :dateFinish)" +
+			"AND r.roomFinishTime = :time "
+	)
+	List<Room> getRoomByDatesAndRoomFinishTime(@Param("dateMid") LocalDate dateMid, @Param("dateFinish") LocalDate dateFinish, @Param("time") LocalTime time);
 }

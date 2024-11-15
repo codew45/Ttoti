@@ -34,12 +34,12 @@ public class GuessUpdateServiceImpl implements GuessUpdateService {
         Ttoti ttoti = ttotiRepository.findByRoomAndMember(room, member).orElseThrow(() -> new CustomException(ErrorCode.TTOTI_NOT_FOUND));
 
         // 추측 멤버 검증
-        Member myManitto = validator.validateTtoti(ttoti.getTittoId()).getMember();
         RoomMember guessRoomMember = roomMemberRepository.findByRoomMemberId(guessRoomMemberId).orElseThrow(() -> new CustomException(ErrorCode.ROOM_MEMBER_NOT_FOUND));
         if (!guessRoomMember.getRoom().equals(room)) throw new CustomException(ErrorCode.ROOM_MEMBER_NOT_IN_ROOM);
 
         Member guessMember = validator.validateMember(guessRoomMember.getMember().getMemberId());
         Guess guess = guessRepository.findByMemberIdAndRoomIdAndGuessDate(member.getMemberId(), room.getRoomId(), LocalDate.now()).orElseThrow(() -> new CustomException(ErrorCode.GUESS_NOT_EXISTS));
+        Member myManitto = validator.validateTtoti(guess.getTittoId()).getMember();
         if(guess.getGuessIsAnswered()) throw new CustomException(ErrorCode.GUESS_ALREADY_ANSWERED);
 
         guess.updateAnswer(myManitto, guessMember);

@@ -5,8 +5,5 @@ import kr.co.ttoti.backend.domain.room.entity.RoomMember;
 
 public interface GuessCreateService {
 
-	void insertMidtermGuess(RoomMember member, Room room);
-
-	void insertFinalGuess();
-
+	void insertGuess(RoomMember member, Room room, Integer tittoId);
 }
