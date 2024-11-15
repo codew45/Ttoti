@@ -1,5 +1,7 @@
 package kr.co.ttoti.backend.domain.guess.repository;
 
+import kr.co.ttoti.backend.domain.room.entity.Room;
+import kr.co.ttoti.backend.global.auth.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +13,5 @@ import java.util.Optional;
 @Repository
 public interface GuessRepository extends JpaRepository<Guess, Integer> {
 
-    Optional<Guess> findByMemberIdAndGuessDate(Integer memberId, LocalDate today);
+    Optional<Guess> findByMemberAndRoomAndGuessDate(Member member, Room room, LocalDate today);
 }
