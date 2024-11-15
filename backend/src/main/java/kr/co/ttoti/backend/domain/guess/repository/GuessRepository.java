@@ -13,5 +13,5 @@ import java.util.Optional;
 @Repository
 public interface GuessRepository extends JpaRepository<Guess, Integer> {
 
-    Optional<Guess> findByMemberAndRoomAndGuessDate(Member member, Room room, LocalDate today);
+    Optional<Guess> findByMemberIdAndRoomIdAndGuessDate(Integer memberId, Integer roomId, LocalDate today);
 }
