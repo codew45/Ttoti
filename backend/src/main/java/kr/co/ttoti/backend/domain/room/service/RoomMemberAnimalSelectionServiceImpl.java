@@ -77,7 +77,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 				myTtotiId = savedTtoti.getTtotiId();
 			}
 
-			guessService.insertMidtermGuess(manitto, room);
+			guessService.insertGuess(maniti, room, manitto.getMember().getMemberId());
 		}
 
 		List<Ttoti> ttotiList = ttotiRepository.findByRoom(room);

@@ -17,6 +17,4 @@ public class RoomUpdateRequest {
 	@Min(1)
 	@Max(14)
 	private Integer period;
-	@NotNull
-	private LocalTime finishTime;
 }

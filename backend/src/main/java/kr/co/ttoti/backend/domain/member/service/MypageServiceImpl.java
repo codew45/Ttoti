@@ -1,6 +1,9 @@
 package kr.co.ttoti.backend.domain.member.service;
 
 import kr.co.ttoti.backend.domain.common.Validator;
+import kr.co.ttoti.backend.domain.guess.dto.GuessEndingResponse;
+import kr.co.ttoti.backend.domain.guess.entity.Guess;
+import kr.co.ttoti.backend.domain.guess.repository.GuessRepository;
 import kr.co.ttoti.backend.domain.quiz.dto.QuizHistoryDto;
 import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
 import kr.co.ttoti.backend.domain.quiz.repository.QuizAnswerRepository;
@@ -18,15 +21,13 @@ import kr.co.ttoti.backend.domain.ttoti.entity.TtotiEnding;
 import kr.co.ttoti.backend.domain.ttoti.repository.TtotiEndingRepository;
 import kr.co.ttoti.backend.domain.ttoti.repository.TtotiRepository;
 import kr.co.ttoti.backend.global.auth.entity.Member;
+import kr.co.ttoti.backend.global.auth.repository.MemberRepository;
 import kr.co.ttoti.backend.global.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static kr.co.ttoti.backend.global.status.ErrorCode.*;
 
@@ -42,6 +43,8 @@ public class MypageServiceImpl implements MypageService {
     private final TtotiRepository ttotiRepository;
     private final QuizAnswerRepository quizAnswerRepository;
     private final QuizServiceUtils quizServiceUtils;
+    private final GuessRepository guessRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     @Transactional
@@ -110,25 +113,57 @@ public class MypageServiceImpl implements MypageService {
         return memberDetailDtoList;
     }
 
+    public GuessEndingResponse makeGuessEndingResponse(Guess guess) {
+        GuessEndingResponse guessEndingResponse = null;
+        if (guess != null){
+            Member guessMember = memberRepository.findByMemberId(guess.getGuessMemberId()).orElse(null);
+            MemberDetailDto memberDetailDto = null;
+            if (guessMember != null){
+                memberDetailDto = MemberDetailDto.builder()
+                        .memberName(guessMember.getMemberName())
+                        .memberProfileImageUrl(guessMember.getMemberProfileImageUrl())
+                        .build();
+            }
+            guessEndingResponse = GuessEndingResponse.builder()
+                    .guessMember(memberDetailDto)
+                    .guessIsCorrect(guess.getGuessIsCorrect())
+                    .guessIsFinal(guess.getGuessIsFinal())
+                    .guessDate(guess.getGuessDate())
+                    .guessIsAnswered(guess.getGuessIsAnswered())
+                    .guessAnswerAt(guess.getGuessAnswerAt())
+                    .build();
+        }
+        return guessEndingResponse;
+    }
+
     @Override
     @Transactional(readOnly = true)
     public TtotiEndingDto getEnding(Integer memberId, Integer roomId) {
+
         Ttoti ttoti = ttotiRepository.findByMember_MemberIdAndRoom_RoomId(memberId, roomId).orElseThrow(() -> new CustomException(TTOTI_NOT_FOUND));
         TtotiEnding ttotiEnding = ttotiEndingRepository.findByTtotiId(ttoti.getTtotiId()).orElseThrow(() -> new CustomException(TTOTI_ENDING_NOT_FOUND));
+
         List<QuizAnswer> manittoQuizAnswerList = quizAnswerRepository.findByTtotiIdOrderByQuizDateDesc(ttoti.getTtotiId());
         List<QuizAnswer> manitiQuizAnswerList = quizAnswerRepository.findByTtotiIdOrderByQuizDateDesc(ttoti.getTittoId());
+
         List<QuizHistoryDto> manittoQuizHistoryDtoList = new LinkedList<>(manittoQuizAnswerList.stream()
                 .map(quizServiceUtils::mapToQuizHistoryDto)
                 .toList());
         List<QuizHistoryDto> manitiQuizHistoryDtoList = new LinkedList<>(manitiQuizAnswerList.stream()
                 .map(quizServiceUtils::mapToQuizHistoryDto)
                 .toList());
+
+
+        Integer manitiId = ttoti.getManitiId();
+        Guess midGuess = guessRepository.findByMemberIdAndRoomIdAndGuessIsFinal(manitiId, roomId, false).orElse(null);
+        Guess finalGuess = guessRepository.findByMemberIdAndRoomIdAndGuessIsFinal(manitiId, roomId, true).orElse(null);
+
         return TtotiEndingDto.builder()
                 .roomEnding(roomEndingRepository.findById(roomId).orElseThrow(() -> new CustomException(ROOM_ENDING_NOT_FOUND)))
                 .manittoQuizList(manittoQuizHistoryDtoList)
                 .manitiQuizList(manitiQuizHistoryDtoList)
-                // 내 추측 결과
-                // private List<GuessDto>
+                .midGuess(makeGuessEndingResponse(midGuess))
+                .finalGuess(makeGuessEndingResponse(finalGuess))
                 .endingCorrectScore(ttotiEnding.getEndingCorrectScore())
                 .endingChatCount(ttotiEnding.getEndingChatCount())
                 .endingFinalTemperature(ttotiEnding.getEndingFinalTemperature())

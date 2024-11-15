@@ -19,8 +19,10 @@ public enum NotificationType {
 	MANITI_CHAT_REMINDER("채팅 알림","아직 마니띠와 채팅을 하지 않았어요.","마니띠에게 격려의 메시지를 보내볼까요?"),
 	GUESS_ANSWER_REMINDER("추측하기","중간 추측 시간이 얼마 남지 않았어요.","내 마니또는 누구일지 추측해보세요!"),
 	FINAL_GUESS_ANSWER_REMINDER("추측하기","최종 추측 시간이 얼마 남지 않았어요.","내 마니또가 누구인지 추측해보세요!"),
-	GAME_END_REMINDER("게임 종료","종료된 게임이 있어요.","내 마니또의 정체와 게임 기록을 확인하러 가볼까요?")
+	GAME_END_REMINDER("게임 종료","종료된 게임이 있어요.","내 마니또의 정체와 게임 기록을 확인하러 가볼까요?"),
 
+	GUESS_IS_CORRECT("추측 성공", "당신의 마니띠는 추측을 성공했어요", "정체를 더 숨겨보세요"),
+	GUESS_IS_WRONG("추측 실패", "당신의 마니띠는 추측을 실패했어요", "좋아요, 이대로 몰래 잘 챙겨주세요"),
 	;
 
 	private final String reason;
