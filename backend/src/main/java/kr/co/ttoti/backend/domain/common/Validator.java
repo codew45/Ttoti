@@ -90,4 +90,9 @@ public class Validator {
 		);
 	}
 
+	public Member validateRoomHost(Room room) {
+		return memberRepository.findByMemberId(room.getRoomHostMemberId()).orElseThrow(
+			() -> new CustomException(ErrorCode.ROOM_HOST_MEMBER_NOT_FOUND)
+		);
+	}
 }
