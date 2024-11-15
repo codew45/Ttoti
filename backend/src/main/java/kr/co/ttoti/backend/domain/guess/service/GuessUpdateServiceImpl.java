@@ -39,7 +39,7 @@ public class GuessUpdateServiceImpl implements GuessUpdateService {
         if (!guessRoomMember.getRoom().equals(room)) throw new CustomException(ErrorCode.ROOM_MEMBER_NOT_IN_ROOM);
 
         Member guessMember = validator.validateMember(guessRoomMember.getMember().getMemberId());
-        Guess guess = guessRepository.findByMemberIdAndGuessDate(member.getMemberId(), LocalDate.now()).orElseThrow(() -> new CustomException(ErrorCode.GUESS_NOT_EXISTS));
+        Guess guess = guessRepository.findByMemberIdAndRoomIdAndGuessDate(member.getMemberId(), room.getRoomId(), LocalDate.now()).orElseThrow(() -> new CustomException(ErrorCode.GUESS_NOT_EXISTS));
         if(guess.getGuessIsAnswered()) throw new CustomException(ErrorCode.GUESS_ALREADY_ANSWERED);
 
         guess.updateAnswer(myManitto, guessMember);
