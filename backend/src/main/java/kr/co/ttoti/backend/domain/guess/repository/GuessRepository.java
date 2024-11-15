@@ -17,4 +17,6 @@ public interface GuessRepository extends JpaRepository<Guess, Integer> {
     Optional<Guess> findByMemberIdAndRoomIdAndGuessDate(Integer memberId, Integer roomId, LocalDate today);
 
     List<Guess> findByRoomIdAndGuessDate(Integer roomId, LocalDate today);
+
+    Optional<Guess> findByMemberIdAndRoomIdAndGuessIsFinal(Integer memberId, Integer roomId, boolean b);
 }
