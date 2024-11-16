@@ -13,4 +13,5 @@ public class RoomPendingDetailGetDto {
 	private Integer roomPeriod;
 	private Integer roomCurrentParticipants;
 	private Integer roomTotalParticipants;
+	private Boolean isHost;
 }
