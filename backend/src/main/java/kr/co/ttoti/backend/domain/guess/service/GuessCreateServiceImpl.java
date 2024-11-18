@@ -25,7 +25,7 @@ public class GuessCreateServiceImpl implements GuessCreateService {
     @Transactional
     @Override
     public void insertGuess(RoomMember member, Room room, Integer tittoId) {
-        if(!room.getRoomMidDate().equals(room.getRoomFinishDate())) {
+        if(!room.getRoomMidDate().equals(room.getRoomFinishDate().minusDays(1))) {
             guessRepository.save(Guess.builder()
                     .memberId(member.getMember().getMemberId())
                     .roomId(room.getRoomId())
@@ -43,7 +43,7 @@ public class GuessCreateServiceImpl implements GuessCreateService {
                 .tittoId(tittoId)
                 .guessIsCorrect(false)
                 .guessIsFinal(true)
-                .guessDate(room.getRoomFinishDate())
+                .guessDate(room.getRoomFinishDate().minusDays(1))
                 .guessIsAnswered(false)
                 .build());
     }
