@@ -28,6 +28,7 @@ import kr.co.ttoti.backend.domain.room.repository.RoomMemberRepository;
 import kr.co.ttoti.backend.domain.ttoti.entity.AnimalPersonality;
 import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
 import kr.co.ttoti.backend.domain.ttoti.repository.TtotiRepository;
+import kr.co.ttoti.backend.domain.ttoti.service.TemperatureInsertService;
 import kr.co.ttoti.backend.global.auth.entity.Member;
 import kr.co.ttoti.backend.global.exception.CustomException;
 import kr.co.ttoti.backend.global.fcm.service.FCMSendService;
@@ -45,6 +46,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 	private final QuizInsertService quizInsertService;
 	private final NotificationInsertService notificationInsertService;
 	private final GuessCreateService guessService;
+	private final TemperatureInsertService temperatureInsertService;
 
 	private final QuizServiceUtils quizServiceUtils;
 	private final QuizAnswerRepository quizAnswerRepository;
@@ -84,6 +86,7 @@ public class RoomMemberAnimalSelectionServiceImpl implements RoomMemberAnimalSel
 		for (Ttoti ttoti : ttotiList) {
 			Ttoti titto = ttotiRepository.findByRoomAndManitiId(room, ttoti.getMember().getMemberId());
 			ttoti.updateTittoId(titto.getTtotiId());
+			temperatureInsertService.insertInitTemperature(ttoti.getTtotiId());
 		}
 		return myTtotiId;
 	}
