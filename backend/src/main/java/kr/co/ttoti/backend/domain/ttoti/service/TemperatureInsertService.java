@@ -18,4 +18,6 @@ public interface TemperatureInsertService {
 		TemperatureChangeReason temperatureChangeReason, int roomPeriod);
 
 	void insertTemperatureForQuizAnswer(QuizAnswer quizAnswer, Integer roomPeriod);
+
+	void insertInitTemperature(Integer tttoiId);
 }
