@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TemperatureInsertServiceImpl implements TemperatureInsertService {
 
-	private static final Float BASE_TEMPERATURE = 36.5F;
+	private static final Float INITIAL_TEMPERATURE = 36.5F;
 	private static final Float MAX_TEMPERATURE = 100F;
 
 	private final TemperatureRepository temperatureRepository;
@@ -28,7 +28,7 @@ public class TemperatureInsertServiceImpl implements TemperatureInsertService {
 		TemperatureChangeReason temperatureChangeReason, int roomPeriod) {
 
 		float totalWeight = TemperatureChangeReason.calculateTotalWeight();
-		Float increase = (MAX_TEMPERATURE - BASE_TEMPERATURE) *
+		Float increase = (MAX_TEMPERATURE - INITIAL_TEMPERATURE) *
 			(temperatureChangeReason.getWeight() / totalWeight) / roomPeriod;
 
 		increase = Math.round(increase * 10) / 10.0f;
@@ -63,5 +63,16 @@ public class TemperatureInsertServiceImpl implements TemperatureInsertService {
 			calculateTemperatureIncrease(quizAnswer.getTtotiId(), ttoti.getTtotiTemperature(),
 				TemperatureChangeReason.QUIZ_ANSWER_CORRECT, roomPeriod);
 		}
+	}
+
+	@Override
+	public void insertInitTemperature(Integer ttotiId) {
+
+		temperatureRepository.save(Temperature.builder()
+				.ttotiId(ttotiId)
+				.temperatureDifference(INITIAL_TEMPERATURE)
+				.temperatureChangeReason(TemperatureChangeReason.INIT)
+				.currentTemperature(INITIAL_TEMPERATURE)
+			.build());
 	}
 }
