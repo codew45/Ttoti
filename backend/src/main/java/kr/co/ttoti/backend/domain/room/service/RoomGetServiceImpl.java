@@ -152,7 +152,6 @@ public class RoomGetServiceImpl implements RoomGetService {
 
         Boolean canGuess = room.getRoomMidDate().equals(LocalDate.now())
                 || room.getRoomFinishDate().minusDays(1).equals(LocalDate.now());
-
         if(canGuess) {
             Guess guess = guessRepository.findByMemberIdAndRoomIdAndGuessDate(member.getMemberId(), room.getRoomId(), LocalDate.now()).orElseThrow(() -> new CustomException(ErrorCode.GUESS_NOT_INSERTED));
             if (guess.getGuessIsAnswered()) canGuess = Boolean.FALSE;
