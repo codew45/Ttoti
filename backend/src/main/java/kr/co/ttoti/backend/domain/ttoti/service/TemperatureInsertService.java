@@ -19,5 +19,5 @@ public interface TemperatureInsertService {
 
 	void insertTemperatureForQuizAnswer(QuizAnswer quizAnswer, Integer roomPeriod);
 
-	void insertInitTemperature(Integer tttoiId);
+	void insertInitTemperature(Integer ttotiId);
 }
