@@ -164,7 +164,7 @@ public class RoomGetServiceImpl implements RoomGetService {
                 )
                 .roomMemberList(roomMemberRepository.findByRoom(room)
                         .stream()
-                        .filter(roomMember -> roomMember.getMember().equals(member) || roomMember.getMember().equals(myManiti))
+                        .filter(roomMember -> !roomMember.getMember().equals(member) && !roomMember.getMember().equals(myManiti))
                         .map(roomMember -> {
                             Member tmpMember = roomMember.getMember();
                             return RoomMemberInProgressDto.builder()
