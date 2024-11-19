@@ -42,7 +42,7 @@ const FourChoiceButton = styled.button<{
 			? '#67C431' // 선택된 답변 강조 (노란색) - 오늘의 퀴즈인 경우에만
 			: !$isTodayQuiz && $isMatching
 				? '#67C431'
-				: !$isTodayQuiz && $isManitiAnswer
+				: $isManitiAnswer
 					? '#67C431'
 					: !$isTodayQuiz && $isManitoAnswer
 						? '#FF6430'
