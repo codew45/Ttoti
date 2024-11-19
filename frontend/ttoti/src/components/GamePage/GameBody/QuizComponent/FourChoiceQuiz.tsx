@@ -38,7 +38,7 @@ const FourChoiceButton = styled.button<{
 			? '#67C431' // 선택된 답변 강조 (노란색) - 오늘의 퀴즈인 경우에만
 			: !$isTodayQuiz && $isMatching
 				? '#67C431'
-				: $isManitiAnswer
+				: !$isTodayQuiz && $isManitiAnswer
 					? '#67C431'
 					: !$isTodayQuiz && $isManitoAnswer
 						? '#FF6430'
@@ -86,7 +86,7 @@ const FourChoiceQuiz: React.FC<{
 	useEffect(() => {
 		const chooseAnswer = async () => {
 			try {
-				if (selectedAnswer) {
+				if (selectedAnswer && $isTodayQuiz) {
 					if ($page) {
 						await manittoChoiceAnswer(
 							quiz.ttotiId,
@@ -111,7 +111,7 @@ const FourChoiceQuiz: React.FC<{
 		};
 
 		chooseAnswer();
-	}, [quiz.ttotiId, quiz.quizId, selectedAnswer, $page]);
+	}, [quiz.ttotiId, quiz.quizId, selectedAnswer, $page, $isTodayQuiz]);
 
 	return (
 		<QuizWrapper>
@@ -138,7 +138,7 @@ const FourChoiceQuiz: React.FC<{
 									(selectedAnswer === key || selectedAnswer === null)
 						}
 						$isSelected={selectedAnswer === key}
-						onClick={() => onSelectAnswer(key)}
+						onClick={$isTodayQuiz ? () => onSelectAnswer(key) : undefined}
 					>
 						{quiz.quizChoiceMap[key]}
 					</FourChoiceButton>
