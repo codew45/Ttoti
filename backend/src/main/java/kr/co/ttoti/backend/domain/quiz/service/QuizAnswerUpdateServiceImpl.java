@@ -34,10 +34,9 @@ public class QuizAnswerUpdateServiceImpl implements QuizAnswerUpdateService {
 
 		if (manitiQuizAnswer.getQuizDate().isBefore(LocalDate.now())) {
 			throw new CustomException(ErrorCode.QUIZ_EXPIRED);
-		} else {
-			manitiQuizAnswer.updateManitiQuizAnswer(quizAnswerNumber);
-			checkAnswerIsCorrect(manitiQuizAnswer);
 		}
+		manitiQuizAnswer.updateManitiQuizAnswer(quizAnswerNumber);
+		checkAnswerIsCorrect(manitiQuizAnswer);
 	}
 
 	@Override
@@ -54,10 +53,9 @@ public class QuizAnswerUpdateServiceImpl implements QuizAnswerUpdateService {
 
 		if (manittoQuizAnswer.getQuizDate().isBefore(LocalDate.now())) {
 			throw new CustomException(ErrorCode.QUIZ_EXPIRED);
-		} else {
-			manittoQuizAnswer.updateManittoQuizAnswer(quizAnswerNumber);
-			checkAnswerIsCorrect(manittoQuizAnswer);
 		}
+		manittoQuizAnswer.updateManittoQuizAnswer(quizAnswerNumber);
+		checkAnswerIsCorrect(manittoQuizAnswer);
 	}
 
 	private void checkAnswerIsCorrect(QuizAnswer quizAnswer) {
