@@ -42,7 +42,7 @@ const FourChoiceButton = styled.button<{
 			? '#67C431' // 선택된 답변 강조 (노란색) - 오늘의 퀴즈인 경우에만
 			: !$isTodayQuiz && $isMatching
 				? '#67C431'
-				: $isManitiAnswer
+				: !$isTodayQuiz && $isManitiAnswer
 					? '#67C431'
 					: !$isTodayQuiz && $isManitoAnswer
 						? '#FF6430'
@@ -146,7 +146,7 @@ const OXQuiz: React.FC<{
 									(selectedAnswer === key || selectedAnswer === null)
 						}
 						$isSelected={selectedAnswer === key} // 선택된 상태 전달
-						onClick={() => onSelectAnswer(key)} // 클릭 시 선택 상태 업데이트
+						onClick={$isTodayQuiz ? () => onSelectAnswer(key) : undefined} // 클릭 시 선택 상태 업데이트
 					>
 						{quiz.quizChoiceMap[key]}
 					</OXButton>
