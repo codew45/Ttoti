@@ -70,7 +70,7 @@ public class TemperatureInsertServiceImpl implements TemperatureInsertService {
 
 		temperatureRepository.save(Temperature.builder()
 				.ttotiId(ttotiId)
-				.temperatureDifference(INITIAL_TEMPERATURE)
+				.temperatureDifference(0F)
 				.temperatureChangeReason(TemperatureChangeReason.INIT)
 				.currentTemperature(INITIAL_TEMPERATURE)
 			.build());
