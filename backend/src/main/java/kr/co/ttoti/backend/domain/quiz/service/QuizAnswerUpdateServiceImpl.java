@@ -9,8 +9,8 @@ import kr.co.ttoti.backend.domain.common.Validator;
 import kr.co.ttoti.backend.domain.quiz.dto.QuizAnswerUpdateRequest;
 import kr.co.ttoti.backend.domain.quiz.entity.Quiz;
 import kr.co.ttoti.backend.domain.quiz.entity.QuizAnswer;
-import kr.co.ttoti.backend.domain.ttoti.entity.Ttoti;
 import kr.co.ttoti.backend.global.auth.entity.Member;
+import kr.co.ttoti.backend.global.exception.CustomException;
 import kr.co.ttoti.backend.global.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
 
@@ -33,12 +33,11 @@ public class QuizAnswerUpdateServiceImpl implements QuizAnswerUpdateService {
 		QuizAnswer manitiQuizAnswer = validator.validateQuizAnswerByTtotiIdAndQuiz(tittoId, quiz);
 
 		if (manitiQuizAnswer.getQuizDate().isBefore(LocalDate.now())) {
-			System.out.println(ErrorCode.QUIZ_EXPIRED.getMessage());
+			throw new CustomException(ErrorCode.QUIZ_EXPIRED);
+		} else {
+			manitiQuizAnswer.updateManitiQuizAnswer(quizAnswerNumber);
+			checkAnswerIsCorrect(manitiQuizAnswer);
 		}
-
-		manitiQuizAnswer.updateManitiQuizAnswer(quizAnswerNumber);
-
-		checkAnswerIsCorrect(manitiQuizAnswer);
 	}
 
 	@Override
@@ -54,12 +53,11 @@ public class QuizAnswerUpdateServiceImpl implements QuizAnswerUpdateService {
 		QuizAnswer manittoQuizAnswer = validator.validateQuizAnswerByTtotiIdAndQuiz(ttotiId, quiz);
 
 		if (manittoQuizAnswer.getQuizDate().isBefore(LocalDate.now())) {
-			System.out.println(ErrorCode.QUIZ_EXPIRED.getMessage());
+			throw new CustomException(ErrorCode.QUIZ_EXPIRED);
+		} else {
+			manittoQuizAnswer.updateManittoQuizAnswer(quizAnswerNumber);
+			checkAnswerIsCorrect(manittoQuizAnswer);
 		}
-
-		manittoQuizAnswer.updateManittoQuizAnswer(quizAnswerNumber);
-
-		checkAnswerIsCorrect(manittoQuizAnswer);
 	}
 
 	private void checkAnswerIsCorrect(QuizAnswer quizAnswer) {
